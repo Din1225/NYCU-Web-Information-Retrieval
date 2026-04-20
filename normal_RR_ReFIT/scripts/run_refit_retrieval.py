@@ -85,6 +85,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--no_cache", action="store_true", help="Disable dense embedding cache loading.")
     parser.add_argument("--limit_docs", type=int, default=None, help="Debug only: limit document count.")
     parser.add_argument("--limit_queries", type=int, default=None, help="Debug only: limit query count.")
+    parser.add_argument(
+        "--print_query_vectors",
+        action="store_true",
+        help="Print and save query embedding values before and after ReFIT.",
+    )
+    parser.add_argument(
+        "--query_vector_preview_dims",
+        type=int,
+        default=10,
+        help="Number of query embedding dimensions to print/save when --print_query_vectors is enabled.",
+    )
     parser.add_argument("--log_file", default=None, help="Path to log file.")
     parser.add_argument(
         "--cuda_visible_devices",
@@ -163,6 +174,8 @@ def print_run_config(config, log_path: Path) -> None:
     print(f"use_cache: {config.use_cache}")
     print(f"limit_docs: {config.limit_docs}")
     print(f"limit_queries: {config.limit_queries}")
+    print(f"print_query_vectors: {config.print_query_vectors}")
+    print(f"query_vector_preview_dims: {config.query_vector_preview_dims}")
     print("====================================")
 
 
@@ -195,6 +208,8 @@ def main() -> None:
         use_cache=not args.no_cache,
         limit_docs=args.limit_docs,
         limit_queries=args.limit_queries,
+        print_query_vectors=args.print_query_vectors,
+        query_vector_preview_dims=args.query_vector_preview_dims,
     )
 
     log_file, original_stdout, original_stderr = enable_log_file(log_path)

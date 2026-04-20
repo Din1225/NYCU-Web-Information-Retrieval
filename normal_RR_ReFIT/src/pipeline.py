@@ -38,6 +38,8 @@ class DenseOnlyReFITConfig:
     use_cache: bool = True
     limit_docs: int | None = None
     limit_queries: int | None = None
+    print_query_vectors: bool = False
+    query_vector_preview_dims: int = 10
 
 
 def run_refit_retrieval(config: DenseOnlyReFITConfig) -> list[dict[str, Any]]:
@@ -91,6 +93,7 @@ def run_refit_retrieval(config: DenseOnlyReFITConfig) -> list[dict[str, Any]]:
 
         reranker_scores = reranker.score(query_text, first_results, documents)
         feedback_candidates = attach_feedback_scores(first_results, reranker_scores)
+        first_reranked_candidates = sort_feedback_by_reranker(feedback_candidates)
         print(f"{query_id} Reranker feedback 分數計算已完成。", flush=True)
 
         feedback_doc_indices = [int(item["doc_index"]) for item in feedback_candidates]
@@ -101,6 +104,13 @@ def run_refit_retrieval(config: DenseOnlyReFITConfig) -> list[dict[str, Any]]:
             reranker_scores=reranker_scores,
             config=refit_config,
         )
+        query_embedding_debug = build_query_embedding_debug(
+            original_query_embedding,
+            updated_query_embedding,
+            preview_dims=config.query_vector_preview_dims,
+        )
+        if config.print_query_vectors:
+            print_query_embedding_debug(query_id, query_embedding_debug)
         print(f"{query_id} ReFIT query 向量更新已完成。", flush=True)
 
         second_results = dense.retrieve_by_embedding(
@@ -111,21 +121,26 @@ def run_refit_retrieval(config: DenseOnlyReFITConfig) -> list[dict[str, Any]]:
         )
         print(f"{query_id} 第二次 dense retrieval 已完成，共 {len(second_results)} 筆結果。", flush=True)
 
-        results = build_output_results(second_results, feedback_candidates, documents)
-        all_results.append(
+        refit_results = build_refit_output_results(second_results, first_reranked_candidates, documents)
+        query_output = {
+            "query_id": query_id,
+            "query": query_text,
+            "feedback_top_k": len(feedback_candidates),
+            "final_top_k": len(refit_results),
+            "refit_updates": config.refit_updates,
+            "refit_learning_rate": config.refit_learning_rate,
+            "refit_temperature": config.refit_temperature,
+            "refit_use_minmax": config.refit_use_minmax,
+            "query_vector_shift_l2": query_embedding_debug["shift_l2"],
+        }
+        if config.print_query_vectors:
+            query_output["query_embedding_debug"] = query_embedding_debug
+        query_output.update(
             {
-                "query_id": query_id,
-                "query": query_text,
-                "feedback_top_k": len(feedback_candidates),
-                "final_top_k": len(results),
-                "refit_updates": config.refit_updates,
-                "refit_learning_rate": config.refit_learning_rate,
-                "refit_temperature": config.refit_temperature,
-                "refit_use_minmax": config.refit_use_minmax,
-                "query_vector_shift_l2": float(np.linalg.norm(updated_query_embedding - original_query_embedding)),
-                "results": results,
+                "refit_results": refit_results,
             }
         )
+        all_results.append(query_output)
         print(f"{query_id} 結果整理已完成。", flush=True)
 
     save_json(all_results, config.output_path)
@@ -148,7 +163,51 @@ def attach_feedback_scores(
     return feedback_candidates
 
 
-def build_output_results(
+def build_query_embedding_debug(
+    original_query_embedding: np.ndarray,
+    updated_query_embedding: np.ndarray,
+    preview_dims: int,
+) -> dict[str, Any]:
+    """建立 query embedding 更新前後的 debug 摘要。"""
+    original = np.asarray(original_query_embedding, dtype=np.float32)
+    updated = np.asarray(updated_query_embedding, dtype=np.float32)
+    preview_size = max(0, min(int(preview_dims), int(original.shape[0]), int(updated.shape[0])))
+    delta = updated - original
+    return {
+        "embedding_dim": int(original.shape[0]),
+        "preview_dims": preview_size,
+        "original_norm_l2": float(np.linalg.norm(original)),
+        "updated_norm_l2": float(np.linalg.norm(updated)),
+        "shift_l2": float(np.linalg.norm(delta)),
+        "original_query_vector_preview": original[:preview_size].astype(float).tolist(),
+        "updated_query_vector_preview": updated[:preview_size].astype(float).tolist(),
+        "delta_vector_preview": delta[:preview_size].astype(float).tolist(),
+    }
+
+
+def print_query_embedding_debug(query_id: str, debug: dict[str, Any]) -> None:
+    """將 query embedding 更新前後摘要印到 log。"""
+    print(f"{query_id} Query embedding debug:", flush=True)
+    print(f"  embedding_dim: {debug['embedding_dim']}", flush=True)
+    print(f"  preview_dims: {debug['preview_dims']}", flush=True)
+    print(f"  original_norm_l2: {debug['original_norm_l2']:.8f}", flush=True)
+    print(f"  updated_norm_l2: {debug['updated_norm_l2']:.8f}", flush=True)
+    print(f"  shift_l2: {debug['shift_l2']:.8f}", flush=True)
+    print(f"  original_query_vector_preview: {debug['original_query_vector_preview']}", flush=True)
+    print(f"  updated_query_vector_preview: {debug['updated_query_vector_preview']}", flush=True)
+    print(f"  delta_vector_preview: {debug['delta_vector_preview']}", flush=True)
+
+
+def sort_feedback_by_reranker(feedback_candidates: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """依 reranker feedback 分數排序第一次 dense 候選。"""
+    reranked = [dict(item) for item in feedback_candidates]
+    reranked.sort(key=lambda item: item["rerank_feedback_score"], reverse=True)
+    for rank, item in enumerate(reranked, start=1):
+        item["first_rerank_rank"] = rank
+    return reranked
+
+
+def build_refit_output_results(
     second_results: list[dict[str, Any]],
     feedback_candidates: list[dict[str, Any]],
     documents: list[dict[str, Any]],
@@ -171,12 +230,12 @@ def build_output_results(
                 "doc_id": document["ID"],
                 "question": document["Question"],
                 "answer": document["Answer"],
-                "refit_dense_score": item.get("refit_dense_score"),
-                "first_dense_rank": feedback.get("first_dense_rank"),
                 "first_dense_score": feedback.get("first_dense_score"),
+                "first_dense_rank": feedback.get("first_dense_rank"),
                 "rerank_feedback_score": feedback.get("rerank_feedback_score"),
-                "sources": ["refit_dense_second"],
+                "first_rerank_rank": feedback.get("first_rerank_rank"),
+                "refit_dense_score": item.get("refit_dense_score"),
+                "refit_rank": rank,
             }
         )
     return output
-

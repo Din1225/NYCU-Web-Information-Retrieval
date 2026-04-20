@@ -1,0 +1,1620 @@
+Log file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/debug_refit_10000docs.log
+=== Dense-only ReFIT Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase1_query.json
+output_path: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/debug_refit_10000docs_results.json
+dense_model_path: /workplace/dxlin/Homework/IR/model_cache/BAAI/bge-m3
+reranker_model_path: /workplace/dxlin/Homework/IR/model_cache/BAAI/bge-reranker-v2-m3
+cache_dir: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/cache
+log_file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/debug_refit_10000docs.log
+feedback_top_k: 50
+final_top_k: 30
+refit_updates: 100
+refit_learning_rate: 0.005
+refit_temperature: 2.0
+refit_use_minmax: True
+dense_batch_size: 32
+reranker_batch_size: 16
+dense_max_length: 512
+reranker_max_length: 512
+use_fp16: True
+use_cache: True
+limit_docs: 10000
+limit_queries: 1
+print_query_vectors: True
+query_vector_preview_dims: 10
+====================================
+開始執行 dense-only ReFIT：第一次 dense retrieval -> reranker feedback -> query 更新 -> 第二次 dense retrieval。
+Loaded 10000 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 1 queries from /workplace/dxlin/Homework/IR/query/phase1_query.json
+資料讀取已完成。
+Encoding documents with bge-m3:   0%|          | 0/313 [00:00<?, ?it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 207.05it/s]
+You're using a XLMRobertaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.78it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.78it/s]
+Encoding documents with bge-m3:   0%|          | 1/313 [00:25<2:12:42, 25.52s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 281.33it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.44it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.44it/s]
+Encoding documents with bge-m3:   1%|          | 2/313 [00:26<56:47, 10.96s/it]  
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 292.71it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.26it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.25it/s]
+Encoding documents with bge-m3:   1%|          | 3/313 [00:27<32:43,  6.33s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 452.12it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  3.39it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  3.38it/s]
+Encoding documents with bge-m3:   1%|1         | 4/313 [00:27<20:24,  3.96s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 259.42it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.10it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.10it/s]
+Encoding documents with bge-m3:   2%|1         | 5/313 [00:28<14:45,  2.88s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 239.61it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.80it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.60it/s]
+Encoding documents with bge-m3:   2%|1         | 6/313 [00:29<10:51,  2.12s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 183.00it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.02it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.02it/s]
+Encoding documents with bge-m3:   2%|2         | 7/313 [00:30<08:58,  1.76s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 312.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.17it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.17it/s]
+Encoding documents with bge-m3:   3%|2         | 8/313 [00:30<07:32,  1.48s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 236.49it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.03it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.03it/s]
+Encoding documents with bge-m3:   3%|2         | 9/313 [00:31<06:44,  1.33s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 374.32it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.72it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.72it/s]
+Encoding documents with bge-m3:   3%|3         | 10/313 [00:32<05:36,  1.11s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 335.44it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.24s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.24s/it]
+Encoding documents with bge-m3:   4%|3         | 11/313 [00:33<05:50,  1.16s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 189.39it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.13it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.13it/s]
+Encoding documents with bge-m3:   4%|3         | 12/313 [00:34<05:27,  1.09s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 188.54it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.71it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.71it/s]
+Encoding documents with bge-m3:   4%|4         | 13/313 [00:35<04:43,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 95.88it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.45s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.45s/it]
+Encoding documents with bge-m3:   4%|4         | 14/313 [00:36<05:31,  1.11s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 217.01it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.28s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.28s/it]
+Encoding documents with bge-m3:   5%|4         | 15/313 [00:38<05:49,  1.17s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 246.58it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.43it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.43it/s]
+Encoding documents with bge-m3:   5%|5         | 16/313 [00:38<05:09,  1.04s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 303.34it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.67it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.67it/s]
+Encoding documents with bge-m3:   5%|5         | 17/313 [00:39<04:31,  1.09it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 270.79it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.70it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.70it/s]
+Encoding documents with bge-m3:   6%|5         | 18/313 [00:40<04:04,  1.21it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 88.77it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it]
+Encoding documents with bge-m3:   6%|6         | 19/313 [00:41<04:36,  1.07it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 172.80it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.20s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.20s/it]
+Encoding documents with bge-m3:   6%|6         | 20/313 [00:42<05:01,  1.03s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 219.32it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.52it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.52it/s]
+Encoding documents with bge-m3:   7%|6         | 21/313 [00:43<04:30,  1.08it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 160.25it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it]
+Encoding documents with bge-m3:   7%|7         | 22/313 [00:44<04:56,  1.02s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 297.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s]
+Encoding documents with bge-m3:   7%|7         | 23/313 [00:45<04:32,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 199.80it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.37s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.37s/it]
+Encoding documents with bge-m3:   8%|7         | 24/313 [00:46<05:12,  1.08s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 237.25it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.18s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.18s/it]
+Encoding documents with bge-m3:   8%|7         | 25/313 [00:47<05:22,  1.12s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 209.75it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.07s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.07s/it]
+Encoding documents with bge-m3:   8%|8         | 26/313 [00:49<05:19,  1.11s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 300.43it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it]
+Encoding documents with bge-m3:   9%|8         | 27/313 [00:50<05:15,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 315.91it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.86it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.85it/s]
+Encoding documents with bge-m3:   9%|8         | 28/313 [00:50<04:28,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 382.83it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.81it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.81it/s]
+Encoding documents with bge-m3:   9%|9         | 29/313 [00:51<03:57,  1.20it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 336.46it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.12it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.12it/s]
+Encoding documents with bge-m3:  10%|9         | 30/313 [00:51<03:28,  1.36it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 300.54it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.44it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.44it/s]
+Encoding documents with bge-m3:  10%|9         | 31/313 [00:52<03:26,  1.36it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 273.16it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.88it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.88it/s]
+Encoding documents with bge-m3:  10%|#         | 32/313 [00:53<03:12,  1.46it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 361.14it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.64it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.64it/s]
+Encoding documents with bge-m3:  11%|#         | 33/313 [00:53<03:07,  1.49it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 201.54it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it]
+Encoding documents with bge-m3:  11%|#         | 34/313 [00:55<04:09,  1.12it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 182.65it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.40s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.40s/it]
+Encoding documents with bge-m3:  11%|#1        | 35/313 [00:56<04:54,  1.06s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 148.77it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it]
+Encoding documents with bge-m3:  12%|#1        | 36/313 [00:57<04:56,  1.07s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 250.83it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.21it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s]
+Encoding documents with bge-m3:  12%|#1        | 37/313 [00:58<04:38,  1.01s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 160.99it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.12s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.12s/it]
+Encoding documents with bge-m3:  12%|#2        | 38/313 [00:59<04:49,  1.05s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 195.57it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.14s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.14s/it]
+Encoding documents with bge-m3:  12%|#2        | 39/313 [01:00<04:58,  1.09s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 363.27it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.36it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.36it/s]
+Encoding documents with bge-m3:  13%|#2        | 40/313 [01:01<04:30,  1.01it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 235.17it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.41s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.41s/it]
+Encoding documents with bge-m3:  13%|#3        | 41/313 [01:03<05:06,  1.13s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 342.03it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.37it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.37it/s]
+Encoding documents with bge-m3:  13%|#3        | 42/313 [01:03<04:36,  1.02s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 344.22it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.07it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.07it/s]
+Encoding documents with bge-m3:  14%|#3        | 43/313 [01:04<04:31,  1.00s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 301.36it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.03it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.03it/s]
+Encoding documents with bge-m3:  14%|#4        | 44/313 [01:05<04:29,  1.00s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 453.88it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.31it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.31it/s]
+Encoding documents with bge-m3:  14%|#4        | 45/313 [01:06<04:12,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 385.68it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.05it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.04it/s]
+Encoding documents with bge-m3:  15%|#4        | 46/313 [01:07<03:37,  1.23it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 280.35it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.25it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.25it/s]
+Encoding documents with bge-m3:  15%|#5        | 47/313 [01:07<03:37,  1.22it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 305.02it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.37it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.36it/s]
+Encoding documents with bge-m3:  15%|#5        | 48/313 [01:08<03:32,  1.25it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 386.32it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.51it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.51it/s]
+Encoding documents with bge-m3:  16%|#5        | 49/313 [01:09<03:23,  1.30it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 324.16it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s]
+Encoding documents with bge-m3:  16%|#5        | 50/313 [01:10<03:21,  1.30it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 330.86it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.47it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.47it/s]
+Encoding documents with bge-m3:  16%|#6        | 51/313 [01:10<03:16,  1.33it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 300.75it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it]
+Encoding documents with bge-m3:  17%|#6        | 52/313 [01:12<03:50,  1.13it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 298.31it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.56it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.56it/s]
+Encoding documents with bge-m3:  17%|#6        | 53/313 [01:12<03:33,  1.22it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 474.63it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.70it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.70it/s]
+Encoding documents with bge-m3:  17%|#7        | 54/313 [01:13<02:59,  1.44it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 424.10it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.76it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.75it/s]
+Encoding documents with bge-m3:  18%|#7        | 55/313 [01:13<02:51,  1.50it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 413.68it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.03it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.02it/s]
+Encoding documents with bge-m3:  18%|#7        | 56/313 [01:14<02:40,  1.60it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 166.90it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.20s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.20s/it]
+Encoding documents with bge-m3:  18%|#8        | 57/313 [01:15<03:26,  1.24it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 326.23it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.02it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.02it/s]
+Encoding documents with bge-m3:  19%|#8        | 58/313 [01:16<03:42,  1.15it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 307.93it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.05it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.05it/s]
+Encoding documents with bge-m3:  19%|#8        | 59/313 [01:17<03:49,  1.11it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 421.79it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.48it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.47it/s]
+Encoding documents with bge-m3:  19%|#9        | 60/313 [01:17<03:13,  1.31it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 409.20it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.84it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.84it/s]
+Encoding documents with bge-m3:  19%|#9        | 61/313 [01:18<02:58,  1.41it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 383.50it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.26it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.26it/s]
+Encoding documents with bge-m3:  20%|#9        | 62/313 [01:19<03:06,  1.35it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 333.97it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.43it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.43it/s]
+Encoding documents with bge-m3:  20%|##        | 63/313 [01:20<03:04,  1.35it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 301.71it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.26s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.26s/it]
+Encoding documents with bge-m3:  20%|##        | 64/313 [01:21<03:45,  1.10it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 267.56it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it]
+Encoding documents with bge-m3:  21%|##        | 65/313 [01:22<04:08,  1.00s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 215.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.34s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.34s/it]
+Encoding documents with bge-m3:  21%|##1       | 66/313 [01:23<04:34,  1.11s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 172.68it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.36s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.36s/it]
+Encoding documents with bge-m3:  21%|##1       | 67/313 [01:25<04:54,  1.20s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 275.16it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.13s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.13s/it]
+Encoding documents with bge-m3:  22%|##1       | 68/313 [01:26<04:51,  1.19s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 255.50it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.34it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.34it/s]
+Encoding documents with bge-m3:  22%|##2       | 69/313 [01:27<04:20,  1.07s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 381.65it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it]
+Encoding documents with bge-m3:  22%|##2       | 70/313 [01:28<04:19,  1.07s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 398.28it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.82it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.82it/s]
+Encoding documents with bge-m3:  23%|##2       | 71/313 [01:28<03:43,  1.08it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 425.00it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.49it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.49it/s]
+Encoding documents with bge-m3:  23%|##3       | 72/313 [01:29<03:26,  1.17it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 261.26it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.33s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.33s/it]
+Encoding documents with bge-m3:  23%|##3       | 73/313 [01:31<04:02,  1.01s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 250.51it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.28s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.28s/it]
+Encoding documents with bge-m3:  24%|##3       | 74/313 [01:32<04:23,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 366.70it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s]
+Encoding documents with bge-m3:  24%|##3       | 75/313 [01:33<03:51,  1.03it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 371.93it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.91it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.90it/s]
+Encoding documents with bge-m3:  24%|##4       | 76/313 [01:33<03:22,  1.17it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 276.87it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it]
+Encoding documents with bge-m3:  25%|##4       | 77/313 [01:34<03:53,  1.01it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 211.93it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.11it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.11it/s]
+Encoding documents with bge-m3:  25%|##4       | 78/313 [01:35<03:50,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 278.88it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.25it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.25it/s]
+Encoding documents with bge-m3:  25%|##5       | 79/313 [01:36<03:38,  1.07it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 240.57it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it]
+Encoding documents with bge-m3:  26%|##5       | 80/313 [01:37<03:51,  1.01it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 188.76it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.04it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.04it/s]
+Encoding documents with bge-m3:  26%|##5       | 81/313 [01:38<03:50,  1.01it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 261.59it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.48s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.48s/it]
+Encoding documents with bge-m3:  26%|##6       | 82/313 [01:40<04:25,  1.15s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 308.54it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.11it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.11it/s]
+Encoding documents with bge-m3:  27%|##6       | 83/313 [01:41<04:09,  1.08s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 284.69it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.02s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.02s/it]
+Encoding documents with bge-m3:  27%|##6       | 84/313 [01:42<04:06,  1.07s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 290.14it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.06it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.06it/s]
+Encoding documents with bge-m3:  27%|##7       | 85/313 [01:43<03:58,  1.04s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 250.23it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.20s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.20s/it]
+Encoding documents with bge-m3:  27%|##7       | 86/313 [01:44<04:10,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 264.91it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.18s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.18s/it]
+Encoding documents with bge-m3:  28%|##7       | 87/313 [01:45<04:16,  1.14s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 196.04it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.32s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.32s/it]
+Encoding documents with bge-m3:  28%|##8       | 88/313 [01:47<04:30,  1.20s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 304.84it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.19it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.19it/s]
+Encoding documents with bge-m3:  28%|##8       | 89/313 [01:47<04:06,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 398.36it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.53it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.53it/s]
+Encoding documents with bge-m3:  29%|##8       | 90/313 [01:48<03:37,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 393.43it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.08it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.08it/s]
+Encoding documents with bge-m3:  29%|##9       | 91/313 [01:49<03:35,  1.03it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 415.52it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.61it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.60it/s]
+Encoding documents with bge-m3:  29%|##9       | 92/313 [01:50<02:58,  1.24it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 423.07it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.37it/s]
+Encoding documents with bge-m3:  30%|##9       | 93/313 [01:50<02:55,  1.26it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 548.63it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.70it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.69it/s]
+Encoding documents with bge-m3:  30%|###       | 94/313 [01:51<02:42,  1.35it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 520.71it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.40it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.39it/s]
+Encoding documents with bge-m3:  30%|###       | 95/313 [01:51<02:23,  1.52it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 489.59it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.40it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.40it/s]
+Encoding documents with bge-m3:  31%|###       | 96/313 [01:52<02:28,  1.46it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 372.43it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.03s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.03s/it]
+Encoding documents with bge-m3:  31%|###       | 97/313 [01:53<02:52,  1.25it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 197.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.39s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.39s/it]
+Encoding documents with bge-m3:  31%|###1      | 98/313 [01:55<03:32,  1.01it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 415.40it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.06it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.05it/s]
+Encoding documents with bge-m3:  32%|###1      | 99/313 [01:55<03:01,  1.18it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 280.57it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.17it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.17it/s]
+Encoding documents with bge-m3:  32%|###1      | 100/313 [01:56<03:03,  1.16it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 147.94it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.47s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.47s/it]
+Encoding documents with bge-m3:  32%|###2      | 101/313 [01:58<03:43,  1.06s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 285.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.24s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.24s/it]
+Encoding documents with bge-m3:  33%|###2      | 102/313 [01:59<03:56,  1.12s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 297.83it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.01s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.01s/it]
+Encoding documents with bge-m3:  33%|###2      | 103/313 [02:00<03:50,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 338.99it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s]
+Encoding documents with bge-m3:  33%|###3      | 104/313 [02:01<03:34,  1.03s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 429.88it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.01it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.01it/s]
+Encoding documents with bge-m3:  34%|###3      | 105/313 [02:01<03:02,  1.14it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 429.22it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.45it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.45it/s]
+Encoding documents with bge-m3:  34%|###3      | 106/313 [02:02<02:51,  1.20it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 180.94it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.15s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.15s/it]
+Encoding documents with bge-m3:  34%|###4      | 107/313 [02:03<03:13,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 368.24it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it]
+Encoding documents with bge-m3:  35%|###4      | 108/313 [02:04<03:20,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 493.04it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.54it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.54it/s]
+Encoding documents with bge-m3:  35%|###4      | 109/313 [02:05<03:02,  1.12it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 429.61it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.02s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.02s/it]
+Encoding documents with bge-m3:  35%|###5      | 110/313 [02:06<03:10,  1.07it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 331.85it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  3.86it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  3.86it/s]
+Encoding documents with bge-m3:  35%|###5      | 111/313 [02:06<02:30,  1.34it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 533.69it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.27it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.27it/s]
+Encoding documents with bge-m3:  36%|###5      | 112/313 [02:07<02:13,  1.51it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 289.94it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s]
+Encoding documents with bge-m3:  36%|###6      | 113/313 [02:07<02:18,  1.45it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 259.58it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.29s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.29s/it]
+Encoding documents with bge-m3:  36%|###6      | 114/313 [02:09<02:55,  1.13it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 204.10it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.21s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.21s/it]
+Encoding documents with bge-m3:  37%|###6      | 115/313 [02:10<03:16,  1.01it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 332.35it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.28s/it]
+Encoding documents with bge-m3:  37%|###7      | 116/313 [02:11<03:34,  1.09s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 148.14it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.25it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.25it/s]
+Encoding documents with bge-m3:  37%|###7      | 117/313 [02:12<03:18,  1.01s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 313.26it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.78it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.78it/s]
+Encoding documents with bge-m3:  38%|###7      | 118/313 [02:13<02:52,  1.13it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 414.25it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.26it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.26it/s]
+Encoding documents with bge-m3:  38%|###8      | 119/313 [02:13<02:27,  1.31it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 474.52it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.17it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.17it/s]
+Encoding documents with bge-m3:  38%|###8      | 120/313 [02:14<02:11,  1.47it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 459.90it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.75it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.75it/s]
+Encoding documents with bge-m3:  39%|###8      | 121/313 [02:14<02:06,  1.52it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 393.68it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.57s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.57s/it]
+Encoding documents with bge-m3:  39%|###8      | 122/313 [02:16<03:00,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 382.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.32it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.32it/s]
+Encoding documents with bge-m3:  39%|###9      | 123/313 [02:17<02:50,  1.11it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 423.50it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.19it/s]
+Encoding documents with bge-m3:  40%|###9      | 124/313 [02:18<02:48,  1.12it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 271.63it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.34it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.34it/s]
+Encoding documents with bge-m3:  40%|###9      | 125/313 [02:18<02:41,  1.17it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 258.99it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.00s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.00s/it]
+Encoding documents with bge-m3:  40%|####      | 126/313 [02:19<02:50,  1.10it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 342.76it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.62it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.62it/s]
+Encoding documents with bge-m3:  41%|####      | 127/313 [02:20<02:34,  1.20it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 207.30it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.50s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.50s/it]
+Encoding documents with bge-m3:  41%|####      | 128/313 [02:22<03:12,  1.04s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 221.76it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it]
+Encoding documents with bge-m3:  41%|####1     | 129/313 [02:23<03:14,  1.06s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 186.86it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.04it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.04it/s]
+Encoding documents with bge-m3:  42%|####1     | 130/313 [02:24<03:10,  1.04s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 264.27it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.23s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.23s/it]
+Encoding documents with bge-m3:  42%|####1     | 131/313 [02:25<03:21,  1.11s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 343.51it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.50it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.50it/s]
+Encoding documents with bge-m3:  42%|####2     | 132/313 [02:26<02:58,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 329.07it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.42s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.42s/it]
+Encoding documents with bge-m3:  42%|####2     | 133/313 [02:27<03:22,  1.13s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 288.65it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.13it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.13it/s]
+Encoding documents with bge-m3:  43%|####2     | 134/313 [02:28<03:10,  1.06s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 474.42it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.30it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.30it/s]
+Encoding documents with bge-m3:  43%|####3     | 135/313 [02:29<02:55,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 247.88it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.24s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.24s/it]
+Encoding documents with bge-m3:  43%|####3     | 136/313 [02:30<03:09,  1.07s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 368.70it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.18s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.18s/it]
+Encoding documents with bge-m3:  44%|####3     | 137/313 [02:31<03:16,  1.11s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 335.81it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.30s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.30s/it]
+Encoding documents with bge-m3:  44%|####4     | 138/313 [02:33<03:26,  1.18s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 249.16it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.42s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.42s/it]
+Encoding documents with bge-m3:  44%|####4     | 139/313 [02:34<03:39,  1.26s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 276.96it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it]
+Encoding documents with bge-m3:  45%|####4     | 140/313 [02:35<03:40,  1.28s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 390.13it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.11s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.11s/it]
+Encoding documents with bge-m3:  45%|####5     | 141/313 [02:37<03:32,  1.24s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 329.56it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.01s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.01s/it]
+Encoding documents with bge-m3:  45%|####5     | 142/313 [02:38<03:21,  1.18s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 317.63it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.02it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.02it/s]
+Encoding documents with bge-m3:  46%|####5     | 143/313 [02:39<03:12,  1.14s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 494.73it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.45it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.45it/s]
+Encoding documents with bge-m3:  46%|####6     | 144/313 [02:39<02:36,  1.08it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 339.43it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.10it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.10it/s]
+Encoding documents with bge-m3:  46%|####6     | 145/313 [02:40<02:14,  1.25it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 475.54it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.57it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.42it/s]
+Encoding documents with bge-m3:  47%|####6     | 146/313 [02:40<01:55,  1.44it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 438.05it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.89it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.89it/s]
+Encoding documents with bge-m3:  47%|####6     | 147/313 [02:41<01:49,  1.52it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 447.44it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.19it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.19it/s]
+Encoding documents with bge-m3:  47%|####7     | 148/313 [02:41<01:58,  1.39it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 462.49it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.11s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.11s/it]
+Encoding documents with bge-m3:  48%|####7     | 149/313 [02:43<02:18,  1.18it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 382.97it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.37it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.37it/s]
+Encoding documents with bge-m3:  48%|####7     | 150/313 [02:43<02:13,  1.22it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 244.59it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it]
+Encoding documents with bge-m3:  48%|####8     | 151/313 [02:45<02:31,  1.07it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 212.50it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it]
+Encoding documents with bge-m3:  49%|####8     | 152/313 [02:46<02:42,  1.01s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 111.34it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.21s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.21s/it]
+Encoding documents with bge-m3:  49%|####8     | 153/313 [02:47<02:53,  1.08s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 156.57it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.50it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.49it/s]
+Encoding documents with bge-m3:  49%|####9     | 154/313 [02:48<02:34,  1.03it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 253.89it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.26it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.26it/s]
+Encoding documents with bge-m3:  50%|####9     | 155/313 [02:49<02:26,  1.08it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 181.51it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.21s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.21s/it]
+Encoding documents with bge-m3:  50%|####9     | 156/313 [02:50<02:40,  1.02s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 205.28it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.35s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.35s/it]
+Encoding documents with bge-m3:  50%|#####     | 157/313 [02:51<02:56,  1.13s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 226.05it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.41s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.41s/it]
+Encoding documents with bge-m3:  50%|#####     | 158/313 [02:53<03:09,  1.23s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 301.10it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.13it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.13it/s]
+Encoding documents with bge-m3:  51%|#####     | 159/313 [02:54<02:54,  1.13s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 397.98it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.49it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.48it/s]
+Encoding documents with bge-m3:  51%|#####1    | 160/313 [02:54<02:21,  1.08it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 339.48it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.03it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.03it/s]
+Encoding documents with bge-m3:  51%|#####1    | 161/313 [02:55<02:02,  1.24it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 397.23it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.34it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.33it/s]
+Encoding documents with bge-m3:  52%|#####1    | 162/313 [02:55<01:45,  1.43it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 446.82it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.12it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.11it/s]
+Encoding documents with bge-m3:  52%|#####2    | 163/313 [02:55<01:36,  1.56it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 392.73it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s]
+Encoding documents with bge-m3:  52%|#####2    | 164/313 [02:56<01:37,  1.53it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 396.40it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.49it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.49it/s]
+Encoding documents with bge-m3:  53%|#####2    | 165/313 [02:57<01:38,  1.50it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 286.63it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it]
+Encoding documents with bge-m3:  53%|#####3    | 166/313 [02:58<01:56,  1.26it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 397.23it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.05s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.05s/it]
+Encoding documents with bge-m3:  53%|#####3    | 167/313 [02:59<02:08,  1.14it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 346.38it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.30s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.31s/it]
+Encoding documents with bge-m3:  54%|#####3    | 168/313 [03:00<02:27,  1.02s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 263.59it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.13s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.13s/it]
+Encoding documents with bge-m3:  54%|#####3    | 169/313 [03:02<02:32,  1.06s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 142.47it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.90it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.90it/s]
+Encoding documents with bge-m3:  54%|#####4    | 170/313 [03:02<02:10,  1.10it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 179.32it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.12s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.12s/it]
+Encoding documents with bge-m3:  55%|#####4    | 171/313 [03:03<02:19,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 298.08it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.32s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.32s/it]
+Encoding documents with bge-m3:  55%|#####4    | 172/313 [03:05<02:34,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 207.79it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.16s/it]
+Encoding documents with bge-m3:  55%|#####5    | 173/313 [03:06<02:37,  1.13s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 93.10it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it]
+Encoding documents with bge-m3:  56%|#####5    | 174/313 [03:07<02:44,  1.18s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 404.31it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.50it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.50it/s]
+Encoding documents with bge-m3:  56%|#####5    | 175/313 [03:08<02:22,  1.04s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 286.40it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.42s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.42s/it]
+Encoding documents with bge-m3:  56%|#####6    | 176/313 [03:09<02:38,  1.16s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 426.25it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.54it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.54it/s]
+Encoding documents with bge-m3:  57%|#####6    | 177/313 [03:10<02:18,  1.02s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 382.03it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.01s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.01s/it]
+Encoding documents with bge-m3:  57%|#####6    | 178/313 [03:11<02:18,  1.02s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 336.95it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.04it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.04it/s]
+Encoding documents with bge-m3:  57%|#####7    | 179/313 [03:12<02:15,  1.01s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 162.96it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.28s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.28s/it]
+Encoding documents with bge-m3:  58%|#####7    | 180/313 [03:13<02:26,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 166.82it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.17it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.17it/s]
+Encoding documents with bge-m3:  58%|#####7    | 181/313 [03:14<02:17,  1.04s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 370.49it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s]
+Encoding documents with bge-m3:  58%|#####8    | 182/313 [03:15<02:09,  1.01it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 390.64it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.17s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.17s/it]
+Encoding documents with bge-m3:  58%|#####8    | 183/313 [03:16<02:17,  1.05s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 373.36it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.50it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.49it/s]
+Encoding documents with bge-m3:  59%|#####8    | 184/313 [03:17<01:51,  1.15it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 373.32it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.23it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.23it/s]
+Encoding documents with bge-m3:  59%|#####9    | 185/313 [03:18<01:50,  1.16it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 510.44it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.60it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.60it/s]
+Encoding documents with bge-m3:  59%|#####9    | 186/313 [03:18<01:41,  1.25it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 258.96it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.25s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.25s/it]
+Encoding documents with bge-m3:  60%|#####9    | 187/313 [03:19<01:58,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 451.15it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.56it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.55it/s]
+Encoding documents with bge-m3:  60%|######    | 188/313 [03:20<01:38,  1.27it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 372.20it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.56it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.56it/s]
+Encoding documents with bge-m3:  60%|######    | 189/313 [03:21<01:33,  1.33it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 423.97it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.11it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.11it/s]
+Encoding documents with bge-m3:  61%|######    | 190/313 [03:22<01:39,  1.24it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 374.26it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.76it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.76it/s]
+Encoding documents with bge-m3:  61%|######1   | 191/313 [03:22<01:30,  1.34it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 374.63it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it]
+Encoding documents with bge-m3:  61%|######1   | 192/313 [03:23<01:41,  1.19it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 350.17it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.05s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.05s/it]
+Encoding documents with bge-m3:  62%|######1   | 193/313 [03:24<01:49,  1.09it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 363.96it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.01s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.01s/it]
+Encoding documents with bge-m3:  62%|######1   | 194/313 [03:25<01:53,  1.05it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 305.06it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.74it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.73it/s]
+Encoding documents with bge-m3:  62%|######2   | 195/313 [03:26<01:40,  1.18it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 392.36it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.23it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.23it/s]
+Encoding documents with bge-m3:  63%|######2   | 196/313 [03:26<01:26,  1.36it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 441.65it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.45it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.45it/s]
+Encoding documents with bge-m3:  63%|######2   | 197/313 [03:27<01:24,  1.37it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 285.93it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.65it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.65it/s]
+Encoding documents with bge-m3:  63%|######3   | 198/313 [03:28<01:20,  1.42it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 200.59it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it]
+Encoding documents with bge-m3:  64%|######3   | 199/313 [03:29<01:40,  1.13it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 453.14it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.32it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.31it/s]
+Encoding documents with bge-m3:  64%|######3   | 200/313 [03:30<01:25,  1.32it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 355.54it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.02s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.02s/it]
+Encoding documents with bge-m3:  64%|######4   | 201/313 [03:31<01:34,  1.18it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 333.04it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.66it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.66it/s]
+Encoding documents with bge-m3:  65%|######4   | 202/313 [03:31<01:26,  1.28it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 380.88it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.57it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.57it/s]
+Encoding documents with bge-m3:  65%|######4   | 203/313 [03:32<01:14,  1.48it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 407.85it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.10it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.09it/s]
+Encoding documents with bge-m3:  65%|######5   | 204/313 [03:32<01:08,  1.60it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 397.00it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.45it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.45it/s]
+Encoding documents with bge-m3:  65%|######5   | 205/313 [03:33<01:10,  1.53it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 497.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.52it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.51it/s]
+Encoding documents with bge-m3:  66%|######5   | 206/313 [03:33<01:02,  1.70it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 368.76it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.13it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.66it/s]
+Encoding documents with bge-m3:  66%|######6   | 207/313 [03:34<01:03,  1.66it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 350.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.18s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.18s/it]
+Encoding documents with bge-m3:  66%|######6   | 208/313 [03:35<01:22,  1.27it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 549.42it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.59it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.58it/s]
+Encoding documents with bge-m3:  67%|######6   | 209/313 [03:36<01:10,  1.47it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 325.95it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s]
+Encoding documents with bge-m3:  67%|######7   | 210/313 [03:36<01:12,  1.43it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 370.85it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it]
+Encoding documents with bge-m3:  67%|######7   | 211/313 [03:37<01:24,  1.21it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 328.89it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s]
+Encoding documents with bge-m3:  68%|######7   | 212/313 [03:38<01:24,  1.19it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 422.30it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.51it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.51it/s]
+Encoding documents with bge-m3:  68%|######8   | 213/313 [03:39<01:19,  1.26it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 286.91it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it]
+Encoding documents with bge-m3:  68%|######8   | 214/313 [03:40<01:31,  1.08it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 438.05it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.77it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.77it/s]
+Encoding documents with bge-m3:  69%|######8   | 215/313 [03:41<01:20,  1.21it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 326.35it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.09it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.09it/s]
+Encoding documents with bge-m3:  69%|######9   | 216/313 [03:42<01:23,  1.16it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 213.00it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it]
+Encoding documents with bge-m3:  69%|######9   | 217/313 [03:43<01:35,  1.01it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 502.07it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.34it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.34it/s]
+Encoding documents with bge-m3:  70%|######9   | 218/313 [03:44<01:19,  1.20it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 156.53it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.14s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.14s/it]
+Encoding documents with bge-m3:  70%|######9   | 219/313 [03:45<01:28,  1.07it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 378.14it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it]
+Encoding documents with bge-m3:  70%|#######   | 220/313 [03:46<01:32,  1.00it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 241.65it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.37s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.37s/it]
+Encoding documents with bge-m3:  71%|#######   | 221/313 [03:47<01:42,  1.12s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 530.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.88it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.88it/s]
+Encoding documents with bge-m3:  71%|#######   | 222/313 [03:48<01:26,  1.05it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 386.46it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.68it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.68it/s]
+Encoding documents with bge-m3:  71%|#######1  | 223/313 [03:48<01:16,  1.17it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 334.29it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.36it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.35it/s]
+Encoding documents with bge-m3:  72%|#######1  | 224/313 [03:49<01:05,  1.36it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 427.47it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.61it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.61it/s]
+Encoding documents with bge-m3:  72%|#######1  | 225/313 [03:50<01:02,  1.40it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 360.92it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.84it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.83it/s]
+Encoding documents with bge-m3:  72%|#######2  | 226/313 [03:50<00:58,  1.49it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 417.55it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it]
+Encoding documents with bge-m3:  73%|#######2  | 227/313 [03:51<01:09,  1.23it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 368.37it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.29it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.29it/s]
+Encoding documents with bge-m3:  73%|#######2  | 228/313 [03:52<01:08,  1.23it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 348.80it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it]
+Encoding documents with bge-m3:  73%|#######3  | 229/313 [03:53<01:16,  1.10it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 408.60it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.16it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.16it/s]
+Encoding documents with bge-m3:  73%|#######3  | 230/313 [03:54<01:05,  1.28it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 503.40it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.75it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.75it/s]
+Encoding documents with bge-m3:  74%|#######3  | 231/313 [03:54<00:54,  1.50it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 480.28it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.02it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.01it/s]
+Encoding documents with bge-m3:  74%|#######4  | 232/313 [03:55<00:50,  1.60it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 493.04it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.73it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.72it/s]
+Encoding documents with bge-m3:  74%|#######4  | 233/313 [03:55<00:44,  1.79it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 538.42it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.70it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.70it/s]
+Encoding documents with bge-m3:  75%|#######4  | 234/313 [03:56<00:45,  1.74it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 330.18it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.26it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.26it/s]
+Encoding documents with bge-m3:  75%|#######5  | 235/313 [03:56<00:42,  1.83it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 323.61it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.75it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.75it/s]
+Encoding documents with bge-m3:  75%|#######5  | 236/313 [03:57<00:43,  1.78it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 184.91it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.46s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.46s/it]
+Encoding documents with bge-m3:  76%|#######5  | 237/313 [03:58<01:03,  1.19it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 208.34it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.34s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.34s/it]
+Encoding documents with bge-m3:  76%|#######6  | 238/313 [04:00<01:15,  1.00s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 311.68it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.64it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.64it/s]
+Encoding documents with bge-m3:  76%|#######6  | 239/313 [04:00<01:06,  1.12it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 152.80it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.56s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.56s/it]
+Encoding documents with bge-m3:  77%|#######6  | 240/313 [04:02<01:20,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 332.64it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s]
+Encoding documents with bge-m3:  77%|#######6  | 241/313 [04:03<01:10,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 228.81it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.22s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.22s/it]
+Encoding documents with bge-m3:  77%|#######7  | 242/313 [04:04<01:15,  1.06s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 290.22it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.34it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.34it/s]
+Encoding documents with bge-m3:  78%|#######7  | 243/313 [04:05<01:08,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 326.68it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.18it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.18it/s]
+Encoding documents with bge-m3:  78%|#######7  | 244/313 [04:05<01:05,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 465.21it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.16it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.16it/s]
+Encoding documents with bge-m3:  78%|#######8  | 245/313 [04:06<01:03,  1.07it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 341.06it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.38it/s]
+Encoding documents with bge-m3:  79%|#######8  | 246/313 [04:07<00:58,  1.14it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 362.23it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.69it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.69it/s]
+Encoding documents with bge-m3:  79%|#######8  | 247/313 [04:08<00:52,  1.25it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 331.15it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.05it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.05it/s]
+Encoding documents with bge-m3:  79%|#######9  | 248/313 [04:09<00:55,  1.17it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 389.23it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s]
+Encoding documents with bge-m3:  80%|#######9  | 249/313 [04:10<00:55,  1.16it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 361.58it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.05it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.05it/s]
+Encoding documents with bge-m3:  80%|#######9  | 250/313 [04:11<00:56,  1.11it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 374.79it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.60it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.59it/s]
+Encoding documents with bge-m3:  80%|########  | 251/313 [04:11<00:51,  1.21it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 388.97it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.02it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.02it/s]
+Encoding documents with bge-m3:  81%|########  | 252/313 [04:12<00:53,  1.13it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 371.18it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it]
+Encoding documents with bge-m3:  81%|########  | 253/313 [04:13<00:56,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 267.31it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.10s/it]
+Encoding documents with bge-m3:  81%|########1 | 254/313 [04:14<00:58,  1.00it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 462.08it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.11s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.11s/it]
+Encoding documents with bge-m3:  81%|########1 | 255/313 [04:16<01:00,  1.04s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 311.33it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.31s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.31s/it]
+Encoding documents with bge-m3:  82%|########1 | 256/313 [04:17<01:04,  1.13s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 513.50it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.70it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.70it/s]
+Encoding documents with bge-m3:  82%|########2 | 257/313 [04:18<00:54,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 467.85it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s]
+Encoding documents with bge-m3:  82%|########2 | 258/313 [04:18<00:51,  1.06it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 417.47it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.01s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.02s/it]
+Encoding documents with bge-m3:  83%|########2 | 259/313 [04:19<00:52,  1.03it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 267.87it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.05it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.05it/s]
+Encoding documents with bge-m3:  83%|########3 | 260/313 [04:20<00:51,  1.02it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 362.64it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.29s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.29s/it]
+Encoding documents with bge-m3:  83%|########3 | 261/313 [04:22<00:56,  1.08s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 302.47it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.11s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.11s/it]
+Encoding documents with bge-m3:  84%|########3 | 262/313 [04:23<00:56,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 414.13it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s]
+Encoding documents with bge-m3:  84%|########4 | 263/313 [04:24<00:51,  1.03s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 161.29it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.64it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.64it/s]
+Encoding documents with bge-m3:  84%|########4 | 264/313 [04:24<00:44,  1.09it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 184.42it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.25s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.25s/it]
+Encoding documents with bge-m3:  85%|########4 | 265/313 [04:26<00:49,  1.03s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 258.41it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it]
+Encoding documents with bge-m3:  85%|########4 | 266/313 [04:27<00:51,  1.09s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 373.13it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.92it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.91it/s]
+Encoding documents with bge-m3:  85%|########5 | 267/313 [04:27<00:42,  1.08it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 278.60it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.56it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.56it/s]
+Encoding documents with bge-m3:  86%|########5 | 268/313 [04:28<00:38,  1.18it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 416.31it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.69it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.69it/s]
+Encoding documents with bge-m3:  86%|########5 | 269/313 [04:29<00:34,  1.28it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 303.98it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.31it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.31it/s]
+Encoding documents with bge-m3:  86%|########6 | 270/313 [04:30<00:33,  1.27it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 321.90it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.71it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.71it/s]
+Encoding documents with bge-m3:  87%|########6 | 271/313 [04:30<00:30,  1.36it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 238.99it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.34s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.34s/it]
+Encoding documents with bge-m3:  87%|########6 | 272/313 [04:32<00:38,  1.08it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 230.30it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.14s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.14s/it]
+Encoding documents with bge-m3:  87%|########7 | 273/313 [04:33<00:40,  1.00s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 388.36it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.97it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.97it/s]
+Encoding documents with bge-m3:  88%|########7 | 274/313 [04:33<00:33,  1.16it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 447.87it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.54it/s]
+Encoding documents with bge-m3:  88%|########7 | 275/313 [04:34<00:30,  1.24it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 517.88it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.74it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.73it/s]
+Encoding documents with bge-m3:  88%|########8 | 276/313 [04:34<00:25,  1.46it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 412.91it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.79it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.79it/s]
+Encoding documents with bge-m3:  88%|########8 | 277/313 [04:35<00:21,  1.67it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 421.41it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.98it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.97it/s]
+Encoding documents with bge-m3:  89%|########8 | 278/313 [04:35<00:20,  1.72it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 421.54it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s]
+Encoding documents with bge-m3:  89%|########9 | 279/313 [04:36<00:20,  1.64it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 291.98it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.34s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.34s/it]
+Encoding documents with bge-m3:  89%|########9 | 280/313 [04:37<00:27,  1.19it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 516.99it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.44it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.44it/s]
+Encoding documents with bge-m3:  90%|########9 | 281/313 [04:38<00:25,  1.24it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 457.74it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.53it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.53it/s]
+Encoding documents with bge-m3:  90%|######### | 282/313 [04:39<00:21,  1.45it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 292.16it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.14s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.14s/it]
+Encoding documents with bge-m3:  90%|######### | 283/313 [04:40<00:25,  1.20it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 449.50it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.75it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.75it/s]
+Encoding documents with bge-m3:  91%|######### | 284/313 [04:40<00:22,  1.31it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 481.88it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  3.75it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  3.74it/s]
+Encoding documents with bge-m3:  91%|#########1| 285/313 [04:41<00:17,  1.60it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 424.91it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.98it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.98it/s]
+Encoding documents with bge-m3:  91%|#########1| 286/313 [04:41<00:14,  1.83it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 382.13it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.04s/it]
+Encoding documents with bge-m3:  92%|#########1| 287/313 [04:42<00:18,  1.42it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 324.44it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.47it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.47it/s]
+Encoding documents with bge-m3:  92%|#########2| 288/313 [04:43<00:17,  1.41it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 268.26it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.17s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.17s/it]
+Encoding documents with bge-m3:  92%|#########2| 289/313 [04:44<00:20,  1.17it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 340.72it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.32s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.32s/it]
+Encoding documents with bge-m3:  93%|#########2| 290/313 [04:45<00:23,  1.01s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 148.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.27s/it]
+Encoding documents with bge-m3:  93%|#########2| 291/313 [04:47<00:24,  1.10s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 196.98it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.03s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.03s/it]
+Encoding documents with bge-m3:  93%|#########3| 292/313 [04:48<00:22,  1.09s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 433.16it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.95it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.95it/s]
+Encoding documents with bge-m3:  94%|#########3| 293/313 [04:48<00:18,  1.08it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 402.79it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.20it/s]
+Encoding documents with bge-m3:  94%|#########3| 294/313 [04:49<00:17,  1.10it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 430.85it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.65it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.65it/s]
+Encoding documents with bge-m3:  94%|#########4| 295/313 [04:50<00:14,  1.21it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 417.01it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.36s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.36s/it]
+Encoding documents with bge-m3:  95%|#########4| 296/313 [04:51<00:16,  1.00it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 292.06it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s]
+Encoding documents with bge-m3:  95%|#########4| 297/313 [04:52<00:14,  1.11it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 380.09it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.49it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.49it/s]
+Encoding documents with bge-m3:  95%|#########5| 298/313 [04:53<00:12,  1.18it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 514.13it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.13it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.13it/s]
+Encoding documents with bge-m3:  96%|#########5| 299/313 [04:53<00:10,  1.35it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 424.61it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  4.75it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  4.74it/s]
+Encoding documents with bge-m3:  96%|#########5| 300/313 [04:53<00:07,  1.69it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 401.06it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.52it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.52it/s]
+Encoding documents with bge-m3:  96%|#########6| 301/313 [04:54<00:06,  1.84it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 345.41it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.06s/it]
+Encoding documents with bge-m3:  96%|#########6| 302/313 [04:55<00:07,  1.41it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 373.66it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.59it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.59it/s]
+Encoding documents with bge-m3:  97%|#########6| 303/313 [04:55<00:06,  1.44it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 248.71it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.19s/it]
+Encoding documents with bge-m3:  97%|#########7| 304/313 [04:57<00:07,  1.17it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 338.58it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.52it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.52it/s]
+Encoding documents with bge-m3:  97%|#########7| 305/313 [04:57<00:06,  1.24it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 389.44it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.82it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.82it/s]
+Encoding documents with bge-m3:  98%|#########7| 306/313 [04:58<00:05,  1.36it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 254.02it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.35s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.35s/it]
+Encoding documents with bge-m3:  98%|#########8| 307/313 [04:59<00:05,  1.07it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 421.11it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.25s/it][AInference Embeddings: 100%|##########| 1/1 [00:01<00:00,  1.25s/it]
+Encoding documents with bge-m3:  98%|#########8| 308/313 [05:01<00:05,  1.04s/it]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 387.50it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.96it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.96it/s]
+Encoding documents with bge-m3:  99%|#########8| 309/313 [05:01<00:03,  1.12it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 489.99it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.18it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  2.18it/s]
+Encoding documents with bge-m3:  99%|#########9| 310/313 [05:02<00:02,  1.30it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 384.38it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.55it/s]
+Encoding documents with bge-m3:  99%|#########9| 311/313 [05:02<00:01,  1.35it/s]
+pre tokenize:   0%|          | 0/1 [00:00<?, ?it/s][Apre tokenize: 100%|##########| 1/1 [00:00<00:00, 431.02it/s]
+
+Inference Embeddings:   0%|          | 0/1 [00:00<?, ?it/s][A
+Inference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.54it/s][AInference Embeddings: 100%|##########| 1/1 [00:00<00:00,  1.54it/s]
+Encoding documents with bge-m3: 100%|#########9| 312/313 [05:03<00:00,  1.38it/s]Encoding documents with bge-m3: 100%|##########| 313/313 [05:03<00:00,  1.68it/s]Encoding documents with bge-m3: 100%|##########| 313/313 [05:03<00:00,  1.03it/s]
+Dense retriever 初始化已完成。
+Reranker 初始化已完成。
+Dense-only ReFIT queries:   0%|          | 0/1 [00:00<?, ?it/s]114B-WIR-01 第一次 dense retrieval 已完成，共 50 筆候選。
+
+pre tokenize:   0%|          | 0/4 [00:00<?, ?it/s][AYou're using a XLMRobertaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+pre tokenize: 100%|##########| 4/4 [00:00<00:00, 381.05it/s]
+
+Compute Scores:   0%|          | 0/4 [00:00<?, ?it/s][A
+Compute Scores:  25%|##5       | 1/4 [00:00<00:01,  1.77it/s][A
+Compute Scores:  50%|#####     | 2/4 [00:00<00:00,  3.30it/s][A
+Compute Scores:  75%|#######5  | 3/4 [00:00<00:00,  4.07it/s][ACompute Scores: 100%|##########| 4/4 [00:00<00:00,  4.53it/s]
+114B-WIR-01 Reranker feedback 分數計算已完成。
+114B-WIR-01 Query embedding debug:
+  embedding_dim: 1024
+  preview_dims: 10
+  original_norm_l2: 0.99999994
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.07143199
+  original_query_vector_preview: [-0.020603656768798828, -0.00404442148283124, -0.04007792845368385, -0.053538981825113297, 0.005238670390099287, -0.050883401185274124, 0.0010463986545801163, -0.016925521194934845, 0.022953998297452927, -0.05384422093629837]
+  updated_query_vector_preview: [-0.019192585721611977, -0.005168542731553316, -0.043012917041778564, -0.0521719828248024, 0.004978441167622805, -0.05411625653505325, 0.00019586262351367623, -0.01413514744490385, 0.02344307117164135, -0.053840331733226776]
+  delta_vector_preview: [0.0014110710471868515, -0.0011241212487220764, -0.0029349885880947113, 0.0013669990003108978, -0.0002602292224764824, -0.003232855349779129, -0.0008505360456183553, 0.0027903737500309944, 0.0004890728741884232, 3.889203071594238e-06]
+114B-WIR-01 ReFIT query 向量更新已完成。
+114B-WIR-01 第二次 dense retrieval 已完成，共 30 筆結果。
+114B-WIR-01 結果整理已完成。
+Dense-only ReFIT queries: 100%|##########| 1/1 [00:21<00:00, 21.77s/it]Dense-only ReFIT queries: 100%|##########| 1/1 [00:21<00:00, 21.77s/it]
+Saved results to /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/debug_refit_10000docs_results.json
+結果輸出已完成。
+Dense-only ReFIT 流程完成，總耗時 330.31 秒。
