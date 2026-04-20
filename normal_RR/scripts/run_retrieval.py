@@ -1,33 +1,37 @@
-from __future__ import annotations
-
 """
-測試的話
-python normal_R&R/scripts/run_retrieval.py \
+執行位置：
+cd /workplace/dxlin/Homework/IR
+
+測試的話：
+python normal_RR/scripts/run_retrieval.py \
   --data data/IR_data.json \
   --query query/phase1_query.json \
-  --output normal_R&R/outputs/debug_100docs_results.json \
+  --output outputs/debug_101docs_results.json \
   --limit_docs 100 \
   --limit_queries 1 \
   --bm25_top_k 50 \
   --dense_top_k 50 \
   --rerank_top_k 30 \
   --use_fp16 \
-  --log_file normal_R&R/outputs/logs/debug_100docs.log
+  --log_file outputs/logs/debug_101docs.log
 
-正式執行的話
-python normal_R&R/scripts/run_retrieval.py \
+正式執行的話：
+python normal_RR/scripts/run_retrieval.py \
   --data data/IR_data.json \
   --query query/phase1_query.json \
-  --output normal_R&R/outputs/ver1_results.json \
+  --output outputs/ver1_results.json \
   --bm25_top_k 50 \
   --dense_top_k 50 \
   --rerank_top_k 30 \
   --use_fp16 \
-  --log_file normal_R&R/outputs/logs/ver11.log
+  --log_file outputs/logs/ver11.log
 """
+
+from __future__ import annotations
 
 
 import os
+
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"  # 指定使用 GPU
 
 # 主要用途：提供命令列入口，讓使用者用參數控制完整檢索與 rerank 流程。
@@ -39,10 +43,9 @@ from datetime import datetime
 from pathlib import Path
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(PROJECT_ROOT))
-
-from src.pipeline import RetrievalConfig, run_retrieval  # noqa: E402
+NORMAL_RR_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = NORMAL_RR_ROOT.parent
+sys.path.insert(0, str(NORMAL_RR_ROOT))
 
 
 class TeeOutput:
@@ -101,18 +104,40 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-# 將相對路徑轉成以專案根目錄為基準的絕對路徑；若已是絕對路徑則直接使用。
-def resolve_path(path: str) -> Path:
+# 將輸入類相對路徑轉成絕對路徑；先找 normal_RR，再找 repo 根目錄。
+def resolve_existing_path(path: str) -> Path:
     candidate = Path(path)
     if candidate.is_absolute():
         return candidate
-    return PROJECT_ROOT / candidate
+
+    if candidate.parts and candidate.parts[0] == NORMAL_RR_ROOT.name:
+        return REPO_ROOT / candidate
+
+    normal_rr_candidate = NORMAL_RR_ROOT / candidate
+    if normal_rr_candidate.exists():
+        return normal_rr_candidate
+
+    repo_candidate = REPO_ROOT / candidate
+    if repo_candidate.exists():
+        return repo_candidate
+
+    return normal_rr_candidate
+
+
+# 輸出類相對路徑預設寫在 normal_RR 底下，避免污染 repo 根目錄。
+def resolve_output_path(path: str) -> Path:
+    candidate = Path(path)
+    if candidate.is_absolute():
+        return candidate
+    if candidate.parts and candidate.parts[0] == NORMAL_RR_ROOT.name:
+        return REPO_ROOT / candidate
+    return NORMAL_RR_ROOT / candidate
 
 
 # 產生預設 log 檔路徑，使用時間戳避免覆蓋前一次執行紀錄。
 def default_log_path() -> Path:
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    return PROJECT_ROOT / "outputs" / "logs" / f"retrieval_{timestamp}.log"
+    return NORMAL_RR_ROOT / "outputs" / "logs" / f"retrieval_{timestamp}.log"
 
 
 # 將 stdout 和 stderr 同時導到終端機與 log 檔，讓一般輸出、警告、錯誤和 tqdm 都能被記錄。
@@ -160,14 +185,17 @@ def print_run_config(config: RetrievalConfig, log_path: Path) -> None:
 # 程式進入點：解析 CLI 參數、建立 RetrievalConfig，並啟動完整檢索流程。
 def main() -> None:
     args = parse_args()
-    log_path = resolve_path(args.log_file) if args.log_file else default_log_path()
+
+    from src.pipeline import RetrievalConfig, run_retrieval
+
+    log_path = resolve_output_path(args.log_file) if args.log_file else default_log_path()
     config = RetrievalConfig(
-        data_path=resolve_path(args.data),
-        query_path=resolve_path(args.query),
-        output_path=resolve_path(args.output),
-        dense_model_path=resolve_path(args.dense_model),
-        reranker_model_path=resolve_path(args.reranker_model),
-        cache_dir=resolve_path(args.cache_dir),
+        data_path=resolve_existing_path(args.data),
+        query_path=resolve_existing_path(args.query),
+        output_path=resolve_output_path(args.output),
+        dense_model_path=resolve_existing_path(args.dense_model),
+        reranker_model_path=resolve_existing_path(args.reranker_model),
+        cache_dir=resolve_output_path(args.cache_dir),
         bm25_top_k=args.bm25_top_k,
         dense_top_k=args.dense_top_k,
         rerank_top_k=args.rerank_top_k,
@@ -196,4 +224,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -22,7 +22,8 @@ python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
   --final_top_k 30 \
   --refit_updates 10 \
   --use_fp16 \
-  --log_file outputs/logs/debug_refit_100docs.log
+  --log_file outputs/logs/debug_refit_100docs.log \
+  --cuda_visible_devices 3
 ```
 
 ## Full run
@@ -36,12 +37,13 @@ python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
   --final_top_k 30 \
   --refit_updates 100 \
   --use_fp16 \
-  --log_file outputs/logs/refit.log
+  --log_file outputs/logs/refit.log \
+  --cuda_visible_devices 3
 ```
 
 若要指定 GPU，可以加上：
 
 ```bash
---cuda_visible_devices 1
+--cuda_visible_devices 3
 ```
 
