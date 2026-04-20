@@ -2,28 +2,28 @@ from __future__ import annotations
 
 """
 測試的話
-python scripts/run_retrieval.py \
+python normal_R&R/scripts/run_retrieval.py \
   --data data/IR_data.json \
   --query query/phase1_query.json \
-  --output outputs/debug_100docs_results.json \
+  --output normal_R&R/outputs/debug_100docs_results.json \
   --limit_docs 100 \
   --limit_queries 1 \
   --bm25_top_k 50 \
   --dense_top_k 50 \
   --rerank_top_k 30 \
   --use_fp16 \
-  --log_file outputs/logs/debug_100docs.log
+  --log_file normal_R&R/outputs/logs/debug_100docs.log
 
 正式執行的話
-python scripts/run_retrieval.py \
+python normal_R&R/scripts/run_retrieval.py \
   --data data/IR_data.json \
   --query query/phase1_query.json \
-  --output outputs/ver1_results.json \
+  --output normal_R&R/outputs/ver1_results.json \
   --bm25_top_k 50 \
   --dense_top_k 50 \
   --rerank_top_k 30 \
   --use_fp16 \
-  --log_file outputs/logs/ver11.log
+  --log_file normal_R&R/outputs/logs/ver11.log
 """
 
 
