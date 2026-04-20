@@ -1,5 +1,17 @@
 # 主要用途：串接 dense retrieval、reranker feedback、ReFIT query 更新與第二次 dense retrieval。
-
+# 流程：
+# 讀 documents / queries
+# 建立 DenseRetriever
+# 建立 CrossEncoderReranker
+# 每個 query:
+#   1. dense.encode_query(query)
+#   2. 第一次 dense.retrieve_by_embedding(...)
+#   3. reranker.score(query, first_results, documents)
+#   4. sort_feedback_by_reranker(...)
+#   5. optimize_query_embedding(...)
+#   6. 第二次 dense.retrieve_by_embedding(updated_query_embedding)
+#   7. build_refit_output_results(...)
+#   8. save JSON
 from __future__ import annotations
 
 from dataclasses import dataclass

@@ -1,5 +1,16 @@
 # 主要用途：實作 ReFIT 的 inference-time query embedding 更新。
-
+# 1. 將 candidate document embeddings 轉成 torch tensor
+# 2. 將 reranker scores 轉成 target distribution
+#    min-max normalization -> softmax(score / temperature)
+# 3. 將原始 query embedding 設成 requires_grad=True
+# 4. 重複 n 次:
+#    a. query vector 與 candidate embeddings 做 dot product
+#    b. retriever scores -> min-max normalization -> softmax
+#    c. 算 KL divergence: D_KL(reranker || retriever)
+#    d. backprop
+#    e. optimizer.step()
+#    f. query vector L2 normalize
+# 5. 回傳更新後 query embedding
 from __future__ import annotations
 
 from dataclasses import dataclass

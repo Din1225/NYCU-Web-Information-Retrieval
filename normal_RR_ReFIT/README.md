@@ -34,12 +34,12 @@ python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
 python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
   --data data/IR_data.json \
   --query query/phase1_query.json \
-  --output outputs/refit_results.json \
+  --output outputs/refit_query1_results.json \
   --feedback_top_k 100 \
   --final_top_k 30 \
   --refit_updates 100 \
   --use_fp16 \
-  --log_file outputs/logs/refit.log \
+  --log_file outputs/logs/refit_query1.log \
   --cuda_visible_devices 3 \
   --print_query_vectors \
   --query_vector_preview_dims 10
