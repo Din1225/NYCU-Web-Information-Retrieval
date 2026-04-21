@@ -1,0 +1,112 @@
+Log file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/qwen_refit_query1.log
+=== Dense-only ReFIT Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase1_query.json
+output_path: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/qwen_refit_query1_results.json
+dense_model_name_or_path: Qwen/Qwen3-Embedding-4B
+reranker_model_name_or_path: Qwen/Qwen3-Reranker-4B
+cache_dir: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/cache
+log_file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/qwen_refit_query1.log
+feedback_top_k: 100
+final_top_k: 30
+refit_updates: 100
+refit_learning_rate: 0.005
+refit_temperature: 2.0
+refit_use_minmax: True
+dense_batch_size: 32
+reranker_batch_size: 16
+dense_max_length: 512
+reranker_max_length: 512
+use_4bit: True
+compute_dtype: float16
+use_cache: True
+limit_docs: None
+limit_queries: None
+retrieval_instruction: 給定一個問題，請檢索出語意最相關、問題表述最相近的問題。
+print_query_vectors: True
+query_vector_preview_dims: 10
+====================================
+開始執行 dense-only ReFIT：第一次 dense retrieval -> reranker feedback -> query 更新 -> 第二次 dense retrieval。
+Loaded 171562 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 10 queries from /workplace/dxlin/Homework/IR/query/phase1_query.json
+資料讀取已完成。
+Encoding documents with Qwen3-Embedding-4B:   0%|          | 0/5362 [00:00<?, ?it/s]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<01:46,  3.71it/s][A
+Loading weights:   1%|1         | 5/398 [00:00<00:25, 15.71it/s][A
+Loading weights:   6%|6         | 25/398 [00:00<00:05, 71.84it/s][A
+Loading weights:  10%|9         | 38/398 [00:00<00:04, 85.34it/s][A
+Loading weights:  14%|#3        | 55/398 [00:00<00:03, 108.96it/s][A
+Loading weights:  17%|#7        | 69/398 [00:00<00:02, 113.60it/s][A
+Loading weights:  21%|##        | 82/398 [00:00<00:02, 111.46it/s][A
+Loading weights:  25%|##4       | 99/398 [00:01<00:02, 125.86it/s][A
+Loading weights:  28%|##8       | 113/398 [00:01<00:02, 128.70it/s][A
+Loading weights:  32%|###1      | 127/398 [00:01<00:02, 122.16it/s][A
+Loading weights:  36%|###6      | 144/398 [00:01<00:01, 134.54it/s][A
+Loading weights:  40%|###9      | 158/398 [00:01<00:01, 132.10it/s][A
+Loading weights:  43%|####3     | 172/398 [00:01<00:01, 133.78it/s][A
+Loading weights:  47%|####6     | 187/398 [00:01<00:01, 136.99it/s][A
+Loading weights:  51%|#####     | 201/398 [00:01<00:01, 136.35it/s][A
+Loading weights:  54%|#####4    | 215/398 [00:01<00:01, 130.02it/s][A
+Loading weights:  58%|#####8    | 232/398 [00:02<00:01, 140.91it/s][A
+Loading weights:  62%|######2   | 247/398 [00:02<00:01, 127.16it/s][A
+Loading weights:  66%|######5   | 261/398 [00:02<00:01, 129.44it/s][A
+Loading weights:  69%|######9   | 275/398 [00:02<00:00, 127.77it/s][A
+Loading weights:  73%|#######2  | 289/398 [00:02<00:00, 130.96it/s][A
+Loading weights:  76%|#######6  | 303/398 [00:02<00:00, 124.55it/s][A
+Loading weights:  80%|#######9  | 317/398 [00:02<00:00, 128.75it/s][A
+Loading weights:  84%|########3 | 333/398 [00:02<00:00, 133.72it/s][A
+Loading weights:  87%|########7 | 347/398 [00:02<00:00, 131.06it/s][A
+Loading weights:  91%|#########1| 364/398 [00:03<00:00, 140.66it/s][A
+Loading weights:  95%|#########5| 379/398 [00:03<00:00, 129.07it/s][A
+Loading weights:  99%|#########9| 396/398 [00:03<00:00, 137.54it/s][ALoading weights: 100%|##########| 398/398 [00:03<00:00, 120.92it/s]
+Encoding documents with Qwen3-Embedding-4B:   0%|          | 1/5362 [00:18<27:04:28, 18.18s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 2/5362 [00:22<14:39:12,  9.84s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 3/5362 [00:25<10:27:30,  7.03s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 4/5362 [00:27<7:17:32,  4.90s/it] Encoding documents with Qwen3-Embedding-4B:   0%|          | 5/5362 [00:32<7:22:30,  4.96s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 6/5362 [00:36<6:49:39,  4.59s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 7/5362 [00:42<7:18:32,  4.91s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 8/5362 [00:47<7:27:19,  5.01s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 9/5362 [00:53<7:58:13,  5.36s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 10/5362 [00:56<7:07:11,  4.79s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 10/5362 [01:02<9:15:35,  6.23s/it]
+Log file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/qwen_refit_query1.log
+=== Dense-only ReFIT Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase1_query.json
+output_path: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/qwen_refit_query1_results.json
+dense_model_name_or_path: Qwen/Qwen3-Embedding-4B
+reranker_model_name_or_path: Qwen/Qwen3-Reranker-4B
+cache_dir: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/cache
+log_file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/qwen_refit_query1.log
+feedback_top_k: 100
+final_top_k: 30
+refit_updates: 100
+refit_learning_rate: 0.005
+refit_temperature: 2.0
+refit_use_minmax: True
+dense_batch_size: 32
+reranker_batch_size: 16
+dense_max_length: 512
+reranker_max_length: 512
+use_4bit: True
+compute_dtype: float16
+use_cache: True
+limit_docs: None
+limit_queries: None
+retrieval_instruction: 給定一個問題，請檢索出語意最相關、問題表述最相近的問題。
+print_query_vectors: True
+query_vector_preview_dims: 10
+====================================
+開始執行 dense-only ReFIT：第一次 dense retrieval -> reranker feedback -> query 更新 -> 第二次 dense retrieval。
+Loaded 171562 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 10 queries from /workplace/dxlin/Homework/IR/query/phase1_query.json
+資料讀取已完成。
+Encoding documents with Qwen3-Embedding-4B:   0%|          | 0/5362 [00:00<?, ?it/s]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<00:42,  9.28it/s][A
+Loading weights:   5%|5         | 20/398 [00:00<00:03, 110.15it/s][A
+Loading weights:  12%|#2        | 49/398 [00:00<00:01, 184.02it/s][A
+Loading weights:  20%|##        | 81/398 [00:00<00:01, 234.33it/s][A
+Loading weights:  29%|##8       | 115/398 [00:00<00:01, 264.18it/s][A
+Loading weights:  37%|###6      | 147/398 [00:00<00:00, 275.30it/s][A
+Loading weights:  45%|####5     | 180/398 [00:00<00:00, 284.74it/s][A
+Loading weights:  53%|#####2    | 209/398 [00:00<00:00, 281.65it/s][A
+Loading weights:  60%|#####9    | 238/398 [00:00<00:00, 271.02it/s][A
+Loading weights:  67%|######7   | 267/398 [00:01<00:00, 273.86it/s][A
+Loading weights:  74%|#######4  | 295/398 [00:01<00:00, 271.01it/s][A
+Loading weights:  81%|########1 | 323/398 [00:01<00:00, 268.97it/s][A
+Loading weights:  88%|########8 | 352/398 [00:01<00:00, 272.43it/s][A
+Loading weights:  95%|#########5| 380/398 [00:01<00:00, 266.44it/s][ALoading weights: 100%|##########| 398/398 [00:01<00:00, 252.91it/s]
+Encoding documents with Qwen3-Embedding-4B:   0%|          | 1/5362 [00:09<14:23:59,  9.67s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 2/5362 [00:10<6:51:27,  4.61s/it] Encoding documents with Qwen3-Embedding-4B:   0%|          | 3/5362 [00:11<4:26:15,  2.98s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 4/5362 [00:12<2:52:50,  1.94s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 5/5362 [00:13<2:32:36,  1.71s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 6/5362 [00:14<2:08:12,  1.44s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 7/5362 [00:15<2:10:15,  1.46s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 8/5362 [00:17<2:07:28,  1.43s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 9/5362 [00:18<2:09:55,  1.46s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 10/5362 [00:19<1:53:13,  1.27s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 11/5362 [00:21<1:59:43,  1.34s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 12/5362 [00:22<2:03:00,  1.38s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 13/5362 [00:23<1:56:04,  1.30s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 14/5362 [00:25<2:02:15,  1.37s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 15/5362 [00:26<2:05:29,  1.41s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 16/5362 [00:27<1:49:57,  1.23s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 17/5362 [00:28<1:44:06,  1.17s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 18/5362 [00:29<1:40:12,  1.13s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 19/5362 [00:30<1:47:42,  1.21s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 20/5362 [00:32<1:55:36,  1.30s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 21/5362 [00:33<1:44:17,  1.17s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 22/5362 [00:34<1:53:14,  1.27s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 23/5362 [00:36<1:51:36,  1.25s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 24/5362 [00:37<1:58:35,  1.33s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 25/5362 [00:39<2:03:03,  1.38s/it]Encoding documents with Qwen3-Embedding-4B:   0%|          | 26/5362 [00:40<2:06:19,  1.42s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 27/5362 [00:41<2:02:57,  1.38s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 28/5362 [00:42<1:43:40,  1.17s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 29/5362 [00:43<1:35:14,  1.07s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 30/5362 [00:44<1:27:00,  1.02it/s]Encoding documents with Qwen3-Embedding-4B:   1%|          | 31/5362 [00:45<1:26:10,  1.03it/s]Encoding documents with Qwen3-Embedding-4B:   1%|          | 32/5362 [00:46<1:25:40,  1.04it/s]Encoding documents with Qwen3-Embedding-4B:   1%|          | 33/5362 [00:46<1:24:54,  1.05it/s]Encoding documents with Qwen3-Embedding-4B:   1%|          | 34/5362 [00:48<1:40:02,  1.13s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 35/5362 [00:50<1:50:17,  1.24s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 36/5362 [00:51<2:07:18,  1.43s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 37/5362 [00:53<2:03:45,  1.39s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 38/5362 [00:54<2:07:05,  1.43s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 39/5362 [00:56<2:04:46,  1.41s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 40/5362 [00:57<1:53:12,  1.28s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 41/5362 [00:58<1:59:59,  1.35s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 42/5362 [00:59<1:49:34,  1.24s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 43/5362 [01:00<1:49:02,  1.23s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 44/5362 [01:02<1:56:04,  1.31s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 45/5362 [01:03<1:51:28,  1.26s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 46/5362 [01:04<1:40:50,  1.14s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 47/5362 [01:05<1:47:03,  1.21s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 48/5362 [01:06<1:47:32,  1.21s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 49/5362 [01:07<1:43:13,  1.17s/it]Encoding documents with Qwen3-Embedding-4B:   1%|          | 50/5362 [01:08<1:39:12,  1.12s/it]

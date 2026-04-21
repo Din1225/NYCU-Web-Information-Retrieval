@@ -1,29 +1,40 @@
 from __future__ import annotations
 
 """
-測試範例：
-python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
-  --data data/IR_data.json \
-  --query query/phase1_query.json \
-  --output outputs/debug_refit_100docs_results.json \
-  --limit_docs 100 \
-  --limit_queries 1 \
-  --feedback_top_k 50 \
-  --final_top_k 30 \
-  --refit_updates 10 \
-  --use_fp16 \
-  --log_file outputs/logs/debug_refit_100docs.log
+## Debug run
 
-正式範例：
 python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
   --data data/IR_data.json \
   --query query/phase1_query.json \
-  --output outputs/refit_results.json \
+  --output outputs/qwen_debug_refit_1000docs_results.json \
+  --limit_docs 1000 \
+  --limit_queries 1 \
   --feedback_top_k 100 \
   --final_top_k 30 \
   --refit_updates 100 \
-  --use_fp16 \
-  --log_file outputs/logs/refit.log
+  --dense_model Qwen/Qwen3-Embedding-4B \
+  --reranker_model Qwen/Qwen3-Reranker-4B \
+  --log_file outputs/logs/qwen_debug_refit_1000docs.log \
+  --cuda_visible_devices 3 \
+  --print_query_vectors \
+  --query_vector_preview_dims 10
+
+## Full run
+
+python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
+  --data data/IR_data.json \
+  --query query/phase1_query.json \
+  --output outputs/qwen_refit_query1_results.json \
+  --feedback_top_k 100 \
+  --final_top_k 30 \
+  --refit_updates 100 \
+  --dense_model Qwen/Qwen3-Embedding-4B \
+  --reranker_model Qwen/Qwen3-Reranker-4B \
+  --log_file outputs/logs/qwen_refit_query1.log \
+  --cuda_visible_devices 3 \
+  --print_query_vectors \
+  --query_vector_preview_dims 10
+
 """
 
 import argparse
@@ -64,11 +75,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data", default="data/IR_data.json", help="Path to document JSON.")
     parser.add_argument("--query", default="query/phase1_query.json", help="Path to query JSON.")
     parser.add_argument("--output", default="outputs/refit_results.json", help="Output JSON path.")
-    parser.add_argument("--dense_model", default="model_cache/BAAI/bge-m3", help="Local path to BAAI/bge-m3.")
+    parser.add_argument(
+        "--dense_model",
+        default="Qwen/Qwen3-Embedding-4B",
+        help="Dense model local path or Hugging Face model id.",
+    )
     parser.add_argument(
         "--reranker_model",
-        default="model_cache/BAAI/bge-reranker-v2-m3",
-        help="Local path to BAAI/bge-reranker-v2-m3.",
+        default="Qwen/Qwen3-Reranker-4B",
+        help="Reranker local path or Hugging Face model id.",
     )
     parser.add_argument("--cache_dir", default="outputs/cache", help="Directory for reusable caches.")
     parser.add_argument("--feedback_top_k", type=int, default=100)
@@ -81,10 +96,26 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--reranker_batch_size", type=int, default=16)
     parser.add_argument("--dense_max_length", type=int, default=512)
     parser.add_argument("--reranker_max_length", type=int, default=512)
-    parser.add_argument("--use_fp16", action="store_true", help="Enable fp16 model inference.")
+    parser.add_argument("--disable_4bit", action="store_true", help="Disable bitsandbytes 4-bit loading.")
+    parser.add_argument(
+        "--compute_dtype",
+        default="float16",
+        choices=["float16", "bfloat16", "float32"],
+        help="Compute dtype used during model inference.",
+    )
+    parser.add_argument(
+        "--use_fp16",
+        action="store_true",
+        help="Legacy flag; kept for backward compatibility. It is equivalent to --compute_dtype float16.",
+    )
     parser.add_argument("--no_cache", action="store_true", help="Disable dense embedding cache loading.")
     parser.add_argument("--limit_docs", type=int, default=None, help="Debug only: limit document count.")
     parser.add_argument("--limit_queries", type=int, default=None, help="Debug only: limit query count.")
+    parser.add_argument(
+        "--retrieval_instruction",
+        default="給定一個問題，請檢索出語意最相關、問題表述最相近的問題。",
+        help="Instruction injected into Qwen query-side embedding and reranker prompts.",
+    )
     parser.add_argument(
         "--print_query_vectors",
         action="store_true",
@@ -122,6 +153,24 @@ def resolve_existing_path(path: str) -> Path:
     return refit_candidate
 
 
+def resolve_model_reference(model_name_or_path: str) -> str:
+    """模型參數支援本地路徑與 Hugging Face model id。"""
+    candidate = Path(model_name_or_path)
+    if candidate.is_absolute() and candidate.exists():
+        return str(candidate)
+
+    if not candidate.is_absolute():
+        refit_candidate = REFIT_ROOT / candidate
+        if refit_candidate.exists():
+            return str(refit_candidate)
+
+        repo_candidate = REPO_ROOT / candidate
+        if repo_candidate.exists():
+            return str(repo_candidate)
+
+    return model_name_or_path
+
+
 def resolve_output_path(path: str) -> Path:
     """輸出類路徑預設寫在 normal_RR_ReFIT 底下。"""
     candidate = Path(path)
@@ -156,8 +205,8 @@ def print_run_config(config, log_path: Path) -> None:
     print(f"data_path: {config.data_path}")
     print(f"query_path: {config.query_path}")
     print(f"output_path: {config.output_path}")
-    print(f"dense_model_path: {config.dense_model_path}")
-    print(f"reranker_model_path: {config.reranker_model_path}")
+    print(f"dense_model_name_or_path: {config.dense_model_name_or_path}")
+    print(f"reranker_model_name_or_path: {config.reranker_model_name_or_path}")
     print(f"cache_dir: {config.cache_dir}")
     print(f"log_file: {log_path}")
     print(f"feedback_top_k: {config.feedback_top_k}")
@@ -170,10 +219,12 @@ def print_run_config(config, log_path: Path) -> None:
     print(f"reranker_batch_size: {config.reranker_batch_size}")
     print(f"dense_max_length: {config.dense_max_length}")
     print(f"reranker_max_length: {config.reranker_max_length}")
-    print(f"use_fp16: {config.use_fp16}")
+    print(f"use_4bit: {config.use_4bit}")
+    print(f"compute_dtype: {config.compute_dtype}")
     print(f"use_cache: {config.use_cache}")
     print(f"limit_docs: {config.limit_docs}")
     print(f"limit_queries: {config.limit_queries}")
+    print(f"retrieval_instruction: {config.retrieval_instruction}")
     print(f"print_query_vectors: {config.print_query_vectors}")
     print(f"query_vector_preview_dims: {config.query_vector_preview_dims}")
     print("====================================")
@@ -184,6 +235,9 @@ def main() -> None:
     if args.cuda_visible_devices is not None:
         os.environ["CUDA_VISIBLE_DEVICES"] = args.cuda_visible_devices
 
+    if args.use_fp16:
+        args.compute_dtype = "float16"
+
     from src.pipeline import DenseOnlyReFITConfig, run_refit_retrieval
 
     log_path = resolve_output_path(args.log_file) if args.log_file else default_log_path()
@@ -191,8 +245,8 @@ def main() -> None:
         data_path=resolve_existing_path(args.data),
         query_path=resolve_existing_path(args.query),
         output_path=resolve_output_path(args.output),
-        dense_model_path=resolve_existing_path(args.dense_model),
-        reranker_model_path=resolve_existing_path(args.reranker_model),
+        dense_model_name_or_path=resolve_model_reference(args.dense_model),
+        reranker_model_name_or_path=resolve_model_reference(args.reranker_model),
         cache_dir=resolve_output_path(args.cache_dir),
         feedback_top_k=args.feedback_top_k,
         final_top_k=args.final_top_k,
@@ -204,10 +258,12 @@ def main() -> None:
         reranker_batch_size=args.reranker_batch_size,
         dense_max_length=args.dense_max_length,
         reranker_max_length=args.reranker_max_length,
-        use_fp16=args.use_fp16,
+        use_4bit=not args.disable_4bit,
+        compute_dtype=args.compute_dtype,
         use_cache=not args.no_cache,
         limit_docs=args.limit_docs,
         limit_queries=args.limit_queries,
+        retrieval_instruction=args.retrieval_instruction,
         print_query_vectors=args.print_query_vectors,
         query_vector_preview_dims=args.query_vector_preview_dims,
     )

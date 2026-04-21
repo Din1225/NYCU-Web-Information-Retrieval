@@ -23,6 +23,7 @@ from tqdm import tqdm
 
 from src.data_io import load_documents, load_queries, save_json
 from src.dense_retriever import DenseRetriever
+from src.qwen_utils import DEFAULT_RETRIEVAL_INSTRUCTION
 from src.refit import ReFITConfig, optimize_query_embedding
 from src.reranker import CrossEncoderReranker
 from src.text_processing import question_text
@@ -33,8 +34,8 @@ class DenseOnlyReFITConfig:
     data_path: Path
     query_path: Path
     output_path: Path
-    dense_model_path: Path
-    reranker_model_path: Path
+    dense_model_name_or_path: str
+    reranker_model_name_or_path: str
     cache_dir: Path
     feedback_top_k: int = 100
     final_top_k: int = 30
@@ -46,12 +47,14 @@ class DenseOnlyReFITConfig:
     reranker_batch_size: int = 16
     dense_max_length: int = 512
     reranker_max_length: int = 512
-    use_fp16: bool = False
+    use_4bit: bool = True
+    compute_dtype: str = "float16"
     use_cache: bool = True
     limit_docs: int | None = None
     limit_queries: int | None = None
     print_query_vectors: bool = False
     query_vector_preview_dims: int = 10
+    retrieval_instruction: str | None = DEFAULT_RETRIEVAL_INSTRUCTION
 
 
 def run_refit_retrieval(config: DenseOnlyReFITConfig) -> list[dict[str, Any]]:
@@ -65,20 +68,24 @@ def run_refit_retrieval(config: DenseOnlyReFITConfig) -> list[dict[str, Any]]:
 
     dense = DenseRetriever(
         documents=documents,
-        model_path=config.dense_model_path,
+        model_name_or_path=config.dense_model_name_or_path,
         cache_dir=config.cache_dir / "dense",
         batch_size=config.dense_batch_size,
         max_length=config.dense_max_length,
-        use_fp16=config.use_fp16,
+        use_4bit=config.use_4bit,
+        compute_dtype=config.compute_dtype,
         use_cache=config.use_cache,
+        query_instruction=config.retrieval_instruction,
     )
     print("Dense retriever 初始化已完成。", flush=True)
 
     reranker = CrossEncoderReranker(
-        model_path=config.reranker_model_path,
+        model_name_or_path=config.reranker_model_name_or_path,
         batch_size=config.reranker_batch_size,
         max_length=config.reranker_max_length,
-        use_fp16=config.use_fp16,
+        use_4bit=config.use_4bit,
+        compute_dtype=config.compute_dtype,
+        instruction=config.retrieval_instruction,
     )
     print("Reranker 初始化已完成。", flush=True)
 
@@ -144,6 +151,11 @@ def run_refit_retrieval(config: DenseOnlyReFITConfig) -> list[dict[str, Any]]:
             "refit_temperature": config.refit_temperature,
             "refit_use_minmax": config.refit_use_minmax,
             "query_vector_shift_l2": query_embedding_debug["shift_l2"],
+            "dense_model_name_or_path": config.dense_model_name_or_path,
+            "reranker_model_name_or_path": config.reranker_model_name_or_path,
+            "use_4bit": config.use_4bit,
+            "compute_dtype": config.compute_dtype,
+            "retrieval_instruction": config.retrieval_instruction,
         }
         if config.print_query_vectors:
             query_output["query_embedding_debug"] = query_embedding_debug

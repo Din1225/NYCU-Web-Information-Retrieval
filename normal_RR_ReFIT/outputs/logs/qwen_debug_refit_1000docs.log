@@ -1,0 +1,462 @@
+Log file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/qwen_debug_refit_1000docs.log
+=== Dense-only ReFIT Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase1_query.json
+output_path: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/qwen_debug_refit_1000docs_results.json
+dense_model_name_or_path: Qwen/Qwen3-Embedding-4B
+reranker_model_name_or_path: Qwen/Qwen3-Reranker-4B
+cache_dir: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/cache
+log_file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/qwen_debug_refit_1000docs.log
+feedback_top_k: 100
+final_top_k: 30
+refit_updates: 100
+refit_learning_rate: 0.005
+refit_temperature: 2.0
+refit_use_minmax: True
+dense_batch_size: 32
+reranker_batch_size: 16
+dense_max_length: 512
+reranker_max_length: 512
+use_4bit: True
+compute_dtype: float16
+use_cache: True
+limit_docs: 1000
+limit_queries: 1
+retrieval_instruction: 給定一個問題，請檢索語意最相關、問題表述最相近的歷史問題。
+print_query_vectors: True
+query_vector_preview_dims: 10
+====================================
+開始執行 dense-only ReFIT：第一次 dense retrieval -> reranker feedback -> query 更新 -> 第二次 dense retrieval。
+Loaded 1000 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 1 queries from /workplace/dxlin/Homework/IR/query/phase1_query.json
+資料讀取已完成。
+Encoding documents with Qwen3-Embedding-4B:   0%|          | 0/32 [00:00<?, ?it/s]
+model.safetensors.index.json: 0.00B [00:00, ?B/s][Amodel.safetensors.index.json: 30.4kB [00:00, 27.1MB/s]
+
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s][A[A
+Downloading (incomplete total...):   0%|          | 0.00/4.97G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 38.3k/8.04G [00:01<11:43:08, 191kB/s][A
+Downloading (incomplete total...):   0%|          | 38.3k/8.04G [00:01<11:43:08, 191kB/s][A
+Downloading (incomplete total...):   0%|          | 38.3k/8.04G [00:20<11:43:08, 191kB/s][A
+Downloading (incomplete total...):   2%|1         | 134M/8.04G [00:20<18:10, 7.25MB/s]   [A
+Downloading (incomplete total...):   2%|1         | 134M/8.04G [00:20<18:10, 7.25MB/s][A
+Downloading (incomplete total...):   3%|3         | 268M/8.04G [00:22<07:02, 18.4MB/s][A
+Downloading (incomplete total...):   3%|3         | 268M/8.04G [00:22<07:02, 18.4MB/s][A
+Downloading (incomplete total...):   5%|5         | 402M/8.04G [00:24<05:06, 24.9MB/s][A
+Downloading (incomplete total...):   8%|7         | 604M/8.04G [00:27<03:46, 32.8MB/s][A
+Downloading (incomplete total...):   9%|9         | 738M/8.04G [00:30<03:18, 36.8MB/s][A
+Downloading (incomplete total...):   9%|9         | 738M/8.04G [00:30<03:18, 36.8MB/s][A
+Downloading (incomplete total...):  17%|#7        | 1.37G/8.04G [00:32<01:11, 93.1MB/s][A
+Downloading (incomplete total...):  23%|##2       | 1.81G/8.04G [00:32<00:42, 146MB/s] [A
+Downloading (incomplete total...):  32%|###2      | 2.59G/8.04G [00:34<00:24, 219MB/s][A
+Downloading (incomplete total...):  33%|###2      | 2.65G/8.04G [00:35<00:28, 187MB/s][A
+Downloading (incomplete total...):  40%|###9      | 3.19G/8.04G [00:40<00:35, 136MB/s][A
+Downloading (incomplete total...):  40%|###9      | 3.19G/8.04G [00:40<00:35, 136MB/s][A
+Downloading (incomplete total...):  47%|####7     | 3.79G/8.04G [00:49<00:50, 84.9MB/s][A
+Downloading (incomplete total...):  47%|####7     | 3.79G/8.04G [00:49<00:50, 84.9MB/s][A
+Downloading (incomplete total...):  55%|#####4    | 4.40G/8.04G [00:56<00:41, 88.3MB/s][A
+Downloading (incomplete total...):  55%|#####4    | 4.40G/8.04G [00:56<00:41, 88.3MB/s][A
+Downloading (incomplete total...):  64%|######3   | 5.13G/8.04G [00:57<00:16, 178MB/s] [A
+Downloading (incomplete total...):  64%|######3   | 5.13G/8.04G [00:57<00:16, 178MB/s][A
+Downloading (incomplete total...):  84%|########3 | 6.74G/8.04G [00:59<00:03, 406MB/s][A
+Downloading (incomplete total...):  84%|########3 | 6.74G/8.04G [00:59<00:03, 406MB/s][A
+Downloading (incomplete total...):  85%|########4 | 6.80G/8.04G [00:59<00:03, 404MB/s][A
+Downloading (incomplete total...):  85%|########5 | 6.87G/8.04G [01:04<00:05, 203MB/s][A
+Downloading (incomplete total...):  86%|########6 | 6.94G/8.04G [01:06<00:06, 168MB/s][A
+Downloading (incomplete total...): 100%|##########| 8.04G/8.04G [01:07<00:00, 278MB/s][A
+
+Fetching 2 files:  50%|#####     | 1/2 [01:10<01:10, 70.26s/it][A[AFetching 2 files: 100%|##########| 2/2 [01:10<00:00, 35.13s/it]
+
+Download complete: 100%|##########| 8.04G/8.04G [01:10<00:00, 278MB/s]                [ADownload complete: 100%|##########| 8.04G/8.04G [01:10<00:00, 114MB/s]
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<02:02,  3.25it/s][A
+Loading weights:   1%|          | 3/398 [00:00<01:22,  4.81it/s][A
+Loading weights:   4%|3         | 14/398 [00:00<00:14, 25.82it/s][A
+Loading weights:   6%|6         | 25/398 [00:00<00:08, 44.34it/s][A
+Loading weights:   9%|9         | 37/398 [00:00<00:06, 60.08it/s][A
+Loading weights:  13%|#3        | 52/398 [00:01<00:04, 82.02it/s][A
+Loading weights:  17%|#6        | 66/398 [00:01<00:03, 96.68it/s][A
+Loading weights:  20%|##        | 80/398 [00:01<00:02, 107.52it/s][A
+Loading weights:  23%|##3       | 93/398 [00:01<00:02, 104.51it/s][A
+Loading weights:  28%|##7       | 110/398 [00:01<00:02, 120.03it/s][A
+Loading weights:  31%|###1      | 124/398 [00:01<00:02, 119.39it/s][A
+Loading weights:  34%|###4      | 137/398 [00:01<00:02, 113.79it/s][A
+Loading weights:  39%|###9      | 157/398 [00:01<00:01, 132.65it/s][A
+Loading weights:  43%|####2     | 171/398 [00:02<00:01, 122.24it/s][A
+Loading weights:  46%|####6     | 185/398 [00:02<00:01, 126.45it/s][A
+Loading weights:  50%|#####     | 200/398 [00:02<00:01, 132.08it/s][A
+Loading weights:  54%|#####3    | 214/398 [00:02<00:01, 123.93it/s][A
+Loading weights:  59%|#####8    | 234/398 [00:02<00:01, 137.90it/s][A
+Loading weights:  62%|######2   | 248/398 [00:02<00:01, 133.93it/s][A
+Loading weights:  67%|######7   | 267/398 [00:02<00:00, 142.83it/s][A
+Loading weights:  71%|#######   | 282/398 [00:02<00:00, 134.22it/s][A
+Loading weights:  75%|#######4  | 297/398 [00:02<00:00, 136.28it/s][A
+Loading weights:  78%|#######8  | 311/398 [00:03<00:00, 129.73it/s][A
+Loading weights:  82%|########1 | 325/398 [00:03<00:00, 122.11it/s][A
+Loading weights:  86%|########5 | 341/398 [00:03<00:00, 129.06it/s][A
+Loading weights:  89%|########9 | 355/398 [00:03<00:00, 126.78it/s][A
+Loading weights:  92%|#########2| 368/398 [00:03<00:00, 120.58it/s][A
+Loading weights:  97%|#########6| 385/398 [00:03<00:00, 131.31it/s][ALoading weights: 100%|##########| 398/398 [00:03<00:00, 106.90it/s]
+Encoding documents with Qwen3-Embedding-4B:   3%|3         | 1/32 [01:31<47:22, 91.68s/it]Encoding documents with Qwen3-Embedding-4B:   6%|6         | 2/32 [01:35<20:00, 40.02s/it]Encoding documents with Qwen3-Embedding-4B:   9%|9         | 3/32 [01:39<11:25, 23.63s/it]Encoding documents with Qwen3-Embedding-4B:  12%|#2        | 4/32 [01:41<06:59, 14.99s/it]Encoding documents with Qwen3-Embedding-4B:  16%|#5        | 5/32 [01:46<05:04, 11.28s/it]Encoding documents with Qwen3-Embedding-4B:  19%|#8        | 6/32 [01:49<03:43,  8.61s/it]Encoding documents with Qwen3-Embedding-4B:  22%|##1       | 7/32 [01:55<03:13,  7.74s/it]Encoding documents with Qwen3-Embedding-4B:  25%|##5       | 8/32 [02:00<02:43,  6.83s/it]Encoding documents with Qwen3-Embedding-4B:  28%|##8       | 9/32 [02:06<02:29,  6.50s/it]Encoding documents with Qwen3-Embedding-4B:  31%|###1      | 10/32 [02:09<02:02,  5.56s/it]Encoding documents with Qwen3-Embedding-4B:  34%|###4      | 11/32 [02:15<02:00,  5.72s/it]Encoding documents with Qwen3-Embedding-4B:  38%|###7      | 12/32 [02:21<01:52,  5.63s/it]Encoding documents with Qwen3-Embedding-4B:  41%|####      | 13/32 [02:25<01:37,  5.14s/it]Encoding documents with Qwen3-Embedding-4B:  44%|####3     | 14/32 [02:31<01:36,  5.39s/it]Encoding documents with Qwen3-Embedding-4B:  47%|####6     | 15/32 [02:36<01:31,  5.37s/it]Encoding documents with Qwen3-Embedding-4B:  50%|#####     | 16/32 [02:39<01:17,  4.82s/it]Encoding documents with Qwen3-Embedding-4B:  53%|#####3    | 17/32 [02:43<01:08,  4.55s/it]Encoding documents with Qwen3-Embedding-4B:  56%|#####6    | 18/32 [02:47<01:00,  4.32s/it]Encoding documents with Qwen3-Embedding-4B:  59%|#####9    | 19/32 [02:52<00:59,  4.58s/it]Encoding documents with Qwen3-Embedding-4B:  62%|######2   | 20/32 [02:58<00:59,  4.93s/it]Encoding documents with Qwen3-Embedding-4B:  66%|######5   | 21/32 [03:01<00:49,  4.46s/it]Encoding documents with Qwen3-Embedding-4B:  69%|######8   | 22/32 [03:07<00:49,  4.90s/it]Encoding documents with Qwen3-Embedding-4B:  72%|#######1  | 23/32 [03:12<00:43,  4.88s/it]Encoding documents with Qwen3-Embedding-4B:  75%|#######5  | 24/32 [03:18<00:41,  5.13s/it]Encoding documents with Qwen3-Embedding-4B:  78%|#######8  | 25/32 [03:24<00:37,  5.34s/it]Encoding documents with Qwen3-Embedding-4B:  81%|########1 | 26/32 [03:30<00:33,  5.61s/it]Encoding documents with Qwen3-Embedding-4B:  84%|########4 | 27/32 [03:35<00:26,  5.33s/it]Encoding documents with Qwen3-Embedding-4B:  88%|########7 | 28/32 [03:37<00:18,  4.57s/it]Encoding documents with Qwen3-Embedding-4B:  91%|######### | 29/32 [03:41<00:12,  4.29s/it]Encoding documents with Qwen3-Embedding-4B:  94%|#########3| 30/32 [03:44<00:07,  3.94s/it]Encoding documents with Qwen3-Embedding-4B:  97%|#########6| 31/32 [03:48<00:03,  3.81s/it]Encoding documents with Qwen3-Embedding-4B: 100%|##########| 32/32 [03:48<00:00,  2.86s/it]Encoding documents with Qwen3-Embedding-4B: 100%|##########| 32/32 [03:48<00:00,  7.15s/it]
+Dense retriever 初始化已完成。
+Reranker 初始化已完成。
+Dense-only ReFIT queries:   0%|          | 0/1 [00:00<?, ?it/s]114B-WIR-01 第一次 dense retrieval 已完成，共 100 筆候選。
+
+config.json:   0%|          | 0.00/727 [00:00<?, ?B/s][Aconfig.json: 100%|##########| 727/727 [00:00<00:00, 2.04MB/s]
+
+tokenizer_config.json: 0.00B [00:00, ?B/s][Atokenizer_config.json: 9.71kB [00:00, 10.1MB/s]
+
+vocab.json: 0.00B [00:00, ?B/s][A
+vocab.json: 2.78MB [00:00, 13.0MB/s][Avocab.json: 2.78MB [00:00, 12.7MB/s]
+
+merges.txt: 0.00B [00:00, ?B/s][A
+merges.txt: 1.67MB [00:00, 7.24MB/s][Amerges.txt: 1.67MB [00:00, 7.14MB/s]
+
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json: 100%|##########| 11.4M/11.4M [00:01<00:00, 57.0MB/s][Atokenizer.json: 100%|##########| 11.4M/11.4M [00:01<00:00, 11.1MB/s]
+
+special_tokens_map.json:   0%|          | 0.00/613 [00:00<?, ?B/s][Aspecial_tokens_map.json: 100%|##########| 613/613 [00:00<00:00, 1.13MB/s]
+
+chat_template.jinja:   0%|          | 0.00/741 [00:00<?, ?B/s][Achat_template.jinja: 100%|##########| 741/741 [00:00<00:00, 1.37MB/s]
+/workplace/zyxu/miniconda3/envs/ir2/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2341: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+
+model.safetensors.index.json: 0.00B [00:00, ?B/s][Amodel.safetensors.index.json: 32.8kB [00:00, 34.6MB/s]
+
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s][A[A
+Downloading (incomplete total...):   0%|          | 0.00/4.06G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   1%|          | 67.0M/8.04G [00:02<00:23, 333MB/s][A
+Downloading (incomplete total...):   1%|          | 80.2M/8.04G [00:03<02:30, 52.7MB/s][A
+Downloading (incomplete total...):   1%|1         | 102M/8.04G [00:03<02:04, 63.7MB/s] [A
+Downloading (incomplete total...):   1%|1         | 117M/8.04G [00:03<01:58, 66.8MB/s][A
+Downloading (incomplete total...):   2%|2         | 189M/8.04G [00:06<03:56, 33.2MB/s][A
+Downloading (incomplete total...):   3%|3         | 256M/8.04G [00:07<03:22, 38.5MB/s][A
+Downloading (incomplete total...):   5%|4         | 390M/8.04G [00:13<04:39, 27.3MB/s][A
+Downloading (incomplete total...):   6%|5         | 457M/8.04G [00:19<06:33, 19.3MB/s][A
+Downloading (incomplete total...):   8%|8         | 659M/8.04G [00:22<03:47, 32.4MB/s][A
+Downloading (incomplete total...):   9%|9         | 726M/8.04G [00:25<03:57, 30.8MB/s][A
+Downloading (incomplete total...):  10%|9         | 793M/8.04G [00:25<03:11, 37.8MB/s][A
+Downloading (incomplete total...):  12%|#1        | 927M/8.04G [00:26<02:10, 54.6MB/s][A
+Downloading (incomplete total...):  12%|#2        | 994M/8.04G [00:26<01:45, 66.9MB/s][A
+Downloading (incomplete total...):  20%|#9        | 1.60G/8.04G [00:30<00:54, 117MB/s][A
+Downloading (incomplete total...):  21%|##        | 1.67G/8.04G [00:30<00:50, 126MB/s][A
+Downloading (incomplete total...):  22%|##1       | 1.73G/8.04G [00:30<00:46, 137MB/s][A
+Downloading (incomplete total...):  36%|###5      | 2.87G/8.04G [00:31<00:11, 462MB/s][A
+Downloading (incomplete total...):  37%|###7      | 3.01G/8.04G [00:36<00:29, 173MB/s][A
+Downloading (incomplete total...):  47%|####6     | 3.75G/8.04G [00:37<00:18, 237MB/s][A
+Downloading (incomplete total...):  47%|####7     | 3.81G/8.04G [00:38<00:17, 241MB/s][A
+Downloading (incomplete total...):  48%|####8     | 3.88G/8.04G [00:44<00:44, 94.1MB/s][A
+Downloading (incomplete total...):  50%|####9     | 4.01G/8.04G [00:44<00:39, 102MB/s] [A
+Downloading (incomplete total...):  51%|#####     | 4.08G/8.04G [00:51<01:18, 50.5MB/s][A
+Downloading (incomplete total...):  53%|#####3    | 4.28G/8.04G [00:52<00:57, 65.4MB/s][A
+Downloading (incomplete total...):  59%|#####9    | 4.75G/8.04G [00:54<00:29, 113MB/s] [A
+Downloading (incomplete total...):  64%|######4   | 5.15G/8.04G [00:54<00:16, 172MB/s][A
+Downloading (incomplete total...):  66%|######5   | 5.29G/8.04G [00:54<00:14, 186MB/s][A
+Downloading (incomplete total...):  72%|#######1  | 5.76G/8.04G [01:00<00:17, 127MB/s][A
+Downloading (incomplete total...):  73%|#######3  | 5.89G/8.04G [01:00<00:14, 145MB/s][A
+Downloading (incomplete total...):  84%|########4 | 6.76G/8.04G [01:00<00:03, 334MB/s][A
+Downloading (incomplete total...):  87%|########6 | 6.99G/8.04G [01:00<00:02, 383MB/s][A
+Downloading (incomplete total...):  91%|#########1| 7.33G/8.04G [01:02<00:02, 271MB/s][A
+Downloading (incomplete total...): 100%|##########| 8.04G/8.04G [01:03<00:00, 418MB/s][A
+
+Fetching 2 files:  50%|#####     | 1/2 [01:07<01:07, 67.23s/it][A[AFetching 2 files: 100%|##########| 2/2 [01:07<00:00, 33.61s/it]
+
+Download complete: 100%|##########| 8.04G/8.04G [01:07<00:00, 418MB/s]                [ADownload complete: 100%|##########| 8.04G/8.04G [01:07<00:00, 120MB/s]
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<01:52,  3.52it/s][A
+Loading weights:   4%|3         | 14/398 [00:00<00:08, 44.65it/s][A
+Loading weights:   7%|6         | 27/398 [00:00<00:05, 67.57it/s][A
+Loading weights:  11%|#         | 42/398 [00:00<00:03, 90.35it/s][A
+Loading weights:  15%|#4        | 58/398 [00:00<00:03, 106.60it/s][A
+Loading weights:  18%|#7        | 71/398 [00:00<00:03, 103.99it/s][A
+Loading weights:  22%|##2       | 88/398 [00:00<00:02, 120.38it/s][A
+Loading weights:  26%|##5       | 103/398 [00:01<00:02, 122.33it/s][A
+Loading weights:  29%|##9       | 116/398 [00:01<00:02, 123.09it/s][A
+Loading weights:  33%|###3      | 132/398 [00:01<00:02, 132.67it/s][A
+Loading weights:  37%|###6      | 146/398 [00:01<00:01, 132.11it/s][A
+Loading weights:  40%|####      | 160/398 [00:01<00:01, 129.18it/s][A
+Loading weights:  45%|####4     | 179/398 [00:01<00:01, 141.54it/s][A
+Loading weights:  49%|####8     | 194/398 [00:01<00:01, 138.44it/s][A
+Loading weights:  53%|#####3    | 212/398 [00:01<00:01, 144.47it/s][A
+Loading weights:  57%|#####7    | 227/398 [00:01<00:01, 137.59it/s][A
+Loading weights:  61%|######1   | 243/398 [00:02<00:01, 142.82it/s][A
+Loading weights:  65%|######4   | 258/398 [00:02<00:01, 131.19it/s][A
+Loading weights:  68%|######8   | 272/398 [00:02<00:00, 131.93it/s][A
+Loading weights:  72%|#######1  | 286/398 [00:02<00:00, 132.52it/s][A
+Loading weights:  75%|#######5  | 300/398 [00:02<00:00, 125.47it/s][A
+Loading weights:  79%|#######8  | 313/398 [00:02<00:00, 119.12it/s][A
+Loading weights:  83%|########3 | 331/398 [00:02<00:00, 134.76it/s][A
+Loading weights:  87%|########6 | 345/398 [00:02<00:00, 131.08it/s][A
+Loading weights:  91%|######### | 361/398 [00:02<00:00, 137.18it/s][A
+Loading weights:  95%|#########4| 377/398 [00:03<00:00, 141.27it/s][A
+Loading weights:  98%|#########8| 392/398 [00:03<00:00, 136.30it/s][ALoading weights: 100%|##########| 398/398 [00:03<00:00, 122.68it/s]
+
+generation_config.json:   0%|          | 0.00/214 [00:00<?, ?B/s][Ageneration_config.json: 100%|##########| 214/214 [00:00<00:00, 633kB/s]
+114B-WIR-01 Reranker feedback 分數計算已完成。
+114B-WIR-01 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 0.99978352
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.05199579
+  original_query_vector_preview: [-0.0004935264587402344, 0.01096343994140625, -0.0211029052734375, 0.0025157928466796875, -0.001941680908203125, 0.027313232421875, 0.06640625, 0.00902557373046875, -0.011688232421875, 0.026458740234375]
+  updated_query_vector_preview: [-0.0004995383787900209, 0.012717426754534245, -0.021326491609215736, 0.002069770824164152, -0.0019671772606670856, 0.027170145884156227, 0.06742280721664429, 0.01169035118073225, -0.0116726104170084, 0.02456166036427021]
+  delta_vector_preview: [-6.011920049786568e-06, 0.0017539868131279945, -0.0002235863357782364, -0.00044602202251553535, -2.5496352463960648e-05, -0.0001430865377187729, 0.0010165572166442871, 0.0026647774502635, 1.5622004866600037e-05, -0.0018970798701047897]
+114B-WIR-01 ReFIT query 向量更新已完成。
+114B-WIR-01 第二次 dense retrieval 已完成，共 30 筆結果。
+114B-WIR-01 結果整理已完成。
+Dense-only ReFIT queries: 100%|##########| 1/1 [01:41<00:00, 101.40s/it]Dense-only ReFIT queries: 100%|##########| 1/1 [01:41<00:00, 101.40s/it]
+Saved results to /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/qwen_debug_refit_1000docs_results.json
+結果輸出已完成。
+Dense-only ReFIT 流程完成，總耗時 331.93 秒。
+Log file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/qwen_debug_refit_1000docs.log
+=== Dense-only ReFIT Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase1_query.json
+output_path: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/qwen_debug_refit_1000docs_results.json
+dense_model_name_or_path: Qwen/Qwen3-Embedding-4B
+reranker_model_name_or_path: Qwen/Qwen3-Reranker-4B
+cache_dir: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/cache
+log_file: /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/logs/qwen_debug_refit_1000docs.log
+feedback_top_k: 100
+final_top_k: 30
+refit_updates: 100
+refit_learning_rate: 0.005
+refit_temperature: 2.0
+refit_use_minmax: True
+dense_batch_size: 32
+reranker_batch_size: 16
+dense_max_length: 512
+reranker_max_length: 512
+use_4bit: True
+compute_dtype: float16
+use_cache: True
+limit_docs: 1000
+limit_queries: 1
+retrieval_instruction: 給定一個問題，請檢索出語意最相關、問題表述最相近的問題。
+print_query_vectors: True
+query_vector_preview_dims: 10
+====================================
+開始執行 dense-only ReFIT：第一次 dense retrieval -> reranker feedback -> query 更新 -> 第二次 dense retrieval。
+Loaded 1000 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 1 queries from /workplace/dxlin/Homework/IR/query/phase1_query.json
+資料讀取已完成。
+Encoding documents with Qwen3-Embedding-4B:   0%|          | 0/32 [00:00<?, ?it/s]
+config.json:   0%|          | 0.00/727 [00:00<?, ?B/s][Aconfig.json: 100%|##########| 727/727 [00:00<00:00, 2.45MB/s]
+
+tokenizer_config.json: 0.00B [00:00, ?B/s][Atokenizer_config.json: 7.26kB [00:00, 14.9MB/s]
+
+vocab.json: 0.00B [00:00, ?B/s][Avocab.json: 2.78MB [00:00, 47.9MB/s]
+
+merges.txt: 0.00B [00:00, ?B/s][Amerges.txt: 1.67MB [00:00, 74.7MB/s]
+
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:01<?, ?B/s][A
+tokenizer.json: 100%|##########| 11.4M/11.4M [00:01<00:00, 57.1MB/s][Atokenizer.json: 100%|##########| 11.4M/11.4M [00:01<00:00, 9.35MB/s]
+
+model.safetensors.index.json: 0.00B [00:00, ?B/s][Amodel.safetensors.index.json: 30.4kB [00:00, 51.2MB/s]
+
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s][A[A
+Downloading (incomplete total...):   0%|          | 0.00/4.97G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   1%|          | 67.1M/8.04G [00:02<00:23, 335MB/s][A
+Downloading (incomplete total...):   3%|2         | 201M/8.04G [00:10<05:43, 22.8MB/s][A
+Downloading (incomplete total...):   4%|4         | 335M/8.04G [00:11<03:01, 42.4MB/s][A
+Downloading (incomplete total...):   5%|5         | 402M/8.04G [00:11<02:18, 55.2MB/s][A
+Downloading (incomplete total...):  14%|#3        | 1.11G/8.04G [00:12<00:32, 213MB/s][A
+Downloading (incomplete total...):  15%|#4        | 1.18G/8.04G [00:30<03:27, 33.1MB/s][A
+Downloading (incomplete total...):  15%|#5        | 1.25G/8.04G [00:31<03:20, 34.0MB/s][A
+Downloading (incomplete total...):  18%|#7        | 1.45G/8.04G [00:32<02:11, 50.1MB/s][A
+Downloading (incomplete total...):  20%|##        | 1.65G/8.04G [00:35<01:59, 53.7MB/s][A
+Downloading (incomplete total...):  33%|###3      | 2.65G/8.04G [00:35<00:30, 176MB/s] [A
+Downloading (incomplete total...):  36%|###6      | 2.92G/8.04G [00:36<00:26, 190MB/s][A
+Downloading (incomplete total...):  43%|####3     | 3.46G/8.04G [00:42<00:35, 131MB/s][A
+Downloading (incomplete total...):  54%|#####3    | 4.33G/8.04G [00:48<00:26, 141MB/s][A
+Downloading (incomplete total...):  54%|#####3    | 4.33G/8.04G [00:48<00:25, 145MB/s][A
+Downloading (incomplete total...):  57%|#####7    | 4.60G/8.04G [00:51<00:24, 139MB/s][A
+Downloading (incomplete total...):  57%|#####7    | 4.60G/8.04G [00:51<00:25, 133MB/s][A
+Downloading (incomplete total...):  66%|######6   | 5.34G/8.04G [00:56<00:19, 139MB/s][A
+Downloading (incomplete total...):  67%|######7   | 5.40G/8.04G [00:57<00:21, 122MB/s][A
+Downloading (incomplete total...):  70%|######9   | 5.60G/8.04G [00:59<00:19, 123MB/s][A
+Downloading (incomplete total...):  72%|#######2  | 5.80G/8.04G [01:00<00:16, 136MB/s][A
+Downloading (incomplete total...):  82%|########2 | 6.60G/8.04G [01:01<00:06, 231MB/s][A
+Downloading (incomplete total...):  84%|########3 | 6.74G/8.04G [01:03<00:07, 175MB/s][A
+Downloading (incomplete total...):  91%|#########1| 7.34G/8.04G [01:04<00:02, 291MB/s][A
+Downloading (incomplete total...): 100%|##########| 8.04G/8.04G [01:04<00:00, 443MB/s][A
+
+Fetching 2 files:  50%|#####     | 1/2 [01:11<01:11, 71.01s/it][A[AFetching 2 files: 100%|##########| 2/2 [01:11<00:00, 35.51s/it]
+
+Download complete: 100%|##########| 8.04G/8.04G [01:11<00:00, 443MB/s]                [ADownload complete: 100%|##########| 8.04G/8.04G [01:11<00:00, 113MB/s]
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<01:27,  4.52it/s][A
+Loading weights:   1%|          | 3/398 [00:01<02:38,  2.49it/s][A
+Loading weights:   7%|6         | 26/398 [00:01<00:12, 28.79it/s][A
+Loading weights:  13%|#2        | 50/398 [00:01<00:05, 58.73it/s][A
+Loading weights:  20%|##        | 80/398 [00:01<00:03, 98.07it/s][A
+Loading weights:  27%|##7       | 108/398 [00:01<00:02, 132.80it/s][A
+Loading weights:  34%|###4      | 137/398 [00:01<00:01, 165.02it/s][A
+Loading weights:  43%|####2     | 170/398 [00:01<00:01, 200.57it/s][A
+Loading weights:  51%|#####1    | 203/398 [00:01<00:00, 229.41it/s][A
+Loading weights:  59%|#####9    | 236/398 [00:01<00:00, 251.20it/s][A
+Loading weights:  68%|######7   | 269/398 [00:02<00:00, 271.39it/s][A
+Loading weights:  76%|#######5  | 301/398 [00:02<00:00, 284.19it/s][A
+Loading weights:  84%|########3 | 334/398 [00:02<00:00, 296.12it/s][A
+Loading weights:  92%|#########2| 368/398 [00:02<00:00, 303.58it/s][ALoading weights: 100%|##########| 398/398 [00:02<00:00, 159.73it/s]
+Encoding documents with Qwen3-Embedding-4B:   3%|3         | 1/32 [01:36<49:54, 96.59s/it]Encoding documents with Qwen3-Embedding-4B:   6%|6         | 2/32 [01:37<20:12, 40.41s/it]Encoding documents with Qwen3-Embedding-4B:   9%|9         | 3/32 [01:38<10:50, 22.44s/it]Encoding documents with Qwen3-Embedding-4B:  12%|#2        | 4/32 [01:39<06:24, 13.72s/it]Encoding documents with Qwen3-Embedding-4B:  16%|#5        | 5/32 [01:40<04:09,  9.25s/it]Encoding documents with Qwen3-Embedding-4B:  19%|#8        | 6/32 [01:41<02:46,  6.42s/it]Encoding documents with Qwen3-Embedding-4B:  22%|##1       | 7/32 [01:42<02:00,  4.81s/it]Encoding documents with Qwen3-Embedding-4B:  25%|##5       | 8/32 [01:44<01:29,  3.71s/it]Encoding documents with Qwen3-Embedding-4B:  28%|##8       | 9/32 [01:45<01:09,  3.02s/it]Encoding documents with Qwen3-Embedding-4B:  31%|###1      | 10/32 [01:46<00:51,  2.35s/it]Encoding documents with Qwen3-Embedding-4B:  34%|###4      | 11/32 [01:48<00:44,  2.10s/it]Encoding documents with Qwen3-Embedding-4B:  38%|###7      | 12/32 [01:49<00:38,  1.90s/it]Encoding documents with Qwen3-Embedding-4B:  41%|####      | 13/32 [01:50<00:31,  1.66s/it]Encoding documents with Qwen3-Embedding-4B:  44%|####3     | 14/32 [01:52<00:29,  1.62s/it]Encoding documents with Qwen3-Embedding-4B:  47%|####6     | 15/32 [01:53<00:26,  1.58s/it]Encoding documents with Qwen3-Embedding-4B:  50%|#####     | 16/32 [01:54<00:21,  1.36s/it]Encoding documents with Qwen3-Embedding-4B:  53%|#####3    | 17/32 [01:55<00:18,  1.25s/it]Encoding documents with Qwen3-Embedding-4B:  56%|#####6    | 18/32 [01:56<00:16,  1.18s/it]Encoding documents with Qwen3-Embedding-4B:  59%|#####9    | 19/32 [01:57<00:16,  1.25s/it]Encoding documents with Qwen3-Embedding-4B:  62%|######2   | 20/32 [01:59<00:15,  1.33s/it]Encoding documents with Qwen3-Embedding-4B:  66%|######5   | 21/32 [02:00<00:13,  1.20s/it]Encoding documents with Qwen3-Embedding-4B:  69%|######8   | 22/32 [02:01<00:12,  1.29s/it]Encoding documents with Qwen3-Embedding-4B:  72%|#######1  | 23/32 [02:03<00:11,  1.26s/it]Encoding documents with Qwen3-Embedding-4B:  75%|#######5  | 24/32 [02:04<00:10,  1.33s/it]Encoding documents with Qwen3-Embedding-4B:  78%|#######8  | 25/32 [02:06<00:09,  1.39s/it]Encoding documents with Qwen3-Embedding-4B:  81%|########1 | 26/32 [02:07<00:08,  1.43s/it]Encoding documents with Qwen3-Embedding-4B:  84%|########4 | 27/32 [02:08<00:06,  1.38s/it]Encoding documents with Qwen3-Embedding-4B:  88%|########7 | 28/32 [02:09<00:04,  1.16s/it]Encoding documents with Qwen3-Embedding-4B:  91%|######### | 29/32 [02:10<00:03,  1.07s/it]Encoding documents with Qwen3-Embedding-4B:  94%|#########3| 30/32 [02:11<00:01,  1.03it/s]Encoding documents with Qwen3-Embedding-4B:  97%|#########6| 31/32 [02:12<00:00,  1.04it/s]Encoding documents with Qwen3-Embedding-4B: 100%|##########| 32/32 [02:12<00:00,  1.39it/s]Encoding documents with Qwen3-Embedding-4B: 100%|##########| 32/32 [02:12<00:00,  4.13s/it]
+Dense retriever 初始化已完成。
+Reranker 初始化已完成。
+Dense-only ReFIT queries:   0%|          | 0/1 [00:00<?, ?it/s]114B-WIR-01 第一次 dense retrieval 已完成，共 100 筆候選。
+
+config.json:   0%|          | 0.00/727 [00:00<?, ?B/s][Aconfig.json: 100%|##########| 727/727 [00:00<00:00, 2.58MB/s]
+
+tokenizer_config.json: 0.00B [00:00, ?B/s][Atokenizer_config.json: 9.71kB [00:00, 19.6MB/s]
+
+vocab.json: 0.00B [00:00, ?B/s][Avocab.json: 2.78MB [00:00, 77.3MB/s]
+
+merges.txt: 0.00B [00:00, ?B/s][Amerges.txt: 1.67MB [00:00, 17.6MB/s]
+
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json:   0%|          | 0.00/11.4M [00:00<?, ?B/s][A
+tokenizer.json: 100%|##########| 11.4M/11.4M [00:01<00:00, 56.9MB/s][Atokenizer.json: 100%|##########| 11.4M/11.4M [00:01<00:00, 11.3MB/s]
+
+special_tokens_map.json:   0%|          | 0.00/613 [00:00<?, ?B/s][Aspecial_tokens_map.json: 100%|##########| 613/613 [00:00<00:00, 2.05MB/s]
+
+chat_template.jinja:   0%|          | 0.00/741 [00:00<?, ?B/s][Achat_template.jinja: 100%|##########| 741/741 [00:00<00:00, 2.60MB/s]
+/workplace/zyxu/miniconda3/envs/ir2/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2341: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+
+model.safetensors.index.json: 0.00B [00:00, ?B/s][Amodel.safetensors.index.json: 32.8kB [00:00, 59.4MB/s]
+
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s][A[A
+Downloading (incomplete total...):   0%|          | 0.00/3.98G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:01<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:02<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:03<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:03<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:03<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/8.04G [00:03<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 2.46M/8.04G [00:03<10:52, 12.3MB/s][A
+Downloading (incomplete total...):   3%|3         | 265M/8.04G [00:04<00:09, 779MB/s]  [A
+Downloading (incomplete total...):   4%|3         | 306M/8.04G [00:05<01:03, 123MB/s][A
+Downloading (incomplete total...):   7%|6         | 524M/8.04G [00:16<04:09, 30.1MB/s][A
+Downloading (incomplete total...):   7%|7         | 591M/8.04G [00:26<06:58, 17.8MB/s][A
+Downloading (incomplete total...):  12%|#2        | 994M/8.04G [00:28<02:42, 43.5MB/s][A
+Downloading (incomplete total...):  21%|##        | 1.67G/8.04G [00:28<01:00, 105MB/s][A
+Downloading (incomplete total...):  39%|###9      | 3.14G/8.04G [00:28<00:16, 296MB/s][A
+Downloading (incomplete total...):  45%|####4     | 3.61G/8.04G [00:29<00:11, 370MB/s][A
+Downloading (incomplete total...):  45%|####4     | 3.61G/8.04G [00:41<00:11, 370MB/s][A
+Downloading (incomplete total...):  46%|####5     | 3.68G/8.04G [00:47<01:04, 67.4MB/s][A
+Downloading (incomplete total...):  64%|######4   | 5.15G/8.04G [00:51<00:22, 129MB/s] [A
+Downloading (incomplete total...):  79%|#######9  | 6.36G/8.04G [00:51<00:07, 211MB/s][A
+Downloading (incomplete total...):  83%|########3 | 6.70G/8.04G [00:52<00:05, 231MB/s][A
+Downloading (incomplete total...):  97%|#########6| 7.80G/8.04G [01:01<00:01, 167MB/s][A
+Downloading (incomplete total...): 100%|##########| 8.04G/8.04G [01:02<00:00, 185MB/s][A
+
+Fetching 2 files:  50%|#####     | 1/2 [01:08<01:08, 68.81s/it][A[AFetching 2 files: 100%|##########| 2/2 [01:08<00:00, 34.41s/it]
+
+Download complete: 100%|##########| 8.04G/8.04G [01:08<00:00, 185MB/s]                [ADownload complete: 100%|##########| 8.04G/8.04G [01:08<00:00, 117MB/s]
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<00:47,  8.34it/s][A
+Loading weights:   7%|6         | 26/398 [00:00<00:02, 132.59it/s][A
+Loading weights:  13%|#3        | 53/398 [00:00<00:01, 189.27it/s][A
+Loading weights:  20%|##        | 80/398 [00:00<00:01, 213.97it/s][A
+Loading weights:  26%|##6       | 104/398 [00:00<00:01, 216.47it/s][A
+Loading weights:  34%|###3      | 135/398 [00:00<00:01, 239.08it/s][A
+Loading weights:  40%|####      | 160/398 [00:00<00:01, 234.18it/s][A
+Loading weights:  48%|####7     | 190/398 [00:00<00:00, 247.21it/s][A
+Loading weights:  54%|#####4    | 215/398 [00:00<00:00, 244.88it/s][A
+Loading weights:  62%|######1   | 245/398 [00:01<00:00, 255.79it/s][A
+Loading weights:  68%|######8   | 271/398 [00:01<00:00, 245.63it/s][A
+Loading weights:  75%|#######4  | 298/398 [00:01<00:00, 251.86it/s][A
+Loading weights:  81%|########1 | 324/398 [00:01<00:00, 242.65it/s][A
+Loading weights:  89%|########8 | 353/398 [00:01<00:00, 255.92it/s][A
+Loading weights:  95%|#########5| 379/398 [00:01<00:00, 246.50it/s][ALoading weights: 100%|##########| 398/398 [00:01<00:00, 234.65it/s]
+
+generation_config.json:   0%|          | 0.00/214 [00:00<?, ?B/s][Ageneration_config.json: 100%|##########| 214/214 [00:00<00:00, 1.75MB/s]
+114B-WIR-01 Reranker feedback 分數計算已完成。
+114B-WIR-01 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 1.00046766
+  updated_norm_l2: 1.00000012
+  shift_l2: 0.04809150
+  original_query_vector_preview: [-0.0005698204040527344, 0.00901031494140625, -0.015350341796875, -0.0026035308837890625, -0.0021343231201171875, 0.038116455078125, 0.0748291015625, 0.006397247314453125, -0.005992889404296875, 0.0305633544921875]
+  updated_query_vector_preview: [-0.0005604004836641252, 0.007193681783974171, -0.014267366379499435, -0.002816517138853669, -0.0020957395900040865, 0.03811688721179962, 0.0767173171043396, 0.006168152205646038, -0.005868422333151102, 0.02850404381752014]
+  delta_vector_preview: [9.419920388609171e-06, -0.0018166331574320793, 0.0010829754173755646, -0.00021298625506460667, 3.8583530113101006e-05, 4.3213367462158203e-07, 0.0018882155418395996, -0.00022909510880708694, 0.00012446707114577293, -0.0020593106746673584]
+114B-WIR-01 ReFIT query 向量更新已完成。
+114B-WIR-01 第二次 dense retrieval 已完成，共 30 筆結果。
+114B-WIR-01 結果整理已完成。
+Dense-only ReFIT queries: 100%|##########| 1/1 [01:22<00:00, 82.99s/it]Dense-only ReFIT queries: 100%|##########| 1/1 [01:22<00:00, 82.99s/it]
+Saved results to /workplace/dxlin/Homework/IR/normal_RR_ReFIT/outputs/qwen_debug_refit_1000docs_results.json
+結果輸出已完成。
+Dense-only ReFIT 流程完成，總耗時 217.41 秒。
