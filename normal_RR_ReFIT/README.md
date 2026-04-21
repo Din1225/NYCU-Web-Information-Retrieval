@@ -20,7 +20,7 @@
 - `transformers` 需至少 `4.51.0` 才支援 `qwen3`；目前環境若低於此版本會出現 `KeyError: 'qwen3'`。
 - 4-bit 量化預設需要 CUDA。
 - `--dense_model` / `--reranker_model` 可以傳 Hugging Face model id，也可以傳本地模型路徑。
-- Qwen 官方建議 query 端帶 instruction；目前腳本預設會加上 `給定一個使用者提出的問題，請檢索語意最相關、問題表述最相近的歷史問題。只根據 Question 欄位判斷相關性，不要考慮 Answer 內容。`。
+- Qwen 官方建議 query 端帶 instruction；目前腳本預設會加上 `給定一個問題，請檢索出語意最相關、問題表述最相近的問題。`。
 - dense document embeddings 會寫入 `outputs/cache/dense/`；若中途停止，重新用相同設定執行時會自動從 partial cache 繼續，不需要整個資料庫重編碼。
 
 ## Debug run
