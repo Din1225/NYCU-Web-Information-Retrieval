@@ -31,7 +31,7 @@ python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
   --dense_model Qwen/Qwen3-Embedding-4B \
   --reranker_model Qwen/Qwen3-Reranker-4B \
   --log_file outputs/logs/qwen_refit_query1.log \
-  --cuda_visible_devices 3 \
+  --cuda_visible_devices 2,3 \
   --print_query_vectors \
   --query_vector_preview_dims 10
 
