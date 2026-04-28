@@ -15,6 +15,35 @@
 - Reranker: `Qwen/Qwen3-Reranker-4B`
 - 載入方式：預設使用 bitsandbytes 4-bit (`nf4`) 量化，`compute_dtype=float16`
 
+預設 prompt 模板：
+
+- Dense retriever（instruction template）：
+
+```text
+Instruct: 給定一個問題，請檢索出語意最相關、問題表述最相近的問題。
+Query:{query}
+```
+
+- Reranker（system prompt）：
+
+```text
+請根據提供的 Instruct 和 Query，判斷 Document 是否符合檢索需求。回答只能是 yes 或 no。
+```
+
+- Reranker（user prompt）：
+
+```text
+<Instruct>: 給定一個問題，請檢索出語意最相關、問題表述最相近的問題。
+<Query>: {query}
+<Document>: {document}
+```
+
+- Reranker（assistant 前綴，接著預測 `yes` / `no`）：
+
+```text
+{}
+```
+
 注意事項：
 
 - `transformers` 需至少 `4.51.0` 才支援 `qwen3`；目前環境若低於此版本會出現 `KeyError: 'qwen3'`。
@@ -44,7 +73,7 @@ python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
 ```
 
 ## Full run
-
+第一次檢索：100、第一次 rerank 排序：100、第二次檢索：30
 ```bash
 python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
   --data data/IR_data.json \
