@@ -73,7 +73,7 @@ python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
 ```
 
 ## Full run
-第一次檢索：100、第一次 rerank 排序：100、第二次檢索：30
+第一次檢索(feedback_top_k)：100、第一次 rerank 排序(feedback_top_k)：100、第二次檢索(final_top_k)：30
 ```bash
 python normal_RR_ReFIT/scripts/run_refit_retrieval.py \
   --data data/IR_data.json \
