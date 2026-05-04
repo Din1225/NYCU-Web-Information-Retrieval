@@ -1,0 +1,5035 @@
+Log file: /workplace/dxlin/Homework/IR/normal_RR_GFF_ReFIT/outputs/logs/qwen_gff_refit.log
+=== GFF + ReFIT Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase2_query.json
+output_path: /workplace/dxlin/Homework/IR/normal_RR_GFF_ReFIT/outputs/qwen_gff_refit_results.json
+dense_model_name_or_path: Qwen/Qwen3-Embedding-4B
+reranker_model_name_or_path: Qwen/Qwen3-Reranker-4B
+generator_model_name_or_path: Qwen/Qwen3.5-4B
+cache_dir: /workplace/dxlin/Homework/IR/normal_RR_GFF_ReFIT/outputs/cache
+model_cache_dir: /workplace/dxlin/Homework/IR/normal_RR_GFF_ReFIT/outputs/cache/models
+log_file: /workplace/dxlin/Homework/IR/normal_RR_GFF_ReFIT/outputs/logs/qwen_gff_refit.log
+feedback_top_k: 100
+final_top_k: 30
+refit_updates: 100
+refit_learning_rate: 0.005
+refit_temperature: 2.0
+refit_use_minmax: True
+use_4bit: True
+compute_dtype: float16
+use_cache: True
+gff_rounds: 3
+gff_passages_per_round: 2
+gff_keywords_per_passage: 15
+gff_top_keywords: 3
+gff_rrf_k: 60
+gff_original_query_weight: 0.3
+================================
+開始執行 GFF + ReFIT：Q2D2K -> self-consistency -> reciprocal-rank fusion -> ReFIT。
+Loaded 171562 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 10 queries from /workplace/dxlin/Homework/IR/query/phase2_query.json
+資料讀取已完成。
+[Step 1] 讀取文件與查詢
+{
+  "num_documents": 171562,
+  "num_queries": 10,
+  "document_sample_ids": [
+    "2457ed7b",
+    "479f020f",
+    "1200540a"
+  ],
+  "query_sample_ids": [
+    "114B-WIR-11",
+    "114B-WIR-12",
+    "114B-WIR-13"
+  ]
+}
+Loaded cached dense embeddings from /workplace/dxlin/Homework/IR/normal_RR_GFF_ReFIT/outputs/cache/dense/qwen3_embedding_3a08d939a1080f99.npy
+Dense retriever 初始化已完成。
+[Step 2] 建立或讀取 Dense embeddings
+{
+  "embedding_dim": 2560,
+  "num_document_embeddings": 171562,
+  "cache_dir": "/workplace/dxlin/Homework/IR/normal_RR_GFF_ReFIT/outputs/cache/dense",
+  "model_cache_dir": "/workplace/dxlin/Homework/IR/normal_RR_GFF_ReFIT/outputs/cache/models/dense"
+}
+Dense first-stage queries:   0%|          | 0/10 [00:00<?, ?it/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s][A[AFetching 14 files: 100%|##########| 14/14 [00:00<00:00, 9903.91it/s]
+
+Download complete: : 0.00B [00:00, ?B/s]              [ADownload complete: : 0.00B [00:00, ?B/s]
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<05:19,  1.24it/s][A
+Loading weights:   3%|2         | 11/398 [00:00<00:24, 16.04it/s][A
+Loading weights:   7%|6         | 27/398 [00:01<00:09, 40.92it/s][A
+Loading weights:  12%|#2        | 48/398 [00:01<00:04, 74.37it/s][A
+Loading weights:  17%|#7        | 69/398 [00:01<00:03, 103.83it/s][A
+Loading weights:  22%|##2       | 89/398 [00:01<00:02, 126.77it/s][A
+Loading weights:  27%|##6       | 107/398 [00:01<00:02, 138.69it/s][A
+Loading weights:  31%|###1      | 125/398 [00:01<00:01, 148.54it/s][A
+Loading weights:  37%|###6      | 146/398 [00:01<00:01, 162.88it/s][A
+Loading weights:  41%|####1     | 165/398 [00:01<00:01, 169.30it/s][A
+Loading weights:  46%|####6     | 184/398 [00:01<00:01, 172.55it/s][A
+Loading weights:  51%|#####1    | 203/398 [00:01<00:01, 170.94it/s][A
+Loading weights:  56%|#####6    | 224/398 [00:02<00:00, 180.57it/s][A
+Loading weights:  62%|######1   | 245/398 [00:02<00:00, 188.18it/s][A
+Loading weights:  67%|######6   | 265/398 [00:02<00:00, 190.77it/s][A
+Loading weights:  72%|#######1  | 285/398 [00:02<00:00, 189.45it/s][A
+Loading weights:  77%|#######6  | 305/398 [00:02<00:00, 183.42it/s][A
+Loading weights:  81%|########1 | 324/398 [00:02<00:00, 178.80it/s][A
+Loading weights:  87%|########6 | 346/398 [00:02<00:00, 178.27it/s][A
+Loading weights:  92%|#########2| 367/398 [00:02<00:00, 186.41it/s][A
+Loading weights:  97%|#########7| 388/398 [00:02<00:00, 192.13it/s][ALoading weights: 100%|##########| 398/398 [00:02<00:00, 133.53it/s]
+[Step 3] 114B-WIR-11 Query 向量化
+{
+  "query_id": "114B-WIR-11",
+  "query": "當家人出現情緒失控、妄想、多疑或行為異常等情形時，家屬應如何協助就醫或處理？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.0004119873046875,
+    0.0224761962890625,
+    -0.040191650390625,
+    -0.0081939697265625,
+    -0.0011577606201171875,
+    0.0511474609375,
+    0.0221710205078125,
+    0.00554656982421875,
+    0.0173187255859375,
+    0.03765869140625
+  ]
+}
+114B-WIR-11 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-11 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 106081,
+      "doc_id": "8d9f2cee",
+      "rank": 1,
+      "first_dense_score": 0.7847450971603394
+    },
+    {
+      "doc_index": 19816,
+      "doc_id": "ab7e826d",
+      "rank": 2,
+      "first_dense_score": 0.7768626809120178
+    },
+    {
+      "doc_index": 64663,
+      "doc_id": "dd22c001",
+      "rank": 3,
+      "first_dense_score": 0.7748872637748718
+    },
+    {
+      "doc_index": 23881,
+      "doc_id": "8ebd4674",
+      "rank": 4,
+      "first_dense_score": 0.7612071633338928
+    },
+    {
+      "doc_index": 39182,
+      "doc_id": "6e1bc72b",
+      "rank": 5,
+      "first_dense_score": 0.7607404589653015
+    }
+  ]
+}
+[Step 5] 114B-WIR-11 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    106081,
+    19816,
+    64663,
+    23881,
+    39182
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries:  10%|#         | 1/10 [00:14<02:12, 14.69s/it][Step 3] 114B-WIR-12 Query 向量化
+{
+  "query_id": "114B-WIR-12",
+  "query": "口腔或舌頭出現白點、顆粒、突起或粗糙感等變化，是否為正常現象或疾病？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.0002961158752441406,
+    0.031768798828125,
+    -0.050079345703125,
+    -0.028411865234375,
+    -0.0010309219360351562,
+    0.03369140625,
+    0.0350341796875,
+    -0.010101318359375,
+    0.0008540153503417969,
+    -0.0227203369140625
+  ]
+}
+114B-WIR-12 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-12 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 27745,
+      "doc_id": "8d67f648",
+      "rank": 1,
+      "first_dense_score": 0.7973543405532837
+    },
+    {
+      "doc_index": 161143,
+      "doc_id": "c864136c",
+      "rank": 2,
+      "first_dense_score": 0.7870588898658752
+    },
+    {
+      "doc_index": 43013,
+      "doc_id": "1c2e94d3",
+      "rank": 3,
+      "first_dense_score": 0.7865521907806396
+    },
+    {
+      "doc_index": 49176,
+      "doc_id": "22b8e2bb",
+      "rank": 4,
+      "first_dense_score": 0.7859570980072021
+    },
+    {
+      "doc_index": 144370,
+      "doc_id": "faea955a",
+      "rank": 5,
+      "first_dense_score": 0.7833970785140991
+    }
+  ]
+}
+[Step 5] 114B-WIR-12 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    27745,
+    161143,
+    43013,
+    49176,
+    144370
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries:  20%|##        | 2/10 [00:14<00:48,  6.12s/it][Step 3] 114B-WIR-13 Query 向量化
+{
+  "query_id": "114B-WIR-13",
+  "query": "出現閃光、亮點等視覺現象，但眼科檢查未發現異常，是否與玻璃體退化或視網膜問題有關，需要持續追蹤或再次檢查嗎？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.0004036426544189453,
+    -0.004131317138671875,
+    -0.029632568359375,
+    0.0106048583984375,
+    -0.0012216567993164062,
+    0.0501708984375,
+    0.041839599609375,
+    -0.0323486328125,
+    0.0027103424072265625,
+    0.0127716064453125
+  ]
+}
+114B-WIR-13 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-13 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 25441,
+      "doc_id": "4ef701d9",
+      "rank": 1,
+      "first_dense_score": 0.836043119430542
+    },
+    {
+      "doc_index": 779,
+      "doc_id": "b78ae762",
+      "rank": 2,
+      "first_dense_score": 0.8342181444168091
+    },
+    {
+      "doc_index": 135243,
+      "doc_id": "4e74170a",
+      "rank": 3,
+      "first_dense_score": 0.8261085748672485
+    },
+    {
+      "doc_index": 136888,
+      "doc_id": "dd04fa96",
+      "rank": 4,
+      "first_dense_score": 0.8216079473495483
+    },
+    {
+      "doc_index": 31823,
+      "doc_id": "a5c7c939",
+      "rank": 5,
+      "first_dense_score": 0.820689857006073
+    }
+  ]
+}
+[Step 5] 114B-WIR-13 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    25441,
+    779,
+    135243,
+    136888,
+    31823
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries:  30%|###       | 3/10 [00:14<00:23,  3.40s/it][Step 3] 114B-WIR-14 Query 向量化
+{
+  "query_id": "114B-WIR-14",
+  "query": "血糖偏高或糖尿病前期時，應如何透過飲食、運動與體重控制來改善血糖？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.000579833984375,
+    -0.0258026123046875,
+    -0.0226898193359375,
+    -0.0175018310546875,
+    -0.0024871826171875,
+    0.03948974609375,
+    0.058807373046875,
+    0.0567626953125,
+    0.009185791015625,
+    0.0118255615234375
+  ]
+}
+114B-WIR-14 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-14 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 59797,
+      "doc_id": "b8e77d62",
+      "rank": 1,
+      "first_dense_score": 0.7935190200805664
+    },
+    {
+      "doc_index": 157279,
+      "doc_id": "b6bb9723",
+      "rank": 2,
+      "first_dense_score": 0.7668970823287964
+    },
+    {
+      "doc_index": 8560,
+      "doc_id": "0d688230",
+      "rank": 3,
+      "first_dense_score": 0.7534925937652588
+    },
+    {
+      "doc_index": 141245,
+      "doc_id": "a5e9cb8e",
+      "rank": 4,
+      "first_dense_score": 0.7409722805023193
+    },
+    {
+      "doc_index": 92537,
+      "doc_id": "c8a6e221",
+      "rank": 5,
+      "first_dense_score": 0.7396456003189087
+    }
+  ]
+}
+[Step 5] 114B-WIR-14 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    59797,
+    157279,
+    8560,
+    141245,
+    92537
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries:  40%|####      | 4/10 [00:15<00:12,  2.11s/it][Step 3] 114B-WIR-15 Query 向量化
+{
+  "query_id": "114B-WIR-15",
+  "query": "膝關節韌帶斷裂或鬆弛時，是否一定需要進行韌帶重建手術，或可以透過保守治療與肌力訓練改善？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.0001901388168334961,
+    0.022796630859375,
+    0.01328277587890625,
+    -0.045166015625,
+    -0.0006361007690429688,
+    0.081787109375,
+    0.00982666015625,
+    0.00789642333984375,
+    0.0100250244140625,
+    -0.0189666748046875
+  ]
+}
+114B-WIR-15 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-15 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 120268,
+      "doc_id": "e0ebaa8d",
+      "rank": 1,
+      "first_dense_score": 0.7721067070960999
+    },
+    {
+      "doc_index": 76195,
+      "doc_id": "ff2f3538",
+      "rank": 2,
+      "first_dense_score": 0.7517985105514526
+    },
+    {
+      "doc_index": 62786,
+      "doc_id": "a3e1a176",
+      "rank": 3,
+      "first_dense_score": 0.7417571544647217
+    },
+    {
+      "doc_index": 102842,
+      "doc_id": "89f2abf8",
+      "rank": 4,
+      "first_dense_score": 0.7415762543678284
+    },
+    {
+      "doc_index": 163948,
+      "doc_id": "6a28d82d",
+      "rank": 5,
+      "first_dense_score": 0.736585259437561
+    }
+  ]
+}
+[Step 5] 114B-WIR-15 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    120268,
+    76195,
+    62786,
+    102842,
+    163948
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries:  50%|#####     | 5/10 [00:15<00:06,  1.40s/it][Step 3] 114B-WIR-16 Query 向量化
+{
+  "query_id": "114B-WIR-16",
+  "query": "後腦勺到脖子總是緊繃悶痛，是不是因為姿勢不良或壓力過大引起的？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.0004944801330566406,
+    -0.016448974609375,
+    0.007259368896484375,
+    -0.0165863037109375,
+    -0.0018873214721679688,
+    0.061370849609375,
+    0.04095458984375,
+    0.0114288330078125,
+    0.0020732879638671875,
+    0.026458740234375
+  ]
+}
+114B-WIR-16 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-16 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 51044,
+      "doc_id": "8ed042bf",
+      "rank": 1,
+      "first_dense_score": 0.7784011363983154
+    },
+    {
+      "doc_index": 16205,
+      "doc_id": "ce95c5cc",
+      "rank": 2,
+      "first_dense_score": 0.7689189910888672
+    },
+    {
+      "doc_index": 30065,
+      "doc_id": "474c35fa",
+      "rank": 3,
+      "first_dense_score": 0.7655564546585083
+    },
+    {
+      "doc_index": 120084,
+      "doc_id": "68afff01",
+      "rank": 4,
+      "first_dense_score": 0.7630490064620972
+    },
+    {
+      "doc_index": 76118,
+      "doc_id": "808786db",
+      "rank": 5,
+      "first_dense_score": 0.7609792351722717
+    }
+  ]
+}
+[Step 5] 114B-WIR-16 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    51044,
+    16205,
+    30065,
+    120084,
+    76118
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries:  60%|######    | 6/10 [00:15<00:03,  1.02it/s][Step 3] 114B-WIR-17 Query 向量化
+{
+  "query_id": "114B-WIR-17",
+  "query": "除了用藥外，飲食、運動或減重等生活方式改變能否有效控制血壓，甚至減少用藥？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.0004987716674804688,
+    -0.003997802734375,
+    0.033416748046875,
+    -0.0298614501953125,
+    -0.002056121826171875,
+    0.0517578125,
+    0.06463623046875,
+    0.05242919921875,
+    0.00730133056640625,
+    0.019744873046875
+  ]
+}
+114B-WIR-17 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-17 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 70250,
+      "doc_id": "f5ee41f1",
+      "rank": 1,
+      "first_dense_score": 0.7940520644187927
+    },
+    {
+      "doc_index": 84092,
+      "doc_id": "8a88879a",
+      "rank": 2,
+      "first_dense_score": 0.7779128551483154
+    },
+    {
+      "doc_index": 99406,
+      "doc_id": "4f5a09cf",
+      "rank": 3,
+      "first_dense_score": 0.7572585344314575
+    },
+    {
+      "doc_index": 162611,
+      "doc_id": "d6a24aa5",
+      "rank": 4,
+      "first_dense_score": 0.7554041147232056
+    },
+    {
+      "doc_index": 140227,
+      "doc_id": "ada8e62e",
+      "rank": 5,
+      "first_dense_score": 0.7536846399307251
+    }
+  ]
+}
+[Step 5] 114B-WIR-17 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    70250,
+    84092,
+    99406,
+    162611,
+    140227
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries:  70%|#######   | 7/10 [00:15<00:02,  1.42it/s][Step 3] 114B-WIR-18 Query 向量化
+{
+  "query_id": "114B-WIR-18",
+  "query": "血色素、MCV 及鐵蛋白偏低，屬於缺鐵性貧血還是地中海型貧血？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.0003566741943359375,
+    0.01409912109375,
+    0.0112152099609375,
+    0.0034942626953125,
+    -0.0015134811401367188,
+    0.07623291015625,
+    0.030364990234375,
+    0.006610870361328125,
+    0.01494598388671875,
+    0.031158447265625
+  ]
+}
+114B-WIR-18 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-18 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 120819,
+      "doc_id": "b66586de",
+      "rank": 1,
+      "first_dense_score": 0.8297404646873474
+    },
+    {
+      "doc_index": 63602,
+      "doc_id": "5c21d9b2",
+      "rank": 2,
+      "first_dense_score": 0.8240303993225098
+    },
+    {
+      "doc_index": 152061,
+      "doc_id": "57c575f2",
+      "rank": 3,
+      "first_dense_score": 0.818476676940918
+    },
+    {
+      "doc_index": 105883,
+      "doc_id": "3ea50dbd",
+      "rank": 4,
+      "first_dense_score": 0.8177149295806885
+    },
+    {
+      "doc_index": 82710,
+      "doc_id": "b34f2e5b",
+      "rank": 5,
+      "first_dense_score": 0.8176021575927734
+    }
+  ]
+}
+[Step 5] 114B-WIR-18 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    120819,
+    63602,
+    152061,
+    105883,
+    82710
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries:  80%|########  | 8/10 [00:15<00:01,  1.89it/s][Step 3] 114B-WIR-19 Query 向量化
+{
+  "query_id": "114B-WIR-19",
+  "query": "肚臍周圍摸到小球狀物或感覺有東西在滑動，這是疝氣、腫瘤，還是單純的腸子蠕動或腹主動脈跳動？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.0002448558807373047,
+    -0.0191192626953125,
+    0.0078582763671875,
+    -0.01358795166015625,
+    -0.0009784698486328125,
+    0.044708251953125,
+    0.059600830078125,
+    0.02081298828125,
+    0.0097808837890625,
+    -0.022430419921875
+  ]
+}
+114B-WIR-19 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-19 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 108868,
+      "doc_id": "d2a6e8f5",
+      "rank": 1,
+      "first_dense_score": 0.8155931234359741
+    },
+    {
+      "doc_index": 8781,
+      "doc_id": "7c3d6569",
+      "rank": 2,
+      "first_dense_score": 0.796370267868042
+    },
+    {
+      "doc_index": 28989,
+      "doc_id": "e68f8eb9",
+      "rank": 3,
+      "first_dense_score": 0.7841082811355591
+    },
+    {
+      "doc_index": 106175,
+      "doc_id": "30802495",
+      "rank": 4,
+      "first_dense_score": 0.7822450995445251
+    },
+    {
+      "doc_index": 66966,
+      "doc_id": "9c1e4d17",
+      "rank": 5,
+      "first_dense_score": 0.781766414642334
+    }
+  ]
+}
+[Step 5] 114B-WIR-19 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    108868,
+    8781,
+    28989,
+    106175,
+    66966
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries:  90%|######### | 9/10 [00:15<00:00,  2.46it/s][Step 3] 114B-WIR-20 Query 向量化
+{
+  "query_id": "114B-WIR-20",
+  "query": "嬰兒多天沒解便且排便時很出力或便體乾硬，該用棉花棒刺激、額外餵水改善便秘嗎？",
+  "embedding_dim": 2560,
+  "query_vector_preview": [
+    -0.00037360191345214844,
+    0.0166473388671875,
+    -0.01230621337890625,
+    0.0014095306396484375,
+    -0.0018787384033203125,
+    0.038909912109375,
+    0.03668212890625,
+    -0.0084075927734375,
+    0.01206207275390625,
+    -0.046600341796875
+  ]
+}
+114B-WIR-20 第一次 dense retrieval 已完成，共 100 筆候選。
+[Step 4] 114B-WIR-20 第一次 Dense Retrieval
+{
+  "top_k": 100,
+  "top_candidates": [
+    {
+      "doc_index": 124270,
+      "doc_id": "68da6336",
+      "rank": 1,
+      "first_dense_score": 0.7714047431945801
+    },
+    {
+      "doc_index": 163039,
+      "doc_id": "8e7caea3",
+      "rank": 2,
+      "first_dense_score": 0.7553613781929016
+    },
+    {
+      "doc_index": 86020,
+      "doc_id": "75db27e7",
+      "rank": 3,
+      "first_dense_score": 0.7385849952697754
+    },
+    {
+      "doc_index": 33234,
+      "doc_id": "3394a909",
+      "rank": 4,
+      "first_dense_score": 0.732912540435791
+    },
+    {
+      "doc_index": 145838,
+      "doc_id": "33fac84a",
+      "rank": 5,
+      "first_dense_score": 0.7287202477455139
+    }
+  ]
+}
+[Step 5] 114B-WIR-20 Dense 階段完成候選保留
+{
+  "retained_candidate_embeddings_shape": [
+    100,
+    2560
+  ],
+  "retained_candidate_doc_indices_preview": [
+    124270,
+    163039,
+    86020,
+    33234,
+    145838
+  ],
+  "dense_model_release_deferred": true
+}
+Dense first-stage queries: 100%|##########| 10/10 [00:15<00:00,  3.13it/s]Dense first-stage queries: 100%|##########| 10/10 [00:15<00:00,  1.60s/it]
+Dense retriever 模型已釋放。
+Generator 初始化已完成。
+Q2D2K keyword generation:   0%|          | 0/10 [00:00<?, ?it/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s][A[A
+Downloading (incomplete total...):   0%|          | 0.00/3.99G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 0.00/9.32G [00:00<?, ?B/s][A
+Downloading (incomplete total...):   0%|          | 9.33k/9.32G [00:00<279:04:15, 9.28kB/s][A
+Downloading (incomplete total...):   0%|          | 9.33k/9.32G [00:00<279:04:15, 9.28kB/s][A
+
+Fetching 14 files:   7%|7         | 1/14 [00:00<00:08,  1.48it/s][A[A
+Downloading (incomplete total...):   0%|          | 3.45M/9.32G [00:00<41:20, 3.76MB/s]    [A
+
+Fetching 14 files:  43%|####2     | 6/14 [00:00<00:00,  9.15it/s][A[A
+Downloading (incomplete total...):   0%|          | 3.45M/9.33G [00:00<41:24, 3.76MB/s][A
+Downloading (incomplete total...):   0%|          | 3.53M/9.33G [00:01<41:24, 3.76MB/s][A
+Downloading (incomplete total...):   0%|          | 3.53M/9.33G [00:01<41:24, 3.76MB/s][A
+Downloading (incomplete total...):   0%|          | 10.3M/9.33G [00:01<27:52, 5.58MB/s][A
+Downloading (incomplete total...):   0%|          | 23.1M/9.33G [00:02<11:44, 13.2MB/s][A
+Downloading (incomplete total...):   1%|          | 90.1M/9.33G [00:02<01:58, 78.3MB/s][A
+Downloading (incomplete total...):   1%|          | 90.1M/9.33G [00:02<01:58, 78.3MB/s][A
+Downloading (incomplete total...):   2%|1         | 157M/9.33G [00:06<04:29, 34.1MB/s] [A
+
+Fetching 14 files:  43%|####2     | 6/14 [00:13<00:00,  9.15it/s][A[A
+Downloading (incomplete total...):   5%|5         | 493M/9.33G [00:21<06:24, 23.0MB/s][A
+Downloading (incomplete total...):   5%|5         | 493M/9.33G [00:21<06:24, 23.0MB/s][A
+Downloading (incomplete total...):   7%|6         | 627M/9.33G [00:24<05:36, 25.9MB/s][A
+Downloading (incomplete total...):  11%|#1        | 1.03G/9.33G [00:24<02:43, 50.6MB/s][A
+Downloading (incomplete total...):  14%|#3        | 1.30G/9.33G [00:28<02:19, 57.5MB/s][A
+Downloading (incomplete total...):  14%|#3        | 1.30G/9.33G [00:28<02:19, 57.5MB/s][A
+Downloading (incomplete total...):  15%|#5        | 1.43G/9.33G [00:31<02:27, 53.7MB/s][A
+Downloading (incomplete total...):  15%|#5        | 1.43G/9.33G [00:31<02:27, 53.7MB/s][A
+Downloading (incomplete total...):  16%|#6        | 1.50G/9.33G [00:31<01:53, 69.1MB/s][A
+Downloading (incomplete total...):  16%|#6        | 1.50G/9.33G [00:31<01:53, 69.1MB/s][A
+Downloading (incomplete total...):  19%|#8        | 1.77G/9.33G [00:34<01:36, 78.5MB/s][A
+Downloading (incomplete total...):  19%|#8        | 1.77G/9.33G [00:34<01:36, 78.5MB/s][A
+Downloading (incomplete total...):  23%|##2       | 2.12G/9.33G [00:36<01:06, 109MB/s] [A
+Downloading (incomplete total...):  28%|##8       | 2.64G/9.33G [00:39<00:48, 139MB/s][A
+Downloading (incomplete total...):  41%|####1     | 3.87G/9.33G [00:39<00:12, 453MB/s][A
+Downloading (incomplete total...):  41%|####1     | 3.87G/9.33G [00:39<00:12, 453MB/s][A
+Downloading (incomplete total...):  48%|####8     | 4.52G/9.33G [00:39<00:06, 745MB/s][A
+Downloading (incomplete total...):  48%|####8     | 4.52G/9.33G [00:39<00:06, 745MB/s][A
+Downloading (incomplete total...):  51%|#####     | 4.72G/9.33G [00:50<01:08, 66.9MB/s][A
+Downloading (incomplete total...):  51%|#####     | 4.72G/9.33G [00:50<01:08, 66.9MB/s][A
+Downloading (incomplete total...):  53%|#####2    | 4.92G/9.33G [00:53<01:07, 65.5MB/s][A
+Downloading (incomplete total...):  53%|#####2    | 4.92G/9.33G [00:53<01:07, 65.5MB/s][A
+Downloading (incomplete total...):  56%|#####5    | 5.19G/9.33G [00:57<01:01, 67.8MB/s][A
+Downloading (incomplete total...):  58%|#####7    | 5.39G/9.33G [01:01<01:01, 63.7MB/s][A
+Downloading (incomplete total...):  58%|#####8    | 5.46G/9.33G [01:02<00:57, 67.1MB/s][A
+Downloading (incomplete total...):  58%|#####8    | 5.46G/9.33G [01:02<00:57, 67.1MB/s][A
+Downloading (incomplete total...):  62%|######2   | 5.79G/9.33G [01:02<00:29, 122MB/s] [A
+Downloading (incomplete total...):  66%|######6   | 6.19G/9.33G [01:04<00:19, 163MB/s][A
+Downloading (incomplete total...):  66%|######6   | 6.19G/9.33G [01:04<00:19, 163MB/s][A
+Downloading (incomplete total...):  71%|#######1  | 6.63G/9.33G [01:04<00:11, 242MB/s][A
+Downloading (incomplete total...):  73%|#######3  | 6.84G/9.33G [01:15<00:53, 46.4MB/s][A
+Downloading (incomplete total...):  73%|#######3  | 6.84G/9.33G [01:15<00:53, 46.4MB/s][A
+Downloading (incomplete total...):  85%|########4 | 7.90G/9.33G [01:15<00:12, 117MB/s] [A
+Downloading (incomplete total...): 9.34GB [01:16, 239MB/s]                            [A
+Downloading (incomplete total...): 9.34GB [01:33, 239MB/s][A
+
+Fetching 14 files:  50%|#####     | 7/14 [01:44<02:25, 20.85s/it][A[AFetching 14 files: 100%|##########| 14/14 [01:44<00:00,  7.46s/it]
+
+Download complete: : 9.34GB [01:44, 239MB/s]              [ADownload complete: : 9.34GB [01:44, 89.0MB/s]
+
+Loading weights:   0%|          | 0/426 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/426 [00:11<1:18:28, 11.08s/it][A
+Loading weights:   2%|1         | 8/426 [00:11<07:23,  1.06s/it]  [A
+Loading weights:   2%|2         | 10/426 [00:11<05:31,  1.25it/s][A
+Loading weights:   3%|2         | 12/426 [00:12<04:31,  1.52it/s][A
+Loading weights:   3%|3         | 13/426 [00:12<04:13,  1.63it/s][A
+Loading weights:   3%|3         | 14/426 [00:13<03:56,  1.74it/s][A
+Loading weights:   5%|5         | 22/426 [00:13<01:25,  4.74it/s][A
+Loading weights:   6%|5         | 24/426 [00:13<01:15,  5.34it/s][A
+Loading weights:   6%|6         | 26/426 [00:14<01:24,  4.74it/s][A
+Loading weights:   6%|6         | 27/426 [00:14<01:34,  4.22it/s][A
+Loading weights:   7%|6         | 28/426 [00:15<01:45,  3.78it/s][A
+Loading weights:   8%|8         | 36/426 [00:15<00:48,  8.04it/s][A
+Loading weights:   9%|8         | 37/426 [00:15<00:50,  7.68it/s][A
+Loading weights:   9%|9         | 39/426 [00:15<00:46,  8.27it/s][A
+Loading weights:   9%|9         | 40/426 [00:16<01:03,  6.06it/s][A
+Loading weights:  10%|9         | 41/426 [00:16<01:18,  4.88it/s][A
+Loading weights:  10%|9         | 42/426 [00:16<01:33,  4.10it/s][A
+Loading weights:  11%|#         | 45/426 [00:17<01:16,  4.95it/s][A
+Loading weights:  11%|#         | 46/426 [00:17<01:30,  4.20it/s][A
+Loading weights:  11%|#1        | 47/426 [00:18<01:42,  3.68it/s][A
+Loading weights:  12%|#1        | 51/426 [00:18<00:59,  6.33it/s][A
+Loading weights:  12%|#2        | 53/426 [00:18<01:01,  6.10it/s][A
+Loading weights:  14%|#4        | 61/426 [00:19<00:35, 10.37it/s][A
+Loading weights:  15%|#4        | 63/426 [00:19<00:34, 10.51it/s][A
+Loading weights:  15%|#5        | 65/426 [00:20<00:49,  7.22it/s][A
+Loading weights:  15%|#5        | 66/426 [00:20<01:02,  5.80it/s][A
+Loading weights:  16%|#5        | 67/426 [00:20<01:14,  4.81it/s][A
+Loading weights:  18%|#7        | 75/426 [00:21<00:36,  9.51it/s][A
+Loading weights:  18%|#8        | 77/426 [00:21<00:35,  9.76it/s][A
+Loading weights:  19%|#8        | 79/426 [00:22<00:53,  6.50it/s][A
+Loading weights:  19%|#8        | 80/426 [00:22<01:04,  5.36it/s][A
+Loading weights:  19%|#9        | 81/426 [00:22<01:16,  4.53it/s][A
+Loading weights:  21%|##        | 89/426 [00:23<00:36,  9.24it/s][A
+Loading weights:  21%|##1       | 91/426 [00:23<00:35,  9.53it/s][A
+Loading weights:  22%|##1       | 93/426 [00:24<00:48,  6.92it/s][A
+Loading weights:  22%|##2       | 94/426 [00:24<00:59,  5.61it/s][A
+Loading weights:  22%|##2       | 95/426 [00:24<01:10,  4.67it/s][A
+Loading weights:  23%|##3       | 98/426 [00:25<00:59,  5.49it/s][A
+Loading weights:  23%|##3       | 99/426 [00:25<01:11,  4.59it/s][A
+Loading weights:  23%|##3       | 100/426 [00:26<01:22,  3.95it/s][A
+Loading weights:  24%|##4       | 104/426 [00:26<00:48,  6.61it/s][A
+Loading weights:  25%|##4       | 106/426 [00:26<00:50,  6.29it/s][A
+Loading weights:  27%|##6       | 114/426 [00:27<00:29, 10.69it/s][A
+Loading weights:  27%|##7       | 116/426 [00:27<00:28, 10.73it/s][A
+Loading weights:  28%|##7       | 118/426 [00:27<00:41,  7.49it/s][A
+Loading weights:  28%|##7       | 119/426 [00:28<00:51,  5.96it/s][A
+Loading weights:  28%|##8       | 120/426 [00:28<01:02,  4.90it/s][A
+Loading weights:  30%|###       | 128/426 [00:29<00:31,  9.60it/s][A
+Loading weights:  31%|###       | 130/426 [00:29<00:30,  9.84it/s][A
+Loading weights:  31%|###       | 132/426 [00:29<00:41,  7.06it/s][A
+Loading weights:  31%|###1      | 133/426 [00:30<00:51,  5.69it/s][A
+Loading weights:  31%|###1      | 134/426 [00:30<01:01,  4.73it/s][A
+Loading weights:  33%|###3      | 142/426 [00:31<00:30,  9.23it/s][A
+Loading weights:  34%|###3      | 143/426 [00:31<00:32,  8.65it/s][A
+Loading weights:  34%|###4      | 145/426 [00:31<00:30,  9.11it/s][A
+Loading weights:  34%|###4      | 146/426 [00:31<00:42,  6.62it/s][A
+Loading weights:  35%|###4      | 147/426 [00:32<00:53,  5.18it/s][A
+Loading weights:  35%|###4      | 148/426 [00:32<01:05,  4.27it/s][A
+Loading weights:  35%|###5      | 151/426 [00:33<00:52,  5.28it/s][A
+Loading weights:  36%|###5      | 152/426 [00:33<01:02,  4.40it/s][A
+Loading weights:  36%|###5      | 153/426 [00:33<01:11,  3.80it/s][A
+Loading weights:  37%|###6      | 157/426 [00:34<00:40,  6.56it/s][A
+Loading weights:  37%|###7      | 159/426 [00:34<00:43,  6.16it/s][A
+Loading weights:  39%|###9      | 167/426 [00:34<00:24, 10.61it/s][A
+Loading weights:  40%|###9      | 169/426 [00:35<00:24, 10.68it/s][A
+Loading weights:  40%|####      | 171/426 [00:35<00:34,  7.44it/s][A
+Loading weights:  40%|####      | 172/426 [00:36<00:42,  5.92it/s][A
+Loading weights:  41%|####      | 173/426 [00:36<00:51,  4.88it/s][A
+Loading weights:  42%|####2     | 181/426 [00:36<00:25,  9.64it/s][A
+Loading weights:  43%|####2     | 183/426 [00:36<00:24,  9.89it/s][A
+Loading weights:  43%|####3     | 185/426 [00:37<00:34,  7.09it/s][A
+Loading weights:  44%|####3     | 186/426 [00:37<00:42,  5.70it/s][A
+Loading weights:  44%|####3     | 187/426 [00:38<00:50,  4.73it/s][A
+Loading weights:  46%|####5     | 195/426 [00:38<00:24,  9.52it/s][A
+Loading weights:  46%|####6     | 197/426 [00:38<00:23,  9.78it/s][A
+Loading weights:  47%|####6     | 199/426 [00:39<00:32,  7.03it/s][A
+Loading weights:  47%|####6     | 200/426 [00:39<00:39,  5.67it/s][A
+Loading weights:  47%|####7     | 201/426 [00:40<00:47,  4.71it/s][A
+Loading weights:  48%|####7     | 204/426 [00:40<00:40,  5.52it/s][A
+Loading weights:  48%|####8     | 205/426 [00:41<00:48,  4.60it/s][A
+Loading weights:  48%|####8     | 206/426 [00:41<00:55,  3.97it/s][A
+Loading weights:  49%|####9     | 210/426 [00:41<00:32,  6.63it/s][A
+Loading weights:  50%|####9     | 212/426 [00:42<00:33,  6.30it/s][A
+Loading weights:  52%|#####1    | 220/426 [00:42<00:19, 10.70it/s][A
+Loading weights:  52%|#####2    | 222/426 [00:42<00:18, 10.77it/s][A
+Loading weights:  53%|#####2    | 224/426 [00:43<00:26,  7.51it/s][A
+Loading weights:  53%|#####2    | 225/426 [00:43<00:33,  5.97it/s][A
+Loading weights:  53%|#####3    | 226/426 [00:44<00:40,  4.91it/s][A
+Loading weights:  55%|#####4    | 234/426 [00:44<00:19,  9.71it/s][A
+Loading weights:  55%|#####5    | 236/426 [00:44<00:19,  9.95it/s][A
+Loading weights:  56%|#####5    | 238/426 [00:45<00:26,  7.11it/s][A
+Loading weights:  56%|#####6    | 239/426 [00:45<00:32,  5.67it/s][A
+Loading weights:  56%|#####6    | 240/426 [00:46<00:39,  4.72it/s][A
+Loading weights:  58%|#####8    | 248/426 [00:46<00:18,  9.52it/s][A
+Loading weights:  59%|#####8    | 250/426 [00:46<00:17,  9.78it/s][A
+Loading weights:  59%|#####9    | 252/426 [00:47<00:24,  7.04it/s][A
+Loading weights:  59%|#####9    | 253/426 [00:47<00:30,  5.67it/s][A
+Loading weights:  60%|#####9    | 254/426 [00:47<00:36,  4.71it/s][A
+Loading weights:  60%|######    | 257/426 [00:48<00:30,  5.50it/s][A
+Loading weights:  61%|######    | 258/426 [00:48<00:36,  4.60it/s][A
+Loading weights:  61%|######    | 259/426 [00:49<00:42,  3.96it/s][A
+Loading weights:  62%|######1   | 263/426 [00:49<00:24,  6.62it/s][A
+Loading weights:  62%|######2   | 265/426 [00:49<00:25,  6.29it/s][A
+Loading weights:  64%|######4   | 273/426 [00:50<00:14, 10.62it/s][A
+Loading weights:  65%|######4   | 275/426 [00:50<00:14, 10.70it/s][A
+Loading weights:  65%|######5   | 277/426 [00:50<00:19,  7.48it/s][A
+Loading weights:  65%|######5   | 278/426 [00:51<00:24,  5.96it/s][A
+Loading weights:  65%|######5   | 279/426 [00:51<00:29,  4.90it/s][A
+Loading weights:  67%|######7   | 287/426 [00:52<00:14,  9.69it/s][A
+Loading weights:  68%|######7   | 289/426 [00:52<00:13,  9.88it/s][A
+Loading weights:  68%|######8   | 291/426 [00:52<00:19,  7.08it/s][A
+Loading weights:  69%|######8   | 292/426 [00:53<00:23,  5.70it/s][A
+Loading weights:  69%|######8   | 293/426 [00:53<00:28,  4.73it/s][A
+Loading weights:  71%|#######   | 301/426 [00:54<00:13,  9.54it/s][A
+Loading weights:  71%|#######1  | 303/426 [00:54<00:12,  9.79it/s][A
+Loading weights:  72%|#######1  | 305/426 [00:54<00:17,  7.04it/s][A
+Loading weights:  72%|#######1  | 306/426 [00:55<00:21,  5.67it/s][A
+Loading weights:  72%|#######2  | 307/426 [00:55<00:25,  4.71it/s][A
+Loading weights:  73%|#######2  | 310/426 [00:56<00:21,  5.52it/s][A
+Loading weights:  73%|#######3  | 311/426 [00:56<00:24,  4.61it/s][A
+Loading weights:  73%|#######3  | 312/426 [00:56<00:28,  3.97it/s][A
+Loading weights:  74%|#######4  | 316/426 [00:57<00:19,  5.53it/s][A
+Loading weights:  75%|#######4  | 318/426 [00:57<00:19,  5.49it/s][A
+Loading weights:  77%|#######6  | 326/426 [00:58<00:10,  9.74it/s][A
+Loading weights:  77%|#######6  | 327/426 [00:58<00:10,  9.07it/s][A
+Loading weights:  77%|#######7  | 329/426 [00:58<00:10,  9.45it/s][A
+Loading weights:  77%|#######7  | 330/426 [00:58<00:14,  6.84it/s][A
+Loading weights:  78%|#######7  | 331/426 [00:59<00:17,  5.32it/s][A
+Loading weights:  78%|#######7  | 332/426 [00:59<00:21,  4.37it/s][A
+Loading weights:  80%|#######9  | 340/426 [01:00<00:08,  9.64it/s][A
+Loading weights:  80%|########  | 341/426 [01:00<00:09,  8.93it/s][A
+Loading weights:  81%|########  | 343/426 [01:00<00:08,  9.36it/s][A
+Loading weights:  81%|########  | 344/426 [01:00<00:12,  6.63it/s][A
+Loading weights:  81%|########  | 345/426 [01:01<00:15,  5.15it/s][A
+Loading weights:  81%|########1 | 346/426 [01:01<00:18,  4.24it/s][A
+Loading weights:  83%|########3 | 354/426 [01:01<00:07,  9.61it/s][A
+Loading weights:  83%|########3 | 355/426 [01:02<00:07,  8.90it/s][A
+Loading weights:  84%|########3 | 357/426 [01:02<00:07,  9.34it/s][A
+Loading weights:  84%|########4 | 358/426 [01:02<00:10,  6.64it/s][A
+Loading weights:  84%|########4 | 359/426 [01:03<00:13,  5.15it/s][A
+Loading weights:  85%|########4 | 360/426 [01:03<00:15,  4.24it/s][A
+Loading weights:  85%|########5 | 363/426 [01:03<00:11,  5.25it/s][A
+Loading weights:  85%|########5 | 364/426 [01:04<00:14,  4.37it/s][A
+Loading weights:  86%|########5 | 365/426 [01:04<00:16,  3.78it/s][A
+Loading weights:  87%|########6 | 369/426 [01:04<00:08,  6.52it/s][A
+Loading weights:  87%|########7 | 371/426 [01:05<00:08,  6.22it/s][A
+Loading weights:  89%|########8 | 379/426 [01:05<00:04, 10.72it/s][A
+Loading weights:  89%|########9 | 381/426 [01:05<00:04, 10.79it/s][A
+Loading weights:  90%|########9 | 383/426 [01:06<00:05,  7.50it/s][A
+Loading weights:  90%|######### | 384/426 [01:06<00:07,  5.96it/s][A
+Loading weights:  90%|######### | 385/426 [01:07<00:08,  4.90it/s][A
+Loading weights:  92%|#########2| 393/426 [01:07<00:03,  9.59it/s][A
+Loading weights:  93%|#########2| 395/426 [01:07<00:03,  9.84it/s][A
+Loading weights:  93%|#########3| 397/426 [01:08<00:04,  7.07it/s][A
+Loading weights:  93%|#########3| 398/426 [01:08<00:04,  5.70it/s][A
+Loading weights:  94%|#########3| 399/426 [01:09<00:05,  4.73it/s][A
+Loading weights:  96%|#########5| 407/426 [01:09<00:02,  9.46it/s][A
+Loading weights:  96%|#########6| 409/426 [01:09<00:01,  9.73it/s][A
+Loading weights:  96%|#########6| 411/426 [01:10<00:02,  7.00it/s][A
+Loading weights:  97%|#########6| 412/426 [01:10<00:02,  5.65it/s][A
+Loading weights:  97%|#########6| 413/426 [01:11<00:02,  4.70it/s][A
+Loading weights:  98%|#########7| 416/426 [01:11<00:01,  5.51it/s][A
+Loading weights:  98%|#########7| 417/426 [01:12<00:01,  4.60it/s][A
+Loading weights:  98%|#########8| 418/426 [01:12<00:02,  3.97it/s][A
+Loading weights:  99%|#########9| 422/426 [01:12<00:00,  6.62it/s][A
+Loading weights: 100%|#########9| 424/426 [01:13<00:00,  6.30it/s][ALoading weights: 100%|##########| 426/426 [01:13<00:00,  5.83it/s]
+114B-WIR-11 Q2D2K + jieba keyword parsing 已完成，共產生 62 個候選 keywords。
+[Step 6] 114B-WIR-11 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "急診": 4,
+    "自傷風險": 4,
+    "時間": 2,
+    "無法": 2,
+    "環境": 2,
+    "精神科門診": 2,
+    "評估": 2,
+    "人身安全": 1,
+    "傷人風險": 1,
+    "傾向": 1,
+    "內容": 1,
+    "具體": 1,
+    "單獨": 1,
+    "嚴重": 1,
+    "因素": 1,
+    "壓力": 1,
+    "安全": 1,
+    "家庭": 1,
+    "專業": 1,
+    "強迫": 1,
+    "徵象": 1,
+    "持續": 1,
+    "支持": 1,
+    "攻擊性": 1,
+    "攻擊行": 1,
+    "暴力": 1,
+    "極高風險": 1,
+    "清單": 1,
+    "爭辯": 1,
+    "現實": 1,
+    "生命": 1,
+    "留置": 1,
+    "症狀": 1,
+    "發作": 1,
+    "睡眠": 1,
+    "睡眠不足": 1,
+    "穩定治療": 1,
+    "精神科": 1,
+    "精神科藥物": 1,
+    "自傷": 1,
+    "自理": 1,
+    "表現": 1,
+    "觀察": 1,
+    "觀察紀錄": 1,
+    "記錄": 1,
+    "誘發": 1,
+    "辨識": 1,
+    "送醫": 1,
+    "進食": 1,
+    "醫紀錄藥物": 1,
+    "開始": 1
+  },
+  "candidate_keywords_preview": [
+    "精神科",
+    "急診",
+    "攻擊性",
+    "自傷風險",
+    "醫紀錄藥物",
+    "清單",
+    "生命",
+    "徵象",
+    "家庭",
+    "支持"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "當家人出現情緒失控或行為異常時，家屬首要任務是確保現場安全，避免與患者發生肢體衝突或爭執，同時保持冷靜聲音與溫和姿態以穩定其情緒，切勿因其妄想或多疑而爭辯事實。建議立即安排其至精神科急診就診，若患者有攻擊性、自傷風險或完全無法配合時應直接送醫，並攜帶其過往就醫紀錄與藥物清單以供醫師參考。在送醫途中應密切觀察其意識清醒度與生命徵象，並記錄異常行為出現的時間與頻率，家屬後續需持續配合醫師治療並注意家庭",
+      "keywords": [
+        "精神科",
+        "急診",
+        "攻擊性",
+        "自傷風險",
+        "醫紀錄藥物",
+        "清單",
+        "生命",
+        "徵象",
+        "家庭",
+        "支持",
+        "環境"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "當家人出現情緒失控、妄想或多疑等症狀時，家屬首要任務是保持冷靜並立即安排其前往精神科門診就診或急診評估，特別是若患者有自傷、傷人風險或完全無法自理時，切勿僅以強迫或爭辯方式處理，應攜帶相關觀察紀錄（如具體妄想內容、行為改變時間點）直接送醫並由專業人員介入評估，同時務必尋求精神科醫師或急診醫師的專業協助以排除生理原因或制定安全處置計畫。",
+      "keywords": [
+        "精神科門診",
+        "急診",
+        "評估",
+        "自傷風險",
+        "傷人風險",
+        "無法",
+        "自理",
+        "強迫",
+        "爭辯",
+        "觀察紀錄",
+        "內容"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation:  10%|#         | 1/10 [04:19<38:53, 259.23s/it]114B-WIR-12 Q2D2K + jieba keyword parsing 已完成，共產生 75 個候選 keywords。
+[Step 6] 114B-WIR-12 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "出血": 4,
+    "口腔癌": 4,
+    "黏膜": 4,
+    "扁平": 3,
+    "潰瘍": 3,
+    "疼痛": 3,
+    "兩週": 2,
+    "前症": 2,
+    "口腔外科": 2,
+    "念珠菌感染": 2,
+    "白塞氏": 2,
+    "白斑": 2,
+    "耳鼻喉科": 2,
+    "苔蘚": 2,
+    "不明": 1,
+    "不良": 1,
+    "免疫": 1,
+    "內視鏡檢查": 1,
+    "切片": 1,
+    "刺激性": 1,
+    "剝落": 1,
+    "口腔科": 1,
+    "塗抹": 1,
+    "急診": 1,
+    "惡性": 1,
+    "感染": 1,
+    "持續": 1,
+    "早期": 1,
+    "水洗": 1,
+    "活檢": 1,
+    "活體": 1,
+    "清潔": 1,
+    "牙體科": 1,
+    "病灶": 1,
+    "症候群": 1,
+    "癌變風險": 1,
+    "白斑症": 1,
+    "白膜": 1,
+    "白色": 1,
+    "皮膚鏡": 1,
+    "糖尿病": 1,
+    "組織": 1,
+    "腫塊": 1,
+    "腫瘤": 1,
+    "自傷風險": 1,
+    "苔瀉": 1,
+    "衛生": 1,
+    "視診": 1,
+    "角化": 1,
+    "超過": 1,
+    "類癌": 1,
+    "黏膜病變": 1
+  },
+  "candidate_keywords_preview": [
+    "白斑",
+    "白塞氏",
+    "症候群",
+    "類癌",
+    "黏膜",
+    "內視鏡檢查",
+    "活體",
+    "組織",
+    "切片",
+    "癌變風險"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "口腔或舌頭出現白點、顆粒或粗糙感通常並非正常現象，可能代表口腔白斑、口腔白塞氏症候群或類癌等多種病理變化，家屬當下首要任務是保持冷靜並避免自行撿食或抓撓患處以防感染與出血，同時應立即觀察是否有疼痛、潰瘍或腫脹等症狀升級跡象，若症狀持續超過兩週未癒合或出現出血現象，務必盡快掛號至口腔科或口腔黏膜科進行內視鏡檢查或活體組織切片以排除癌變風險，切勿僅因外觀似潰瘍就自行塗抹藥膏而延誤診斷。",
+      "keywords": [
+        "白斑",
+        "白塞氏",
+        "症候群",
+        "類癌",
+        "黏膜",
+        "內視鏡檢查",
+        "活體",
+        "組織",
+        "切片",
+        "癌變風險",
+        "自傷風險",
+        "感染",
+        "出血",
+        "潰瘍"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "若口腔或舌頭出現白點、顆粒或粗糙感，這未必是正常現象，需警惕口腔白斑、扁平苔蘚或早期口腔癌等潛在風險。建議儘快前往口腔黏膜科或口腔外科就診，若症狀伴隨疼痛、出血或持續超過兩週未改善，應直接前往急診或口腔急診尋求即時評估；在就醫前，可先避免刺激性食物並使用溫水鹽水輕柔漱口以觀察症狀變化，切勿自行長期使用含藥牙膏或偏方處理，以免延誤病情或造成黏膜進一步損傷。",
+      "keywords": [
+        "白斑",
+        "扁平",
+        "苔蘚",
+        "早期",
+        "口腔癌",
+        "黏膜",
+        "口腔外科",
+        "疼痛",
+        "出血",
+        "持續",
+        "超過",
+        "兩週",
+        "急診",
+        "刺激性"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation:  20%|##        | 2/10 [05:38<20:28, 153.57s/it]114B-WIR-13 Q2D2K + jieba keyword parsing 已完成，共產生 58 個候選 keywords。
+[Step 6] 114B-WIR-13 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "急診": 4,
+    "視野": 3,
+    "飛蚊": 3,
+    "剝離": 2,
+    "劇烈": 2,
+    "定期": 2,
+    "家屬": 2,
+    "超聲": 2,
+    "協助": 1,
+    "急迫": 1,
+    "性視": 1,
+    "損傷": 1,
+    "撕裂": 1,
+    "數量": 1,
+    "暗區": 1,
+    "暫時": 1,
+    "波檢查": 1,
+    "波視": 1,
+    "激增": 1,
+    "牽拉": 1,
+    "用力": 1,
+    "眼前": 1,
+    "破裂風險": 1,
+    "突發性": 1,
+    "網膜檢查": 1,
+    "缺損": 1,
+    "脫落": 1,
+    "視力": 1,
+    "視物": 1,
+    "视网膜檢查": 1,
+    "記錄": 1,
+    "變化": 1,
+    "變形": 1,
+    "超掃描": 1,
+    "超音波": 1,
+    "送醫": 1,
+    "運動": 1,
+    "過度": 1,
+    "陪同": 1,
+    "隱性": 1,
+    "隱性視": 1,
+    "離脫": 1,
+    "驟降": 1,
+    "體狀態": 1,
+    "體縮": 1,
+    "高風險": 1
+  },
+  "candidate_keywords_preview": [
+    "剝離",
+    "視野",
+    "缺損",
+    "急診",
+    "超聲",
+    "波視",
+    "網膜檢查",
+    "隱性",
+    "損傷",
+    "定期"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "家屬當下首要任務是確保患者靜止並避免劇烈頭部震顫，以維持現場安全並防止潛在的視網膜剝離風險；若閃光或亮點持續存在或合併視野缺損，應立即前往急診就診並由眼科醫師進行超聲波視網膜檢查以排除隱性損傷，即便首次檢查正常也需密切觀察並定期追蹤，切勿自行用藥或忽略症狀惡化跡象。",
+      "keywords": [
+        "剝離",
+        "視野",
+        "缺損",
+        "急診",
+        "超聲",
+        "波視",
+        "網膜檢查",
+        "隱性",
+        "損傷",
+        "定期"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "若出現閃光或亮點等視覺現象但眼科檢查無異常，建議務必由家屬或親友陪同就醫，因獨自前往易發生意外或遺漏細節，且若症狀突然加重或伴隨視野闇暗、浮動物劇增，應立即前往急診進行視網膜超音波與 B 超掃描以排除隱性視網膜裂縫。即便初檢正常，仍需持續追蹤並定期回診，因為玻璃體退化雖常見但偶發視網膜撕裂風險較高，醫師可能會建議短期內重複檢查或安排觀察期，期間應避免劇烈運動並記錄症狀變化，以防萬一需及時送醫處理。",
+      "keywords": [
+        "家屬",
+        "陪同",
+        "急診",
+        "超音波",
+        "超掃描",
+        "隱性視"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation:  30%|###       | 3/10 [06:52<13:39, 117.03s/it]114B-WIR-14 Q2D2K + jieba keyword parsing 已完成，共產生 74 個候選 keywords。
+[Step 6] 114B-WIR-14 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "蔬菜": 4,
+    "粉類": 3,
+    "呼吸": 2,
+    "意識": 2,
+    "指數": 2,
+    "有氧": 2,
+    "模糊": 2,
+    "頻繁": 2,
+    "GI": 1,
+    "下降": 1,
+    "丙酮": 1,
+    "中等": 1,
+    "低升糖": 1,
+    "低血糖": 1,
+    "內科門診": 1,
+    "利用": 1,
+    "口渴": 1,
+    "嘔吐": 1,
+    "執行": 1,
+    "壓力": 1,
+    "大量": 1,
+    "安全": 1,
+    "家屬": 1,
+    "小動作": 1,
+    "少睡": 1,
+    "強調": 1,
+    "微調": 1,
+    "快速": 1,
+    "思維": 1,
+    "急促": 1,
+    "急診": 1,
+    "恐懼": 1,
+    "抗阻": 1,
+    "拆解": 1,
+    "排尿": 1,
+    "數值": 1,
+    "極度": 1,
+    "每日": 1,
+    "添加": 1,
+    "減重": 1,
+    "溝通": 1,
+    "熬夜": 1,
+    "環境": 1,
+    "用餐": 1,
+    "痙攣": 1,
+    "目標": 1,
+    "碳水化合物": 1,
+    "社區": 1,
+    "結構": 1,
+    "肌肉": 1,
+    "葡萄糖": 1,
+    "處理": 1,
+    "訓練": 1,
+    "診所": 1,
+    "責備": 1,
+    "跌倒": 1,
+    "過度": 1,
+    "避免": 1,
+    "醫評": 1,
+    "阻力": 1,
+    "飯後兩小時": 1,
+    "高升": 1,
+    "高血糖": 1
+  },
+  "candidate_keywords_preview": [
+    "用餐",
+    "環境",
+    "安全",
+    "低血糖",
+    "高血糖",
+    "意識",
+    "模糊",
+    "跌倒",
+    "呼吸",
+    "急促"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "當檢測到血糖偏高或處於糖尿病前期時，家屬當下首要任務是確保用餐環境安全穩定，避免在低血糖或高血糖症狀（如噁心、意識模糊）出現時發生跌倒或意外，若出現呼吸急促或痙攣等嚴重症狀應立即就醫評估。日常飲食應嚴格限制添加糖與精製澱粉，以高纤维雜糧與非澱粉蔬菜為主，並採用少量多餐策略；運動方面建議每週至少進行三次、每次三十分鐘以上的中等強度有氧運動，但需避免空腹運動以防低血糖發生，運動前後務必補充水分並記錄飲",
+      "keywords": [
+        "用餐",
+        "環境",
+        "安全",
+        "低血糖",
+        "高血糖",
+        "意識",
+        "模糊",
+        "跌倒",
+        "呼吸",
+        "急促",
+        "痙攣",
+        "醫評",
+        "添加"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "當血糖偏高或處於糖尿病前期時，建議先由家人陪同前往社區診所或內科門診進行專業評估，以確定是否需立即就醫或僅需居家管理；若出現高血糖併發的嚴重症狀如頻繁嘔吐、意識模糊或呼吸有丙酮味，應立即前往急診處理。在居家階段，可透過增加全穀物與非澱粉類蔬菜的攝取、規律進行中等強度運動（如快走），並配合體重控制來改善胰島素敏感性，同時密切記錄餐後血糖變化以觀察飲食與運動對血糖的影響，切勿自行調整藥物劑量，必要時需",
+      "keywords": [
+        "社區",
+        "診所",
+        "內科門診",
+        "頻繁",
+        "嘔吐",
+        "意識",
+        "模糊",
+        "呼吸",
+        "丙酮",
+        "急診",
+        "處理",
+        "粉類",
+        "蔬菜"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation:  40%|####      | 4/10 [08:15<10:21, 103.51s/it]114B-WIR-15 Q2D2K + jieba keyword parsing 已完成，共產生 52 個候選 keywords。
+[Step 6] 114B-WIR-15 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "不穩": 3,
+    "骨科": 3,
+    "專科": 2,
+    "脫位": 2,
+    "MRI檢查": 1,
+    "冰敷": 1,
+    "前脛骨": 1,
+    "十字": 1,
+    "半月板": 1,
+    "受傷": 1,
+    "單腿": 1,
+    "定性": 1,
+    "急度手術": 1,
+    "急診": 1,
+    "急診門診": 1,
+    "情境": 1,
+    "慢性": 1,
+    "打軟": 1,
+    "承受手術": 1,
+    "損傷": 1,
+    "撕裂功能": 1,
+    "斷裂手術": 1,
+    "時間": 1,
+    "正骨科": 1,
+    "無法": 1,
+    "物理治療": 1,
+    "當感": 1,
+    "疼痛": 1,
+    "發作": 1,
+    "短期": 1,
+    "磨損": 1,
+    "移位": 1,
+    "程度": 1,
+    "穩定": 1,
+    "站立": 1,
+    "系統性": 1,
+    "肌韌帶": 1,
+    "股四頭": 1,
+    "腫痛": 1,
+    "膝蓋": 1,
+    "臀中": 1,
+    "部分": 1,
+    "需求": 1,
+    "韌帶外科": 1,
+    "風險": 1,
+    "髕骨": 1
+  },
+  "candidate_keywords_preview": [
+    "十字",
+    "韌帶外科",
+    "膝蓋",
+    "不穩",
+    "打軟",
+    "單腿",
+    "站立",
+    "前脛骨",
+    "肌韌帶",
+    "損傷"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "膝關節韌帶斷裂或鬆弛並非一律需要手術，家屬應先確保現場安全並協助患側暫時停止負重活動以維持關節穩定。若為前十字韌帶完全斷裂且影響日常功能或關節穩定性，通常建議透過外科重建手術；但若為部分損傷、後十字韌帶問題或非運動型民眾，則可透過保守治療配合肌力訓練來改善，關鍵在於觀察是否有膝蓋不穩、打軟腿或無法單腿站立等風險，一旦出現應立即就醫評估並尋求骨科專科醫師的專業建議，同時可透過冰敷與彈性護具固定來降低",
+      "keywords": [
+        "十字",
+        "韌帶外科",
+        "膝蓋",
+        "不穩",
+        "打軟",
+        "單腿",
+        "站立"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "膝關節韌帶斷裂或鬆弛並非一律需要手術，若為前脛骨肌韌帶損傷且無嚴重不穩定，初階可先透過急性期冰敷與限制活動，隨後進行針對性的肌力訓練與功能復健來改善穩定性。不過，若患者主訴膝蓋輕微扭傷後持續無力、無法單腿下階梯或出現明顯的旋轉不穩感，這類持續性不穩定將顯著增加半月板磨損風險，此時建議儘早尋求骨科專科協助評估，必要時需接受韌帶重建手術；若情況不明或無法居家觀察，最安全的方式是立即前往急診或門診進行 ",
+      "keywords": [
+        "前脛骨",
+        "肌韌帶",
+        "損傷",
+        "穩定",
+        "半月板",
+        "磨損",
+        "骨科",
+        "專科",
+        "MRI檢查",
+        "急診門診"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation:  50%|#####     | 5/10 [09:40<08:04, 96.81s/it] 114B-WIR-16 Q2D2K + jieba keyword parsing 已完成，共產生 62 個候選 keywords。
+[Step 6] 114B-WIR-16 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "暈眩": 5,
+    "頸部": 4,
+    "手臂": 3,
+    "模糊": 3,
+    "肌肉": 3,
+    "視力": 3,
+    "劇烈": 2,
+    "壓迫": 2,
+    "急診": 2,
+    "無力": 2,
+    "痙攣": 2,
+    "筋膜": 2,
+    "精神": 2,
+    "健科": 1,
+    "傾聽": 1,
+    "坐姿": 1,
+    "姿態": 1,
+    "專人": 1,
+    "手語": 1,
+    "拉伸": 1,
+    "期壓力": 1,
+    "正骨科": 1,
+    "活動": 1,
+    "焦慮": 1,
+    "熬夜": 1,
+    "熱敷": 1,
+    "熱敷就醫": 1,
+    "物理治療": 1,
+    "神經": 1,
+    "神經內科": 1,
+    "緊張": 1,
+    "肢體": 1,
+    "胸痛": 1,
+    "腦部": 1,
+    "血管": 1,
+    "陪同": 1,
+    "頭痛": 1,
+    "頸椎神經": 1,
+    "麻木": 1,
+    "麻痺": 1
+  },
+  "candidate_keywords_preview": [
+    "肌肉",
+    "劇烈",
+    "活動",
+    "坐姿",
+    "姿態",
+    "暈眩",
+    "視力",
+    "模糊",
+    "頸部",
+    "精神"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "家屬當下首要任務是協助患者安全維持穩定現場，避免劇烈活動或重複擡頭低頭動作以緩解肌肉緊繃，並協助其調整至放鬆的坐姿或半躺姿態；若疼痛伴隨暈眩、視力模糊或身體偏側無力等神經症狀，應立即送醫急診，否則可先安排至骨科或復健科就診進行檢查。建議家屬協助患者於居家環境進行頸部與上背部的熱敷放鬆，並提醒其避免長時間保持同一姿勢，同時觀察疼痛是否因特定動作誘發或持續加劇，以便後續評估是否需進一步進行物理治療或藥",
+      "keywords": [
+        "肌肉",
+        "劇烈",
+        "活動",
+        "坐姿",
+        "姿態",
+        "暈眩",
+        "視力",
+        "模糊"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "後腦勺至頸部的緊繃悶痛確實常與長期姿勢不良或精神壓力過大有關，建議先安排專人陪同就醫以確保安全，若疼痛伴隨視力模糊、肢體無力或劇烈暈眩等警訊，應立即前往急診評估；Otherwise 可先至骨科或神經內科就診，透過醫師評估是否需進行肌筋膜鬆解、物理治療或藥物調整，同時在家中可嘗試規律枕頭高度、減少螢幕使用时间並練習深長呼吸來緩解壓力，觀察痛感變化後再決定是否需要進一步影像檢查。",
+      "keywords": [
+        "頸部",
+        "精神",
+        "專人",
+        "陪同",
+        "視力",
+        "模糊",
+        "肢體",
+        "無力",
+        "劇烈",
+        "暈眩",
+        "急診"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation:  60%|######    | 6/10 [10:58<06:02, 90.68s/it]114B-WIR-17 Q2D2K + jieba keyword parsing 已完成，共產生 73 個候選 keywords。
+[Step 6] 114B-WIR-17 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "低鹽": 3,
+    "有氧": 3,
+    "體重": 3,
+    "家庭": 2,
+    "管理": 2,
+    "調整": 2,
+    "醫師": 2,
+    "降低": 2,
+    "頭痛": 2,
+    "100": 1,
+    "150": 1,
+    "160": 1,
+    "DASH": 1,
+    "中強度": 1,
+    "中等": 1,
+    "兩克": 1,
+    "分鐘": 1,
+    "劑量": 1,
+    "加工": 1,
+    "協助": 1,
+    "取量": 1,
+    "呼吸": 1,
+    "嚴重": 1,
+    "因素": 1,
+    "困難": 1,
+    "壓力": 1,
+    "富含": 1,
+    "干預": 1,
+    "強度": 1,
+    "心悸內科": 1,
+    "心臟科": 1,
+    "急診": 1,
+    "指導": 1,
+    "攝取": 1,
+    "日常": 1,
+    "時間": 1,
+    "模糊": 1,
+    "每日": 1,
+    "每週": 1,
+    "毫米汞柱": 1,
+    "活動量": 1,
+    "減少藥物": 1,
+    "特定": 1,
+    "發作": 1,
+    "監測": 1,
+    "緊急": 1,
+    "胸痛": 1,
+    "自測": 1,
+    "蔬果": 1,
+    "血壓藥物": 1,
+    "規律": 1,
+    "視力": 1,
+    "計畫": 1,
+    "評估": 1,
+    "誘發": 1,
+    "醫療": 1,
+    "非藥物": 1,
+    "食品": 1,
+    "食物": 1,
+    "高血壓": 1,
+    "高鈉": 1
+  },
+  "candidate_keywords_preview": [
+    "低鹽",
+    "高鈉",
+    "加工",
+    "食品",
+    "中等",
+    "強度",
+    "體重",
+    "監測",
+    "頭痛",
+    "心悸內科"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "家屬當下首要任務是協助患者建立規律的生活節奏，例如指導每日低鹽飲食並避免高鈉加工食品，同時鼓勵進行如快走等中等強度運動並著重體重監測。若血壓控制不佳或出現頭痛、心悸等不適，應立即就醫評估是否需調整藥物，切勿自行停藥；建議諮詢內科或心臟科醫師制定具體減重與運動計畫，並透過家庭血壓記錄本追蹤變化，以協助醫師評估生活方式改變對藥物需求的影響。",
+      "keywords": [
+        "低鹽",
+        "高鈉",
+        "加工",
+        "食品",
+        "中等",
+        "強度",
+        "體重",
+        "監測",
+        "頭痛",
+        "心悸內科",
+        "心臟科",
+        "家庭"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "高血壓患者務必在醫師指導下進行飲食調整與運動，例如嚴格遵守低鹽飲食（每日鈉攝取不超過 2,000 毫克）、維持規律有氧運動並配合體重管理，這些非藥物干預確實能有效降低血壓甚至協助減退用藥劑量，但若血壓未達控制目標或出現頭暈、胸痛等急性症狀，應立即就醫評估，建議由內科或心臟內科醫師制定個體化方案，切勿自行停用藥物。",
+      "keywords": [
+        "高血壓",
+        "醫師",
+        "指導",
+        "調整",
+        "低鹽",
+        "攝取",
+        "有氧",
+        "體重",
+        "管理",
+        "非藥物",
+        "干預"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation:  70%|#######   | 7/10 [12:13<04:16, 85.53s/it]114B-WIR-18 Q2D2K + jieba keyword parsing 已完成，共產生 59 個候選 keywords。
+[Step 6] 114B-WIR-18 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "血液科": 4,
+    "血清": 4,
+    "鐵劑": 4,
+    "合力": 2,
+    "嚴重": 2,
+    "基因": 2,
+    "總鐵結": 2,
+    "血红蛋白": 2,
+    "轉鐵": 2,
+    "overload": 1,
+    "RDW": 1,
+    "休息": 1,
+    "劇烈": 1,
+    "口服": 1,
+    "失血": 1,
+    "家族史": 1,
+    "心悸就醫": 1,
+    "急診": 1,
+    "檢測": 1,
+    "氣喘": 1,
+    "活動": 1,
+    "生理": 1,
+    "異形紅": 1,
+    "穩定": 1,
+    "穿刺": 1,
+    "篩檢": 1,
+    "維生素": 1,
+    "肝脾腫": 1,
+    "虛弱": 1,
+    "血栓": 1,
+    "血液內科": 1,
+    "血液科內科": 1,
+    "血球": 1,
+    "補鐵藥物": 1,
+    "貧血內科": 1,
+    "避免": 1,
+    "邊緣": 1,
+    "鈣質": 1,
+    "鐵代謝": 1,
+    "電泳": 1,
+    "電荷": 1,
+    "飽和度": 1,
+    "骨髓": 1,
+    "骨髓檢查": 1
+  },
+  "candidate_keywords_preview": [
+    "休息",
+    "避免",
+    "劇烈",
+    "活動",
+    "生理",
+    "穩定",
+    "補鐵藥物",
+    "overload",
+    "血液科內科",
+    "血清"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "家屬當下應先確保患者休息並避免劇烈活動以維持生理穩定，同時切勿自行購買補鐵藥物服用，因為若患者確實為地中海型貧血，額外補鐵可能導致鐵 overload 的嚴重風險。建議儘速至血液科或內科就診，醫師需透過血清鐵、轉鐵蛋白飽和度、血清鐵蛋白、骨髓穿刺及地中海型貧血基因檢測等完整檢查才能確診，切勿僅憑三項指標輕率判斷而誤導治療方向。",
+      "keywords": [
+        "休息",
+        "避免",
+        "劇烈",
+        "活動",
+        "生理",
+        "穩定",
+        "補鐵藥物",
+        "overload",
+        "血液科內科",
+        "血清",
+        "轉鐵",
+        "飽和度",
+        "骨髓",
+        "穿刺"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "若血色素、MCV 及鐵蛋白三項指標同時偏低，最可能的診斷是缺鐵性貧血，建議儘早至內科或血液科就診進行進一步血球紅血球體積分布（RDW）及血清鐵、總鐵結合力等檢驗以確認；在就醫前切勿自行補充鐵劑以免干擾診斷，若出現嚴重虛弱或呼吸困難應直接前往急診，並請家人陪同攜帶檢驗報告，醫師可能依據確診結果安排口服或靜脈補鐵治療，而地中海型貧血通常鐵蛋白正常或偏高，故若鐵蛋白明顯偏低則極低為該類貧血。",
+      "keywords": [
+        "貧血內科",
+        "血液科",
+        "RDW",
+        "血清",
+        "總鐵結",
+        "合力",
+        "鐵劑",
+        "嚴重",
+        "虛弱"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation:  80%|########  | 8/10 [13:34<02:48, 84.02s/it]114B-WIR-19 Q2D2K + jieba keyword parsing 已完成，共產生 62 個候選 keywords。
+[Step 6] 114B-WIR-19 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "腹壓": 3,
+    "劇烈": 2,
+    "咳嗽": 2,
+    "急診": 2,
+    "搏動": 2,
+    "滑動感": 2,
+    "用力": 2,
+    "腫塊": 2,
+    "腸管": 2,
+    "超音波檢查": 2,
+    "運動": 2,
+    "中線": 1,
+    "保持": 1,
+    "修補": 1,
+    "停止": 1,
+    "化言語": 1,
+    "嘔吐": 1,
+    "因素": 1,
+    "增加": 1,
+    "增高": 1,
+    "安靜": 1,
+    "家屬": 1,
+    "小圓球": 1,
+    "就診": 1,
+    "嵌頓": 1,
+    "急診手術": 1,
+    "排便": 1,
+    "推壓": 1,
+    "搏動外科": 1,
+    "活動": 1,
+    "溝腫塊": 1,
+    "溝通": 1,
+    "無法": 1,
+    "無腸": 1,
+    "疼痛": 1,
+    "痛感": 1,
+    "發紅": 1,
+    "突出": 1,
+    "絕對": 1,
+    "缺血外科": 1,
+    "腸蠕動": 1,
+    "腸道": 1,
+    "腹力": 1,
+    "腹股": 1,
+    "腹股溝": 1,
+    "處理": 1,
+    "評估": 1,
+    "誘發": 1,
+    "避免": 1,
+    "還納": 1
+  },
+  "candidate_keywords_preview": [
+    "小圓球",
+    "滑動感",
+    "保持",
+    "安靜",
+    "停止",
+    "腹壓",
+    "活動",
+    "用力",
+    "排便",
+    "咳嗽"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "當發現肚臍周圍有可移動之小圓球或滑動感時，家屬當下首要任務是保持患者安靜並立即停止任何增加腹壓的活動（如用力排便、咳嗽或劇烈運動），切勿嘗試將觸及的包塊往內推壓以防嵌頓風險。若該物體在躺下後無法自行消失、伴隨疼痛加劇、發紅或觸痛，或患者出現噁心嘔吐與腹痛，應立即送急診評估是否為腹股溝疝氣、無痛性卵巢腫塊或腹主動脈瘤等急症；若情況穩定且無疼痛，可先觀察其是否隨呼吸或體位改變而消失，並記錄發生頻率與特",
+      "keywords": [
+        "小圓球",
+        "滑動感",
+        "保持",
+        "安靜",
+        "停止",
+        "腹壓",
+        "活動",
+        "用力",
+        "排便",
+        "咳嗽",
+        "劇烈",
+        "運動",
+        "推壓"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "若肚臍周圍摸到小球狀物或感覺有東西滑動，建議立即陪同就醫並優先評估是否需急診處理，特別是當該腫塊在咳嗽或用力時會突出且伴隨疼痛、發紅或無法推回時，這可能是疝氣嵌頓的急症需即刻送醫。若腫塊平軟無痛且可推回，可先嘗試放鬆並觀察，但若持續存在或隨時間變大，務必至外科或腸胃腸道科就診以進行超音波檢查，排除腹股溝疝氣、臍疝、腸道腫瘤或罕見的腹主動脈瘤，切勿僅以腸蠕動自我判斷而延誤治療時機。",
+      "keywords": [
+        "嵌頓",
+        "急診",
+        "處理",
+        "腫塊",
+        "突出",
+        "疼痛",
+        "發紅",
+        "無法"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation:  90%|######### | 9/10 [15:03<01:25, 85.58s/it]114B-WIR-20 Q2D2K + jieba keyword parsing 已完成，共產生 59 個候選 keywords。
+[Step 6] 114B-WIR-20 Q2D2K 與 jieba keyword parsing
+{
+  "selected_keywords": [],
+  "keyword_frequencies": {
+    "困難": 4,
+    "嘔吐": 3,
+    "腹脹": 3,
+    "功能性": 2,
+    "失衡": 2,
+    "未解": 2,
+    "母乳": 2,
+    "腸絞痛": 2,
+    "腸道": 2,
+    "不足": 1,
+    "傷患": 1,
+    "先天性": 1,
+    "兒童腸": 1,
+    "刀手": 1,
+    "切勿": 1,
+    "受傷": 1,
+    "失調": 1,
+    "小兒": 1,
+    "尿液": 1,
+    "巨結腸": 1,
+    "形態": 1,
+    "急診": 1,
+    "方式": 1,
+    "水中毒": 1,
+    "水電解質": 1,
+    "滿一歲": 1,
+    "灌腸": 1,
+    "用力": 1,
+    "益生菌": 1,
+    "破傷": 1,
+    "科醫師": 1,
+    "精神": 1,
+    "肛周": 1,
+    "肛門": 1,
+    "胎便": 1,
+    "脫水風險": 1,
+    "腸道功能": 1,
+    "萎靡": 1,
+    "配方": 1,
+    "開塞露": 1,
+    "阻塞": 1,
+    "電解質": 1,
+    "頻率": 1,
+    "風風險": 1,
+    "餵奶": 1,
+    "高風險": 1
+  },
+  "candidate_keywords_preview": [
+    "未解",
+    "困難",
+    "腸絞痛",
+    "脫水風險",
+    "先天性",
+    "巨結腸",
+    "腸道",
+    "阻塞",
+    "灌腸",
+    "刀手"
+  ],
+  "generated_passages_preview": [
+    {
+      "round_index": 1,
+      "passage_index": 1,
+      "passage_preview": "面對嬰兒多天未解便且排便困難的情況，家屬當下切勿自行使用棉花棒刺激或額外餵水，因為這可能引發腸絞痛甚至脫水風險；正確的緊急處置是立即停止任何家庭刺激行為並帶至醫院就診，由醫師評估是否為先天性巨結腸或腸道阻塞等嚴重問題，必要時需透過灌腸或開刀手術治療；同時應密切觀察寶寶是否有嘔吐、腹脹或精神萎靡等警訊，若出現這些情況務必馬上下急診處理，並避免在家自行嘗試偏方以免延誤治療時機。",
+      "keywords": [
+        "未解",
+        "困難",
+        "腸絞痛",
+        "脫水風險",
+        "先天性",
+        "巨結腸",
+        "腸道",
+        "阻塞",
+        "灌腸",
+        "刀手",
+        "嘔吐",
+        "腹脹"
+      ]
+    },
+    {
+      "round_index": 1,
+      "passage_index": 2,
+      "passage_preview": "若嬰兒多天未排便且排便困難，千萬不可自行給予額外餵水或頻繁用棉花棒刺激，這可能導致腸道受傷或電解質失衡；此時應立即帶至醫院就診，由小兒科醫師評估是否為功能性便秘或嚴重脫水，並判斷是否需要進行灌腸或導便等醫療處置，同時需密切觀察寶寶的尿量、囟門凹陷及精神狀況以確定送醫時機，切勿因家庭嘗試錯誤方法而延誤治療。",
+      "keywords": [
+        "困難",
+        "腸道",
+        "受傷",
+        "電解質",
+        "失衡",
+        "小兒",
+        "科醫師",
+        "功能性"
+      ]
+    }
+  ]
+}
+Q2D2K keyword generation: 100%|##########| 10/10 [16:20<00:00, 82.78s/it]Q2D2K keyword generation: 100%|##########| 10/10 [16:20<00:00, 98.01s/it]
+Generator 模型已釋放。
+Dense retriever 模型已釋放（Q2D2K 完成）。
+Keyword frequency selection:   0%|          | 0/10 [00:00<?, ?it/s]114B-WIR-11 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-11 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "急診",
+    "自傷風險",
+    "時間"
+  ],
+  "keyword_frequencies": {
+    "急診": 4,
+    "自傷風險": 4,
+    "時間": 2,
+    "無法": 2,
+    "環境": 2,
+    "精神科門診": 2,
+    "評估": 2,
+    "人身安全": 1,
+    "傷人風險": 1,
+    "傾向": 1,
+    "內容": 1,
+    "具體": 1,
+    "單獨": 1,
+    "嚴重": 1,
+    "因素": 1,
+    "壓力": 1,
+    "安全": 1,
+    "家庭": 1,
+    "專業": 1,
+    "強迫": 1,
+    "徵象": 1,
+    "持續": 1,
+    "支持": 1,
+    "攻擊性": 1,
+    "攻擊行": 1,
+    "暴力": 1,
+    "極高風險": 1,
+    "清單": 1,
+    "爭辯": 1,
+    "現實": 1,
+    "生命": 1,
+    "留置": 1,
+    "症狀": 1,
+    "發作": 1,
+    "睡眠": 1,
+    "睡眠不足": 1,
+    "穩定治療": 1,
+    "精神科": 1,
+    "精神科藥物": 1,
+    "自傷": 1,
+    "自理": 1,
+    "表現": 1,
+    "觀察": 1,
+    "觀察紀錄": 1,
+    "記錄": 1,
+    "誘發": 1,
+    "辨識": 1,
+    "送醫": 1,
+    "進食": 1,
+    "醫紀錄藥物": 1,
+    "開始": 1
+  },
+  "candidate_keyword_count": 62
+}
+114B-WIR-12 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-12 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "出血",
+    "口腔癌",
+    "黏膜"
+  ],
+  "keyword_frequencies": {
+    "出血": 4,
+    "口腔癌": 4,
+    "黏膜": 4,
+    "扁平": 3,
+    "潰瘍": 3,
+    "疼痛": 3,
+    "兩週": 2,
+    "前症": 2,
+    "口腔外科": 2,
+    "念珠菌感染": 2,
+    "白塞氏": 2,
+    "白斑": 2,
+    "耳鼻喉科": 2,
+    "苔蘚": 2,
+    "不明": 1,
+    "不良": 1,
+    "免疫": 1,
+    "內視鏡檢查": 1,
+    "切片": 1,
+    "刺激性": 1,
+    "剝落": 1,
+    "口腔科": 1,
+    "塗抹": 1,
+    "急診": 1,
+    "惡性": 1,
+    "感染": 1,
+    "持續": 1,
+    "早期": 1,
+    "水洗": 1,
+    "活檢": 1,
+    "活體": 1,
+    "清潔": 1,
+    "牙體科": 1,
+    "病灶": 1,
+    "症候群": 1,
+    "癌變風險": 1,
+    "白斑症": 1,
+    "白膜": 1,
+    "白色": 1,
+    "皮膚鏡": 1,
+    "糖尿病": 1,
+    "組織": 1,
+    "腫塊": 1,
+    "腫瘤": 1,
+    "自傷風險": 1,
+    "苔瀉": 1,
+    "衛生": 1,
+    "視診": 1,
+    "角化": 1,
+    "超過": 1,
+    "類癌": 1,
+    "黏膜病變": 1
+  },
+  "candidate_keyword_count": 75
+}
+114B-WIR-13 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-13 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "急診",
+    "視野",
+    "飛蚊"
+  ],
+  "keyword_frequencies": {
+    "急診": 4,
+    "視野": 3,
+    "飛蚊": 3,
+    "剝離": 2,
+    "劇烈": 2,
+    "定期": 2,
+    "家屬": 2,
+    "超聲": 2,
+    "協助": 1,
+    "急迫": 1,
+    "性視": 1,
+    "損傷": 1,
+    "撕裂": 1,
+    "數量": 1,
+    "暗區": 1,
+    "暫時": 1,
+    "波檢查": 1,
+    "波視": 1,
+    "激增": 1,
+    "牽拉": 1,
+    "用力": 1,
+    "眼前": 1,
+    "破裂風險": 1,
+    "突發性": 1,
+    "網膜檢查": 1,
+    "缺損": 1,
+    "脫落": 1,
+    "視力": 1,
+    "視物": 1,
+    "视网膜檢查": 1,
+    "記錄": 1,
+    "變化": 1,
+    "變形": 1,
+    "超掃描": 1,
+    "超音波": 1,
+    "送醫": 1,
+    "運動": 1,
+    "過度": 1,
+    "陪同": 1,
+    "隱性": 1,
+    "隱性視": 1,
+    "離脫": 1,
+    "驟降": 1,
+    "體狀態": 1,
+    "體縮": 1,
+    "高風險": 1
+  },
+  "candidate_keyword_count": 58
+}
+114B-WIR-14 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-14 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "蔬菜",
+    "粉類",
+    "呼吸"
+  ],
+  "keyword_frequencies": {
+    "蔬菜": 4,
+    "粉類": 3,
+    "呼吸": 2,
+    "意識": 2,
+    "指數": 2,
+    "有氧": 2,
+    "模糊": 2,
+    "頻繁": 2,
+    "GI": 1,
+    "下降": 1,
+    "丙酮": 1,
+    "中等": 1,
+    "低升糖": 1,
+    "低血糖": 1,
+    "內科門診": 1,
+    "利用": 1,
+    "口渴": 1,
+    "嘔吐": 1,
+    "執行": 1,
+    "壓力": 1,
+    "大量": 1,
+    "安全": 1,
+    "家屬": 1,
+    "小動作": 1,
+    "少睡": 1,
+    "強調": 1,
+    "微調": 1,
+    "快速": 1,
+    "思維": 1,
+    "急促": 1,
+    "急診": 1,
+    "恐懼": 1,
+    "抗阻": 1,
+    "拆解": 1,
+    "排尿": 1,
+    "數值": 1,
+    "極度": 1,
+    "每日": 1,
+    "添加": 1,
+    "減重": 1,
+    "溝通": 1,
+    "熬夜": 1,
+    "環境": 1,
+    "用餐": 1,
+    "痙攣": 1,
+    "目標": 1,
+    "碳水化合物": 1,
+    "社區": 1,
+    "結構": 1,
+    "肌肉": 1,
+    "葡萄糖": 1,
+    "處理": 1,
+    "訓練": 1,
+    "診所": 1,
+    "責備": 1,
+    "跌倒": 1,
+    "過度": 1,
+    "避免": 1,
+    "醫評": 1,
+    "阻力": 1,
+    "飯後兩小時": 1,
+    "高升": 1,
+    "高血糖": 1
+  },
+  "candidate_keyword_count": 74
+}
+114B-WIR-15 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-15 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "不穩",
+    "骨科",
+    "專科"
+  ],
+  "keyword_frequencies": {
+    "不穩": 3,
+    "骨科": 3,
+    "專科": 2,
+    "脫位": 2,
+    "MRI檢查": 1,
+    "冰敷": 1,
+    "前脛骨": 1,
+    "十字": 1,
+    "半月板": 1,
+    "受傷": 1,
+    "單腿": 1,
+    "定性": 1,
+    "急度手術": 1,
+    "急診": 1,
+    "急診門診": 1,
+    "情境": 1,
+    "慢性": 1,
+    "打軟": 1,
+    "承受手術": 1,
+    "損傷": 1,
+    "撕裂功能": 1,
+    "斷裂手術": 1,
+    "時間": 1,
+    "正骨科": 1,
+    "無法": 1,
+    "物理治療": 1,
+    "當感": 1,
+    "疼痛": 1,
+    "發作": 1,
+    "短期": 1,
+    "磨損": 1,
+    "移位": 1,
+    "程度": 1,
+    "穩定": 1,
+    "站立": 1,
+    "系統性": 1,
+    "肌韌帶": 1,
+    "股四頭": 1,
+    "腫痛": 1,
+    "膝蓋": 1,
+    "臀中": 1,
+    "部分": 1,
+    "需求": 1,
+    "韌帶外科": 1,
+    "風險": 1,
+    "髕骨": 1
+  },
+  "candidate_keyword_count": 52
+}
+114B-WIR-16 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-16 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "暈眩",
+    "頸部",
+    "手臂"
+  ],
+  "keyword_frequencies": {
+    "暈眩": 5,
+    "頸部": 4,
+    "手臂": 3,
+    "模糊": 3,
+    "肌肉": 3,
+    "視力": 3,
+    "劇烈": 2,
+    "壓迫": 2,
+    "急診": 2,
+    "無力": 2,
+    "痙攣": 2,
+    "筋膜": 2,
+    "精神": 2,
+    "健科": 1,
+    "傾聽": 1,
+    "坐姿": 1,
+    "姿態": 1,
+    "專人": 1,
+    "手語": 1,
+    "拉伸": 1,
+    "期壓力": 1,
+    "正骨科": 1,
+    "活動": 1,
+    "焦慮": 1,
+    "熬夜": 1,
+    "熱敷": 1,
+    "熱敷就醫": 1,
+    "物理治療": 1,
+    "神經": 1,
+    "神經內科": 1,
+    "緊張": 1,
+    "肢體": 1,
+    "胸痛": 1,
+    "腦部": 1,
+    "血管": 1,
+    "陪同": 1,
+    "頭痛": 1,
+    "頸椎神經": 1,
+    "麻木": 1,
+    "麻痺": 1
+  },
+  "candidate_keyword_count": 62
+}
+114B-WIR-17 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-17 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "低鹽",
+    "有氧",
+    "體重"
+  ],
+  "keyword_frequencies": {
+    "低鹽": 3,
+    "有氧": 3,
+    "體重": 3,
+    "家庭": 2,
+    "管理": 2,
+    "調整": 2,
+    "醫師": 2,
+    "降低": 2,
+    "頭痛": 2,
+    "100": 1,
+    "150": 1,
+    "160": 1,
+    "DASH": 1,
+    "中強度": 1,
+    "中等": 1,
+    "兩克": 1,
+    "分鐘": 1,
+    "劑量": 1,
+    "加工": 1,
+    "協助": 1,
+    "取量": 1,
+    "呼吸": 1,
+    "嚴重": 1,
+    "因素": 1,
+    "困難": 1,
+    "壓力": 1,
+    "富含": 1,
+    "干預": 1,
+    "強度": 1,
+    "心悸內科": 1,
+    "心臟科": 1,
+    "急診": 1,
+    "指導": 1,
+    "攝取": 1,
+    "日常": 1,
+    "時間": 1,
+    "模糊": 1,
+    "每日": 1,
+    "每週": 1,
+    "毫米汞柱": 1,
+    "活動量": 1,
+    "減少藥物": 1,
+    "特定": 1,
+    "發作": 1,
+    "監測": 1,
+    "緊急": 1,
+    "胸痛": 1,
+    "自測": 1,
+    "蔬果": 1,
+    "血壓藥物": 1,
+    "規律": 1,
+    "視力": 1,
+    "計畫": 1,
+    "評估": 1,
+    "誘發": 1,
+    "醫療": 1,
+    "非藥物": 1,
+    "食品": 1,
+    "食物": 1,
+    "高血壓": 1,
+    "高鈉": 1
+  },
+  "candidate_keyword_count": 73
+}
+114B-WIR-18 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-18 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "血液科",
+    "血清",
+    "鐵劑"
+  ],
+  "keyword_frequencies": {
+    "血液科": 4,
+    "血清": 4,
+    "鐵劑": 4,
+    "合力": 2,
+    "嚴重": 2,
+    "基因": 2,
+    "總鐵結": 2,
+    "血红蛋白": 2,
+    "轉鐵": 2,
+    "overload": 1,
+    "RDW": 1,
+    "休息": 1,
+    "劇烈": 1,
+    "口服": 1,
+    "失血": 1,
+    "家族史": 1,
+    "心悸就醫": 1,
+    "急診": 1,
+    "檢測": 1,
+    "氣喘": 1,
+    "活動": 1,
+    "生理": 1,
+    "異形紅": 1,
+    "穩定": 1,
+    "穿刺": 1,
+    "篩檢": 1,
+    "維生素": 1,
+    "肝脾腫": 1,
+    "虛弱": 1,
+    "血栓": 1,
+    "血液內科": 1,
+    "血液科內科": 1,
+    "血球": 1,
+    "補鐵藥物": 1,
+    "貧血內科": 1,
+    "避免": 1,
+    "邊緣": 1,
+    "鈣質": 1,
+    "鐵代謝": 1,
+    "電泳": 1,
+    "電荷": 1,
+    "飽和度": 1,
+    "骨髓": 1,
+    "骨髓檢查": 1
+  },
+  "candidate_keyword_count": 59
+}
+114B-WIR-19 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-19 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "腹壓",
+    "劇烈",
+    "咳嗽"
+  ],
+  "keyword_frequencies": {
+    "腹壓": 3,
+    "劇烈": 2,
+    "咳嗽": 2,
+    "急診": 2,
+    "搏動": 2,
+    "滑動感": 2,
+    "用力": 2,
+    "腫塊": 2,
+    "腸管": 2,
+    "超音波檢查": 2,
+    "運動": 2,
+    "中線": 1,
+    "保持": 1,
+    "修補": 1,
+    "停止": 1,
+    "化言語": 1,
+    "嘔吐": 1,
+    "因素": 1,
+    "增加": 1,
+    "增高": 1,
+    "安靜": 1,
+    "家屬": 1,
+    "小圓球": 1,
+    "就診": 1,
+    "嵌頓": 1,
+    "急診手術": 1,
+    "排便": 1,
+    "推壓": 1,
+    "搏動外科": 1,
+    "活動": 1,
+    "溝腫塊": 1,
+    "溝通": 1,
+    "無法": 1,
+    "無腸": 1,
+    "疼痛": 1,
+    "痛感": 1,
+    "發紅": 1,
+    "突出": 1,
+    "絕對": 1,
+    "缺血外科": 1,
+    "腸蠕動": 1,
+    "腸道": 1,
+    "腹力": 1,
+    "腹股": 1,
+    "腹股溝": 1,
+    "處理": 1,
+    "評估": 1,
+    "誘發": 1,
+    "避免": 1,
+    "還納": 1
+  },
+  "candidate_keyword_count": 62
+}
+114B-WIR-20 Keyword frequency selection 已完成，選出 3 個 keywords。
+[Step 7] 114B-WIR-20 Keyword Frequency Selection
+{
+  "selected_keywords": [
+    "困難",
+    "嘔吐",
+    "腹脹"
+  ],
+  "keyword_frequencies": {
+    "困難": 4,
+    "嘔吐": 3,
+    "腹脹": 3,
+    "功能性": 2,
+    "失衡": 2,
+    "未解": 2,
+    "母乳": 2,
+    "腸絞痛": 2,
+    "腸道": 2,
+    "不足": 1,
+    "傷患": 1,
+    "先天性": 1,
+    "兒童腸": 1,
+    "刀手": 1,
+    "切勿": 1,
+    "受傷": 1,
+    "失調": 1,
+    "小兒": 1,
+    "尿液": 1,
+    "巨結腸": 1,
+    "形態": 1,
+    "急診": 1,
+    "方式": 1,
+    "水中毒": 1,
+    "水電解質": 1,
+    "滿一歲": 1,
+    "灌腸": 1,
+    "用力": 1,
+    "益生菌": 1,
+    "破傷": 1,
+    "科醫師": 1,
+    "精神": 1,
+    "肛周": 1,
+    "肛門": 1,
+    "胎便": 1,
+    "脫水風險": 1,
+    "腸道功能": 1,
+    "萎靡": 1,
+    "配方": 1,
+    "開塞露": 1,
+    "阻塞": 1,
+    "電解質": 1,
+    "頻率": 1,
+    "風風險": 1,
+    "餵奶": 1,
+    "高風險": 1
+  },
+  "candidate_keyword_count": 59
+}
+Keyword frequency selection: 100%|##########| 10/10 [00:00<00:00, 2991.87it/s]
+Reranker 初始化已完成。
+GFF reranking queries:   0%|          | 0/10 [00:00<?, ?it/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 17 files:   0%|          | 0/17 [00:00<?, ?it/s][A[A
+Downloading (incomplete total...):   0%|          | 0.00/325 [00:00<?, ?B/s][A
+Downloading (incomplete total...): 100%|##########| 325/325 [00:00<00:00, 482B/s][A
+Downloading (incomplete total...):  30%|###       | 325/1.07k [00:00<00:01, 482B/s][A
+Downloading (incomplete total...): 17.3kB [00:00, 482B/s]                          [A
+Downloading (incomplete total...): 18.1kB [00:00, 482B/s][A
+Downloading (incomplete total...): 18.3kB [00:00, 482B/s][A
+
+Fetching 17 files:   6%|5         | 1/17 [00:00<00:11,  1.44it/s][A[A
+Downloading (incomplete total...):   0%|          | 1.69M/4.06G [00:01<2337:36:29, 482B/s][A
+Downloading (incomplete total...):   0%|          | 1.69M/8.04G [00:01<4633:34:53, 482B/s][A
+Downloading (incomplete total...):   0%|          | 1.69M/8.06G [00:01<4640:09:46, 482B/s][A
+Downloading (incomplete total...):   0%|          | 1.72M/8.06G [00:01<1:28:39, 1.51MB/s] [A
+Downloading (incomplete total...):   0%|          | 1.72M/8.06G [00:01<1:28:39, 1.51MB/s][A
+Downloading (incomplete total...):   0%|          | 1.72M/8.06G [00:01<1:28:39, 1.51MB/s][A
+Downloading (incomplete total...):   0%|          | 1.73M/8.06G [00:01<1:28:39, 1.51MB/s][A
+Downloading (incomplete total...):   0%|          | 10.0M/8.06G [00:02<23:13, 5.77MB/s]  [A
+Downloading (incomplete total...):   0%|          | 12.8M/8.06G [00:02<18:35, 7.21MB/s][A
+Downloading (incomplete total...):   0%|          | 15.9M/8.06G [00:02<15:21, 8.72MB/s][A
+Downloading (incomplete total...):   1%|1         | 82.9M/8.06G [00:03<02:52, 46.3MB/s][A
+Downloading (incomplete total...):   1%|1         | 94.4M/8.06G [00:03<02:44, 48.5MB/s][A
+Downloading (incomplete total...):   1%|1         | 106M/8.06G [00:03<02:37, 50.6MB/s] [A
+Downloading (incomplete total...):   2%|2         | 174M/8.06G [00:03<01:13, 107MB/s] [A
+Downloading (incomplete total...):   3%|2         | 205M/8.06G [00:04<01:05, 120MB/s][A
+Downloading (incomplete total...):   3%|3         | 272M/8.06G [00:19<15:04, 8.60MB/s][A
+Downloading (incomplete total...):   4%|4         | 339M/8.06G [00:23<11:51, 10.9MB/s][A
+Downloading (incomplete total...):  11%|#         | 876M/8.06G [00:24<02:08, 55.8MB/s][A
+Downloading (incomplete total...):  16%|#5        | 1.28G/8.06G [00:29<01:45, 64.3MB/s][A
+Downloading (incomplete total...):  22%|##1       | 1.75G/8.06G [00:31<01:02, 101MB/s] [A
+Downloading (incomplete total...):  24%|##4       | 1.95G/8.06G [00:37<01:29, 67.9MB/s][A
+Downloading (incomplete total...):  43%|####3     | 3.49G/8.06G [00:39<00:12, 353MB/s] [A
+Downloading (incomplete total...):  50%|#####     | 4.03G/8.06G [00:39<00:10, 389MB/s][A
+Downloading (incomplete total...):  50%|#####     | 4.03G/8.06G [00:39<00:10, 389MB/s][A
+Downloading (incomplete total...):  59%|#####9    | 4.77G/8.06G [00:51<00:21, 154MB/s][A
+Downloading (incomplete total...):  61%|######    | 4.90G/8.06G [00:54<00:23, 136MB/s][A
+Downloading (incomplete total...):  63%|######2   | 5.04G/8.06G [00:57<00:27, 112MB/s][A
+Downloading (incomplete total...):  68%|######7   | 5.44G/8.06G [01:00<00:21, 121MB/s][A
+Downloading (incomplete total...):  72%|#######1  | 5.77G/8.06G [01:00<00:15, 150MB/s][A
+Downloading (incomplete total...):  75%|#######4  | 6.00G/8.06G [01:01<00:11, 175MB/s][A
+Downloading (incomplete total...):  90%|######### | 7.28G/8.06G [01:09<00:04, 160MB/s][A
+Downloading (incomplete total...): 8.06GB [01:10, 230MB/s]                            [A
+Downloading (incomplete total...): 8.06GB [01:23, 230MB/s][A
+
+Fetching 17 files:  53%|#####2    | 9/17 [01:32<01:25, 10.64s/it][A[AFetching 17 files: 100%|##########| 17/17 [01:32<00:00,  5.46s/it]
+
+Download complete: : 8.06GB [01:32, 230MB/s]              [ADownload complete: : 8.06GB [01:33, 86.4MB/s]
+/workplace/zyxu/miniconda3/envs/phase2/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2356: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:06<45:18,  6.85s/it][A
+Loading weights:   1%|          | 3/398 [00:07<12:45,  1.94s/it][A
+Loading weights:   1%|1         | 4/398 [00:07<09:18,  1.42s/it][A
+Loading weights:   1%|1         | 5/398 [00:08<07:09,  1.09s/it][A
+Loading weights:   2%|2         | 9/398 [00:08<02:42,  2.40it/s][A
+Loading weights:   3%|2         | 11/398 [00:08<02:01,  3.18it/s][A
+Loading weights:   4%|3         | 14/398 [00:09<01:37,  3.94it/s][A
+Loading weights:   4%|3         | 15/398 [00:09<01:48,  3.53it/s][A
+Loading weights:   4%|4         | 16/398 [00:09<01:59,  3.20it/s][A
+Loading weights:   5%|5         | 20/398 [00:10<01:08,  5.51it/s][A
+Loading weights:   6%|5         | 22/398 [00:10<00:59,  6.35it/s][A
+Loading weights:   6%|6         | 25/398 [00:10<00:59,  6.25it/s][A
+Loading weights:   7%|6         | 26/398 [00:11<01:15,  4.93it/s][A
+Loading weights:   7%|6         | 27/398 [00:11<01:30,  4.10it/s][A
+Loading weights:   8%|7         | 31/398 [00:11<00:55,  6.63it/s][A
+Loading weights:   8%|8         | 33/398 [00:12<00:49,  7.37it/s][A
+Loading weights:   9%|9         | 36/398 [00:12<00:52,  6.88it/s][A
+Loading weights:   9%|9         | 37/398 [00:13<01:08,  5.30it/s][A
+Loading weights:  10%|9         | 38/398 [00:13<01:26,  4.18it/s][A
+Loading weights:  11%|#         | 42/398 [00:13<00:53,  6.70it/s][A
+Loading weights:  11%|#1        | 44/398 [00:14<00:47,  7.42it/s][A
+Loading weights:  12%|#1        | 47/398 [00:14<00:51,  6.85it/s][A
+Loading weights:  12%|#2        | 48/398 [00:14<01:06,  5.25it/s][A
+Loading weights:  12%|#2        | 49/398 [00:15<01:21,  4.26it/s][A
+Loading weights:  13%|#3        | 53/398 [00:15<00:50,  6.77it/s][A
+Loading weights:  14%|#3        | 55/398 [00:15<00:45,  7.49it/s][A
+Loading weights:  15%|#4        | 58/398 [00:16<00:49,  6.90it/s][A
+Loading weights:  15%|#4        | 59/398 [00:16<01:04,  5.29it/s][A
+Loading weights:  15%|#5        | 60/398 [00:17<01:18,  4.29it/s][A
+Loading weights:  16%|#6        | 64/398 [00:17<00:48,  6.83it/s][A
+Loading weights:  17%|#6        | 66/398 [00:17<00:43,  7.55it/s][A
+Loading weights:  17%|#7        | 69/398 [00:18<00:47,  6.93it/s][A
+Loading weights:  18%|#7        | 70/398 [00:18<01:01,  5.29it/s][A
+Loading weights:  18%|#7        | 71/398 [00:19<01:16,  4.28it/s][A
+Loading weights:  19%|#8        | 75/398 [00:19<00:47,  6.82it/s][A
+Loading weights:  19%|#9        | 77/398 [00:19<00:42,  7.53it/s][A
+Loading weights:  20%|##        | 80/398 [00:19<00:45,  6.93it/s][A
+Loading weights:  20%|##        | 81/398 [00:20<00:59,  5.31it/s][A
+Loading weights:  21%|##        | 82/398 [00:20<01:13,  4.30it/s][A
+Loading weights:  22%|##1       | 86/398 [00:21<00:45,  6.84it/s][A
+Loading weights:  22%|##2       | 88/398 [00:21<00:40,  7.56it/s][A
+Loading weights:  23%|##2       | 91/398 [00:21<00:45,  6.76it/s][A
+Loading weights:  23%|##3       | 92/398 [00:22<00:58,  5.23it/s][A
+Loading weights:  23%|##3       | 93/398 [00:22<01:11,  4.25it/s][A
+Loading weights:  24%|##4       | 97/398 [00:22<00:44,  6.78it/s][A
+Loading weights:  25%|##4       | 99/398 [00:23<00:39,  7.50it/s][A
+Loading weights:  26%|##5       | 102/398 [00:23<00:42,  6.93it/s][A
+Loading weights:  26%|##5       | 103/398 [00:24<00:55,  5.31it/s][A
+Loading weights:  26%|##6       | 104/398 [00:24<01:08,  4.30it/s][A
+Loading weights:  27%|##7       | 108/398 [00:24<00:42,  6.83it/s][A
+Loading weights:  28%|##7       | 110/398 [00:24<00:38,  7.54it/s][A
+Loading weights:  28%|##8       | 113/398 [00:25<00:40,  6.96it/s][A
+Loading weights:  29%|##8       | 114/398 [00:25<00:53,  5.34it/s][A
+Loading weights:  29%|##8       | 115/398 [00:26<01:05,  4.31it/s][A
+Loading weights:  30%|##9       | 119/398 [00:26<00:40,  6.85it/s][A
+Loading weights:  30%|###       | 121/398 [00:26<00:36,  7.56it/s][A
+Loading weights:  31%|###1      | 124/398 [00:27<00:39,  6.89it/s][A
+Loading weights:  31%|###1      | 125/398 [00:27<00:51,  5.30it/s][A
+Loading weights:  32%|###1      | 126/398 [00:28<01:03,  4.28it/s][A
+Loading weights:  33%|###2      | 130/398 [00:28<00:39,  6.82it/s][A
+Loading weights:  33%|###3      | 132/398 [00:28<00:36,  7.38it/s][A
+Loading weights:  34%|###3      | 135/398 [00:29<00:38,  6.78it/s][A
+Loading weights:  34%|###4      | 136/398 [00:29<00:50,  5.22it/s][A
+Loading weights:  34%|###4      | 137/398 [00:29<01:01,  4.24it/s][A
+Loading weights:  35%|###5      | 141/398 [00:30<00:37,  6.76it/s][A
+Loading weights:  36%|###5      | 143/398 [00:30<00:34,  7.48it/s][A
+Loading weights:  37%|###6      | 146/398 [00:30<00:36,  6.88it/s][A
+Loading weights:  37%|###6      | 147/398 [00:31<00:47,  5.27it/s][A
+Loading weights:  37%|###7      | 148/398 [00:31<00:58,  4.26it/s][A
+Loading weights:  38%|###8      | 152/398 [00:31<00:36,  6.78it/s][A
+Loading weights:  39%|###8      | 154/398 [00:32<00:32,  7.50it/s][A
+Loading weights:  39%|###9      | 157/398 [00:32<00:35,  6.88it/s][A
+Loading weights:  40%|###9      | 158/398 [00:33<00:47,  5.10it/s][A
+Loading weights:  40%|###9      | 159/398 [00:33<00:57,  4.17it/s][A
+Loading weights:  41%|####      | 163/398 [00:33<00:35,  6.64it/s][A
+Loading weights:  41%|####1     | 165/398 [00:34<00:31,  7.36it/s][A
+Loading weights:  42%|####2     | 168/398 [00:34<00:33,  6.80it/s][A
+Loading weights:  42%|####2     | 169/398 [00:35<00:43,  5.24it/s][A
+Loading weights:  43%|####2     | 170/398 [00:35<00:53,  4.25it/s][A
+Loading weights:  44%|####3     | 174/398 [00:35<00:33,  6.75it/s][A
+Loading weights:  44%|####4     | 176/398 [00:35<00:29,  7.46it/s][A
+Loading weights:  45%|####4     | 179/398 [00:36<00:32,  6.78it/s][A
+Loading weights:  45%|####5     | 180/398 [00:36<00:41,  5.21it/s][A
+Loading weights:  45%|####5     | 181/398 [00:37<00:51,  4.23it/s][A
+Loading weights:  46%|####6     | 185/398 [00:37<00:31,  6.74it/s][A
+Loading weights:  47%|####6     | 187/398 [00:37<00:28,  7.45it/s][A
+Loading weights:  48%|####7     | 190/398 [00:38<00:30,  6.88it/s][A
+Loading weights:  48%|####7     | 191/398 [00:38<00:39,  5.23it/s][A
+Loading weights:  48%|####8     | 192/398 [00:39<00:48,  4.24it/s][A
+Loading weights:  49%|####9     | 196/398 [00:39<00:29,  6.75it/s][A
+Loading weights:  50%|####9     | 198/398 [00:39<00:26,  7.47it/s][A
+Loading weights:  51%|#####     | 201/398 [00:40<00:28,  6.85it/s][A
+Loading weights:  51%|#####     | 202/398 [00:40<00:37,  5.26it/s][A
+Loading weights:  51%|#####1    | 203/398 [00:40<00:45,  4.27it/s][A
+Loading weights:  52%|#####2    | 207/398 [00:41<00:28,  6.78it/s][A
+Loading weights:  53%|#####2    | 209/398 [00:41<00:25,  7.50it/s][A
+Loading weights:  53%|#####3    | 212/398 [00:41<00:27,  6.87it/s][A
+Loading weights:  54%|#####3    | 213/398 [00:42<00:35,  5.28it/s][A
+Loading weights:  54%|#####3    | 214/398 [00:42<00:43,  4.27it/s][A
+Loading weights:  55%|#####4    | 218/398 [00:42<00:26,  6.79it/s][A
+Loading weights:  55%|#####5    | 220/398 [00:43<00:23,  7.50it/s][A
+Loading weights:  56%|#####6    | 223/398 [00:43<00:25,  6.92it/s][A
+Loading weights:  56%|#####6    | 224/398 [00:44<00:33,  5.23it/s][A
+Loading weights:  57%|#####6    | 225/398 [00:44<00:41,  4.19it/s][A
+Loading weights:  58%|#####7    | 229/398 [00:44<00:25,  6.63it/s][A
+Loading weights:  58%|#####8    | 231/398 [00:45<00:22,  7.35it/s][A
+Loading weights:  59%|#####8    | 234/398 [00:45<00:24,  6.82it/s][A
+Loading weights:  59%|#####9    | 235/398 [00:45<00:30,  5.27it/s][A
+Loading weights:  59%|#####9    | 236/398 [00:46<00:37,  4.26it/s][A
+Loading weights:  60%|######    | 240/398 [00:46<00:23,  6.78it/s][A
+Loading weights:  61%|######    | 242/398 [00:46<00:20,  7.50it/s][A
+Loading weights:  62%|######1   | 245/398 [00:47<00:22,  6.90it/s][A
+Loading weights:  62%|######1   | 246/398 [00:47<00:29,  5.24it/s][A
+Loading weights:  62%|######2   | 247/398 [00:48<00:35,  4.27it/s][A
+Loading weights:  63%|######3   | 251/398 [00:48<00:21,  6.78it/s][A
+Loading weights:  64%|######3   | 253/398 [00:48<00:19,  7.50it/s][A
+Loading weights:  64%|######4   | 256/398 [00:49<00:20,  6.92it/s][A
+Loading weights:  65%|######4   | 257/398 [00:49<00:26,  5.29it/s][A
+Loading weights:  65%|######4   | 258/398 [00:50<00:32,  4.29it/s][A
+Loading weights:  66%|######5   | 262/398 [00:50<00:20,  6.79it/s][A
+Loading weights:  66%|######6   | 264/398 [00:50<00:17,  7.51it/s][A
+Loading weights:  67%|######7   | 267/398 [00:50<00:18,  6.90it/s][A
+Loading weights:  67%|######7   | 268/398 [00:51<00:24,  5.28it/s][A
+Loading weights:  68%|######7   | 269/398 [00:51<00:30,  4.28it/s][A
+Loading weights:  69%|######8   | 273/398 [00:52<00:18,  6.80it/s][A
+Loading weights:  69%|######9   | 275/398 [00:52<00:16,  7.53it/s][A
+Loading weights:  70%|######9   | 278/398 [00:52<00:17,  6.96it/s][A
+Loading weights:  70%|#######   | 279/398 [00:53<00:22,  5.33it/s][A
+Loading weights:  70%|#######   | 280/398 [00:53<00:27,  4.31it/s][A
+Loading weights:  71%|#######1  | 284/398 [00:53<00:16,  6.86it/s][A
+Loading weights:  72%|#######1  | 286/398 [00:54<00:14,  7.52it/s][A
+Loading weights:  73%|#######2  | 289/398 [00:54<00:15,  6.93it/s][A
+Loading weights:  73%|#######2  | 290/398 [00:55<00:20,  5.32it/s][A
+Loading weights:  73%|#######3  | 291/398 [00:55<00:24,  4.30it/s][A
+Loading weights:  74%|#######4  | 295/398 [00:55<00:15,  6.85it/s][A
+Loading weights:  75%|#######4  | 297/398 [00:55<00:13,  7.56it/s][A
+Loading weights:  75%|#######5  | 300/398 [00:56<00:14,  6.90it/s][A
+Loading weights:  76%|#######5  | 301/398 [00:56<00:18,  5.28it/s][A
+Loading weights:  76%|#######5  | 302/398 [00:57<00:22,  4.27it/s][A
+Loading weights:  77%|#######6  | 306/398 [00:57<00:13,  6.77it/s][A
+Loading weights:  77%|#######7  | 308/398 [00:57<00:12,  7.49it/s][A
+Loading weights:  78%|#######8  | 311/398 [00:58<00:12,  6.86it/s][A
+Loading weights:  78%|#######8  | 312/398 [00:58<00:16,  5.28it/s][A
+Loading weights:  79%|#######8  | 313/398 [00:59<00:19,  4.29it/s][A
+Loading weights:  80%|#######9  | 317/398 [00:59<00:11,  6.81it/s][A
+Loading weights:  80%|########  | 319/398 [00:59<00:10,  7.53it/s][A
+Loading weights:  81%|########  | 322/398 [01:00<00:11,  6.90it/s][A
+Loading weights:  81%|########1 | 323/398 [01:00<00:14,  5.28it/s][A
+Loading weights:  81%|########1 | 324/398 [01:00<00:17,  4.27it/s][A
+Loading weights:  82%|########2 | 328/398 [01:01<00:10,  6.78it/s][A
+Loading weights:  83%|########2 | 330/398 [01:01<00:09,  7.50it/s][A
+Loading weights:  84%|########3 | 333/398 [01:01<00:09,  6.89it/s][A
+Loading weights:  84%|########3 | 334/398 [01:02<00:12,  5.28it/s][A
+Loading weights:  84%|########4 | 335/398 [01:02<00:14,  4.29it/s][A
+Loading weights:  85%|########5 | 339/398 [01:03<00:08,  6.82it/s][A
+Loading weights:  86%|########5 | 341/398 [01:03<00:07,  7.53it/s][A
+Loading weights:  86%|########6 | 344/398 [01:03<00:07,  6.92it/s][A
+Loading weights:  87%|########6 | 345/398 [01:04<00:10,  5.28it/s][A
+Loading weights:  87%|########6 | 346/398 [01:04<00:12,  4.26it/s][A
+Loading weights:  88%|########7 | 350/398 [01:04<00:07,  6.81it/s][A
+Loading weights:  88%|########8 | 352/398 [01:05<00:06,  7.54it/s][A
+Loading weights:  89%|########9 | 355/398 [01:05<00:06,  6.98it/s][A
+Loading weights:  89%|########9 | 356/398 [01:05<00:07,  5.37it/s][A
+Loading weights:  90%|########9 | 357/398 [01:06<00:09,  4.35it/s][A
+Loading weights:  91%|######### | 361/398 [01:06<00:05,  6.91it/s][A
+Loading weights:  91%|#########1| 363/398 [01:06<00:04,  7.65it/s][A
+Loading weights:  92%|#########1| 366/398 [01:07<00:04,  7.02it/s][A
+Loading weights:  92%|#########2| 367/398 [01:07<00:05,  5.40it/s][A
+Loading weights:  92%|#########2| 368/398 [01:08<00:06,  4.38it/s][A
+Loading weights:  93%|#########3| 372/398 [01:08<00:03,  6.94it/s][A
+Loading weights:  94%|#########3| 374/398 [01:08<00:03,  7.67it/s][A
+Loading weights:  95%|#########4| 377/398 [01:09<00:02,  7.07it/s][A
+Loading weights:  95%|#########4| 378/398 [01:09<00:03,  5.40it/s][A
+Loading weights:  95%|#########5| 379/398 [01:09<00:04,  4.36it/s][A
+Loading weights:  96%|#########6| 383/398 [01:10<00:02,  6.96it/s][A
+Loading weights:  97%|#########6| 385/398 [01:10<00:01,  7.65it/s][A
+Loading weights:  97%|#########7| 388/398 [01:10<00:01,  7.06it/s][A
+Loading weights:  98%|#########7| 389/398 [01:11<00:01,  5.41it/s][A
+Loading weights:  98%|#########7| 390/398 [01:11<00:01,  4.38it/s][A
+Loading weights:  99%|#########8| 394/398 [01:11<00:00,  6.96it/s][A
+Loading weights:  99%|#########9| 396/398 [01:12<00:00,  7.69it/s][ALoading weights: 100%|##########| 398/398 [01:12<00:00,  5.52it/s]
+114B-WIR-11 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-11 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "急診",
+      "expanded_query": "當家人出現情緒失控、妄想、多疑或行為異常等情形時，家屬應如何協助就醫或處理？ 急診"
+    },
+    {
+      "keyword": "自傷風險",
+      "expanded_query": "當家人出現情緒失控、妄想、多疑或行為異常等情形時，家屬應如何協助就醫或處理？ 自傷風險"
+    },
+    {
+      "keyword": "時間",
+      "expanded_query": "當家人出現情緒失控、妄想、多疑或行為異常等情形時，家屬應如何協助就醫或處理？ 時間"
+    }
+  ],
+  "original_top_doc_indices": [
+    64663,
+    114599,
+    36934,
+    150418,
+    150424
+  ],
+  "fusion_top_doc_indices": [
+    64663,
+    114599,
+    36934,
+    150418,
+    150424
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 64663,
+      "doc_id": "dd22c001",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.005698876062403927
+    },
+    {
+      "doc_index": 114599,
+      "doc_id": "34903580",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005598889476467477
+    },
+    {
+      "doc_index": 36934,
+      "doc_id": "e1446f91",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.005550938866644842
+    },
+    {
+      "doc_index": 150418,
+      "doc_id": "476ba750",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.0054557458890483745
+    },
+    {
+      "doc_index": 150424,
+      "doc_id": "f5c64398",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.005352402065504981
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "當家人出現情緒失控、妄想、多疑或行為異常等情形時，家屬應如何協助就醫或處理？ 急診",
+      "list_weight": 0.016129032258064516,
+      "anchor_doc_rank": 2
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "當家人出現情緒失控、妄想、多疑或行為異常等情形時，家屬應如何協助就醫或處理？ 自傷風險",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "當家人出現情緒失控、妄想、多疑或行為異常等情形時，家屬應如何協助就醫或處理？ 時間",
+      "list_weight": 0.015873015873015872,
+      "anchor_doc_rank": 3
+    },
+    {
+      "label": "original_query",
+      "query_text": "當家人出現情緒失控、妄想、多疑或行為異常等情形時，家屬應如何協助就醫或處理？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-11 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries:  10%|#         | 1/10 [03:04<27:36, 184.07s/it]114B-WIR-12 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-12 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "出血",
+      "expanded_query": "口腔或舌頭出現白點、顆粒、突起或粗糙感等變化，是否為正常現象或疾病？ 出血"
+    },
+    {
+      "keyword": "口腔癌",
+      "expanded_query": "口腔或舌頭出現白點、顆粒、突起或粗糙感等變化，是否為正常現象或疾病？ 口腔癌"
+    },
+    {
+      "keyword": "黏膜",
+      "expanded_query": "口腔或舌頭出現白點、顆粒、突起或粗糙感等變化，是否為正常現象或疾病？ 黏膜"
+    }
+  ],
+  "original_top_doc_indices": [
+    97411,
+    82296,
+    82231,
+    57676,
+    107599
+  ],
+  "fusion_top_doc_indices": [
+    97411,
+    82296,
+    82231,
+    57676,
+    107599
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 97411,
+      "doc_id": "3991250b",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.005675416771354786
+    },
+    {
+      "doc_index": 82296,
+      "doc_id": "a0abfee5",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005579442077987821
+    },
+    {
+      "doc_index": 82231,
+      "doc_id": "299bca07",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.005443726287527369
+    },
+    {
+      "doc_index": 57676,
+      "doc_id": "73a04ff1",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.005390151832397302
+    },
+    {
+      "doc_index": 107599,
+      "doc_id": "8d24206d",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.005351394595180952
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "口腔或舌頭出現白點、顆粒、突起或粗糙感等變化，是否為正常現象或疾病？ 出血",
+      "list_weight": 0.015873015873015872,
+      "anchor_doc_rank": 3
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "口腔或舌頭出現白點、顆粒、突起或粗糙感等變化，是否為正常現象或疾病？ 口腔癌",
+      "list_weight": 0.015384615384615385,
+      "anchor_doc_rank": 5
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "口腔或舌頭出現白點、顆粒、突起或粗糙感等變化，是否為正常現象或疾病？ 黏膜",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "original_query",
+      "query_text": "口腔或舌頭出現白點、顆粒、突起或粗糙感等變化，是否為正常現象或疾病？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-12 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries:  20%|##        | 2/10 [03:16<11:03, 82.94s/it] 114B-WIR-13 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-13 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "急診",
+      "expanded_query": "出現閃光、亮點等視覺現象，但眼科檢查未發現異常，是否與玻璃體退化或視網膜問題有關，需要持續追蹤或再次檢查嗎？ 急診"
+    },
+    {
+      "keyword": "視野",
+      "expanded_query": "出現閃光、亮點等視覺現象，但眼科檢查未發現異常，是否與玻璃體退化或視網膜問題有關，需要持續追蹤或再次檢查嗎？ 視野"
+    },
+    {
+      "keyword": "飛蚊",
+      "expanded_query": "出現閃光、亮點等視覺現象，但眼科檢查未發現異常，是否與玻璃體退化或視網膜問題有關，需要持續追蹤或再次檢查嗎？ 飛蚊"
+    }
+  ],
+  "original_top_doc_indices": [
+    25441,
+    733,
+    165824,
+    99620,
+    122106
+  ],
+  "fusion_top_doc_indices": [
+    25441,
+    733,
+    165824,
+    99620,
+    122106
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 25441,
+      "doc_id": "4ef701d9",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.005715668390530893
+    },
+    {
+      "doc_index": 733,
+      "doc_id": "15733623",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005631940772078264
+    },
+    {
+      "doc_index": 165824,
+      "doc_id": "18355430",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.005515214304477299
+    },
+    {
+      "doc_index": 99620,
+      "doc_id": "9e6cc9e3",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.005444299461188673
+    },
+    {
+      "doc_index": 122106,
+      "doc_id": "6c231838",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.005360649475402587
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "出現閃光、亮點等視覺現象，但眼科檢查未發現異常，是否與玻璃體退化或視網膜問題有關，需要持續追蹤或再次檢查嗎？ 急診",
+      "list_weight": 0.016129032258064516,
+      "anchor_doc_rank": 2
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "出現閃光、亮點等視覺現象，但眼科檢查未發現異常，是否與玻璃體退化或視網膜問題有關，需要持續追蹤或再次檢查嗎？ 視野",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "出現閃光、亮點等視覺現象，但眼科檢查未發現異常，是否與玻璃體退化或視網膜問題有關，需要持續追蹤或再次檢查嗎？ 飛蚊",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "original_query",
+      "query_text": "出現閃光、亮點等視覺現象，但眼科檢查未發現異常，是否與玻璃體退化或視網膜問題有關，需要持續追蹤或再次檢查嗎？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-13 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries:  30%|###       | 3/10 [03:31<06:03, 51.93s/it]114B-WIR-14 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-14 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "蔬菜",
+      "expanded_query": "血糖偏高或糖尿病前期時，應如何透過飲食、運動與體重控制來改善血糖？ 蔬菜"
+    },
+    {
+      "keyword": "粉類",
+      "expanded_query": "血糖偏高或糖尿病前期時，應如何透過飲食、運動與體重控制來改善血糖？ 粉類"
+    },
+    {
+      "keyword": "呼吸",
+      "expanded_query": "血糖偏高或糖尿病前期時，應如何透過飲食、運動與體重控制來改善血糖？ 呼吸"
+    }
+  ],
+  "original_top_doc_indices": [
+    8560,
+    141245,
+    99742,
+    59782,
+    63406
+  ],
+  "fusion_top_doc_indices": [
+    8560,
+    141245,
+    99742,
+    59782,
+    63406
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 8560,
+      "doc_id": "0d688230",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.005715668390530893
+    },
+    {
+      "doc_index": 141245,
+      "doc_id": "a5e9cb8e",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005627743782159435
+    },
+    {
+      "doc_index": 99742,
+      "doc_id": "3307f086",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.005530216228920618
+    },
+    {
+      "doc_index": 59782,
+      "doc_id": "ef286bd3",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.005406897988290339
+    },
+    {
+      "doc_index": 63406,
+      "doc_id": "ff994e08",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.005372292367488091
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "血糖偏高或糖尿病前期時，應如何透過飲食、運動與體重控制來改善血糖？ 蔬菜",
+      "list_weight": 0.016129032258064516,
+      "anchor_doc_rank": 2
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "血糖偏高或糖尿病前期時，應如何透過飲食、運動與體重控制來改善血糖？ 粉類",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "血糖偏高或糖尿病前期時，應如何透過飲食、運動與體重控制來改善血糖？ 呼吸",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "original_query",
+      "query_text": "血糖偏高或糖尿病前期時，應如何透過飲食、運動與體重控制來改善血糖？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-14 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries:  40%|####      | 4/10 [03:46<03:45, 37.55s/it]114B-WIR-15 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-15 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "不穩",
+      "expanded_query": "膝關節韌帶斷裂或鬆弛時，是否一定需要進行韌帶重建手術，或可以透過保守治療與肌力訓練改善？ 不穩"
+    },
+    {
+      "keyword": "骨科",
+      "expanded_query": "膝關節韌帶斷裂或鬆弛時，是否一定需要進行韌帶重建手術，或可以透過保守治療與肌力訓練改善？ 骨科"
+    },
+    {
+      "keyword": "專科",
+      "expanded_query": "膝關節韌帶斷裂或鬆弛時，是否一定需要進行韌帶重建手術，或可以透過保守治療與肌力訓練改善？ 專科"
+    }
+  ],
+  "original_top_doc_indices": [
+    62173,
+    106628,
+    113592,
+    39652,
+    163948
+  ],
+  "fusion_top_doc_indices": [
+    62173,
+    106628,
+    113592,
+    39652,
+    163948
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 62173,
+      "doc_id": "30c54e12",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.005715668390530893
+    },
+    {
+      "doc_index": 106628,
+      "doc_id": "b1782ba4",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005631940772078264
+    },
+    {
+      "doc_index": 113592,
+      "doc_id": "161fe067",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.005518398070288604
+    },
+    {
+      "doc_index": 39652,
+      "doc_id": "a1510742",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.00545193631358359
+    },
+    {
+      "doc_index": 163948,
+      "doc_id": "6a28d82d",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.005387761916384339
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "膝關節韌帶斷裂或鬆弛時，是否一定需要進行韌帶重建手術，或可以透過保守治療與肌力訓練改善？ 不穩",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "膝關節韌帶斷裂或鬆弛時，是否一定需要進行韌帶重建手術，或可以透過保守治療與肌力訓練改善？ 骨科",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "膝關節韌帶斷裂或鬆弛時，是否一定需要進行韌帶重建手術，或可以透過保守治療與肌力訓練改善？ 專科",
+      "list_weight": 0.016129032258064516,
+      "anchor_doc_rank": 2
+    },
+    {
+      "label": "original_query",
+      "query_text": "膝關節韌帶斷裂或鬆弛時，是否一定需要進行韌帶重建手術，或可以透過保守治療與肌力訓練改善？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-15 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries:  50%|#####     | 5/10 [04:01<02:26, 29.39s/it]114B-WIR-16 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-16 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "暈眩",
+      "expanded_query": "後腦勺到脖子總是緊繃悶痛，是不是因為姿勢不良或壓力過大引起的？ 暈眩"
+    },
+    {
+      "keyword": "頸部",
+      "expanded_query": "後腦勺到脖子總是緊繃悶痛，是不是因為姿勢不良或壓力過大引起的？ 頸部"
+    },
+    {
+      "keyword": "手臂",
+      "expanded_query": "後腦勺到脖子總是緊繃悶痛，是不是因為姿勢不良或壓力過大引起的？ 手臂"
+    }
+  ],
+  "original_top_doc_indices": [
+    93263,
+    44221,
+    16205,
+    84777,
+    42187
+  ],
+  "fusion_top_doc_indices": [
+    93263,
+    44221,
+    16205,
+    84777,
+    42187
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 93263,
+      "doc_id": "addbebbb",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.005715668390530893
+    },
+    {
+      "doc_index": 44221,
+      "doc_id": "a05db851",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005623546792240605
+    },
+    {
+      "doc_index": 16205,
+      "doc_id": "ce95c5cc",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.0055302818068880995
+    },
+    {
+      "doc_index": 84777,
+      "doc_id": "a29ddb04",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.005422328365711496
+    },
+    {
+      "doc_index": 42187,
+      "doc_id": "90e790d4",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.005396155896221999
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "後腦勺到脖子總是緊繃悶痛，是不是因為姿勢不良或壓力過大引起的？ 暈眩",
+      "list_weight": 0.016129032258064516,
+      "anchor_doc_rank": 2
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "後腦勺到脖子總是緊繃悶痛，是不是因為姿勢不良或壓力過大引起的？ 頸部",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "後腦勺到脖子總是緊繃悶痛，是不是因為姿勢不良或壓力過大引起的？ 手臂",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "original_query",
+      "query_text": "後腦勺到脖子總是緊繃悶痛，是不是因為姿勢不良或壓力過大引起的？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-16 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries:  60%|######    | 6/10 [04:15<01:35, 23.97s/it]114B-WIR-17 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-17 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "低鹽",
+      "expanded_query": "除了用藥外，飲食、運動或減重等生活方式改變能否有效控制血壓，甚至減少用藥？ 低鹽"
+    },
+    {
+      "keyword": "有氧",
+      "expanded_query": "除了用藥外，飲食、運動或減重等生活方式改變能否有效控制血壓，甚至減少用藥？ 有氧"
+    },
+    {
+      "keyword": "體重",
+      "expanded_query": "除了用藥外，飲食、運動或減重等生活方式改變能否有效控制血壓，甚至減少用藥？ 體重"
+    }
+  ],
+  "original_top_doc_indices": [
+    140227,
+    33737,
+    3246,
+    162611,
+    136517
+  ],
+  "fusion_top_doc_indices": [
+    140227,
+    33737,
+    3246,
+    162611,
+    136517
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 140227,
+      "doc_id": "ada8e62e",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.005715668390530893
+    },
+    {
+      "doc_index": 33737,
+      "doc_id": "0f1e33ed",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005509098729463691
+    },
+    {
+      "doc_index": 3246,
+      "doc_id": "9293cd8e",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.0054942612549583785
+    },
+    {
+      "doc_index": 162611,
+      "doc_id": "d6a24aa5",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.0054314164631126555
+    },
+    {
+      "doc_index": 136517,
+      "doc_id": "0cd379f5",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.005353799591471459
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "除了用藥外，飲食、運動或減重等生活方式改變能否有效控制血壓，甚至減少用藥？ 低鹽",
+      "list_weight": 0.016129032258064516,
+      "anchor_doc_rank": 2
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "除了用藥外，飲食、運動或減重等生活方式改變能否有效控制血壓，甚至減少用藥？ 有氧",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "除了用藥外，飲食、運動或減重等生活方式改變能否有效控制血壓，甚至減少用藥？ 體重",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "original_query",
+      "query_text": "除了用藥外，飲食、運動或減重等生活方式改變能否有效控制血壓，甚至減少用藥？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-17 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries:  70%|#######   | 7/10 [04:31<01:04, 21.34s/it]114B-WIR-18 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-18 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "血液科",
+      "expanded_query": "血色素、MCV 及鐵蛋白偏低，屬於缺鐵性貧血還是地中海型貧血？ 血液科"
+    },
+    {
+      "keyword": "血清",
+      "expanded_query": "血色素、MCV 及鐵蛋白偏低，屬於缺鐵性貧血還是地中海型貧血？ 血清"
+    },
+    {
+      "keyword": "鐵劑",
+      "expanded_query": "血色素、MCV 及鐵蛋白偏低，屬於缺鐵性貧血還是地中海型貧血？ 鐵劑"
+    }
+  ],
+  "original_top_doc_indices": [
+    152061,
+    100992,
+    13047,
+    105883,
+    120819
+  ],
+  "fusion_top_doc_indices": [
+    152061,
+    100992,
+    13047,
+    105883,
+    120819
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 152061,
+      "doc_id": "57c575f2",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.0057242676699811885
+    },
+    {
+      "doc_index": 100992,
+      "doc_id": "c3ee8377",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005619349802321774
+    },
+    {
+      "doc_index": 13047,
+      "doc_id": "daa793d5",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.005538610208758278
+    },
+    {
+      "doc_index": 105883,
+      "doc_id": "3ea50dbd",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.005445197213042968
+    },
+    {
+      "doc_index": 120819,
+      "doc_id": "b66586de",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.00532947016553574
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "血色素、MCV 及鐵蛋白偏低，屬於缺鐵性貧血還是地中海型貧血？ 血液科",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "血色素、MCV 及鐵蛋白偏低，屬於缺鐵性貧血還是地中海型貧血？ 血清",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "血色素、MCV 及鐵蛋白偏低，屬於缺鐵性貧血還是地中海型貧血？ 鐵劑",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "original_query",
+      "query_text": "血色素、MCV 及鐵蛋白偏低，屬於缺鐵性貧血還是地中海型貧血？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-18 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries:  80%|########  | 8/10 [04:46<00:38, 19.34s/it]114B-WIR-19 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-19 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "腹壓",
+      "expanded_query": "肚臍周圍摸到小球狀物或感覺有東西在滑動，這是疝氣、腫瘤，還是單純的腸子蠕動或腹主動脈跳動？ 腹壓"
+    },
+    {
+      "keyword": "劇烈",
+      "expanded_query": "肚臍周圍摸到小球狀物或感覺有東西在滑動，這是疝氣、腫瘤，還是單純的腸子蠕動或腹主動脈跳動？ 劇烈"
+    },
+    {
+      "keyword": "咳嗽",
+      "expanded_query": "肚臍周圍摸到小球狀物或感覺有東西在滑動，這是疝氣、腫瘤，還是單純的腸子蠕動或腹主動脈跳動？ 咳嗽"
+    }
+  ],
+  "original_top_doc_indices": [
+    66966,
+    90506,
+    161044,
+    119634,
+    70702
+  ],
+  "fusion_top_doc_indices": [
+    66966,
+    90506,
+    161044,
+    119634,
+    70702
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 66966,
+      "doc_id": "9c1e4d17",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.0057242676699811885
+    },
+    {
+      "doc_index": 90506,
+      "doc_id": "fa5833fc",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005615283968337908
+    },
+    {
+      "doc_index": 161044,
+      "doc_id": "bc0a527a",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.005502833385019551
+    },
+    {
+      "doc_index": 119634,
+      "doc_id": "04ba6215",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.005402096750809131
+    },
+    {
+      "doc_index": 70702,
+      "doc_id": "f4452231",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.00532135481529637
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "肚臍周圍摸到小球狀物或感覺有東西在滑動，這是疝氣、腫瘤，還是單純的腸子蠕動或腹主動脈跳動？ 腹壓",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "肚臍周圍摸到小球狀物或感覺有東西在滑動，這是疝氣、腫瘤，還是單純的腸子蠕動或腹主動脈跳動？ 劇烈",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "肚臍周圍摸到小球狀物或感覺有東西在滑動，這是疝氣、腫瘤，還是單純的腸子蠕動或腹主動脈跳動？ 咳嗽",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "original_query",
+      "query_text": "肚臍周圍摸到小球狀物或感覺有東西在滑動，這是疝氣、腫瘤，還是單純的腸子蠕動或腹主動脈跳動？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-19 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries:  90%|######### | 9/10 [04:57<00:16, 16.84s/it]114B-WIR-20 第一次 GFF fusion rerank 已完成。
+[Step 8] 114B-WIR-20 Original/Expanded Query Rerank + Fusion
+{
+  "expanded_queries": [
+    {
+      "keyword": "困難",
+      "expanded_query": "嬰兒多天沒解便且排便時很出力或便體乾硬，該用棉花棒刺激、額外餵水改善便秘嗎？ 困難"
+    },
+    {
+      "keyword": "嘔吐",
+      "expanded_query": "嬰兒多天沒解便且排便時很出力或便體乾硬，該用棉花棒刺激、額外餵水改善便秘嗎？ 嘔吐"
+    },
+    {
+      "keyword": "腹脹",
+      "expanded_query": "嬰兒多天沒解便且排便時很出力或便體乾硬，該用棉花棒刺激、額外餵水改善便秘嗎？ 腹脹"
+    }
+  ],
+  "original_top_doc_indices": [
+    33234,
+    129066,
+    110410,
+    167645,
+    98751
+  ],
+  "fusion_top_doc_indices": [
+    33234,
+    129066,
+    110410,
+    167645,
+    98751
+  ],
+  "fusion_top_candidates": [
+    {
+      "doc_index": 33234,
+      "doc_id": "3394a909",
+      "gff_fused_rank": 1,
+      "gff_fused_score": 0.0057242676699811885
+    },
+    {
+      "doc_index": 129066,
+      "doc_id": "49ef3126",
+      "gff_fused_rank": 2,
+      "gff_fused_score": 0.005615283968337908
+    },
+    {
+      "doc_index": 110410,
+      "doc_id": "3decf943",
+      "gff_fused_rank": 3,
+      "gff_fused_score": 0.005555135856563672
+    },
+    {
+      "doc_index": 167645,
+      "doc_id": "a2739873",
+      "gff_fused_rank": 4,
+      "gff_fused_score": 0.0054365918672714605
+    },
+    {
+      "doc_index": 98751,
+      "doc_id": "11d45fad",
+      "gff_fused_rank": 5,
+      "gff_fused_score": 0.005372124460239215
+    }
+  ],
+  "fusion_contributions": [
+    {
+      "label": "keyword_1",
+      "query_text": "嬰兒多天沒解便且排便時很出力或便體乾硬，該用棉花棒刺激、額外餵水改善便秘嗎？ 困難",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_2",
+      "query_text": "嬰兒多天沒解便且排便時很出力或便體乾硬，該用棉花棒刺激、額外餵水改善便秘嗎？ 嘔吐",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "keyword_3",
+      "query_text": "嬰兒多天沒解便且排便時很出力或便體乾硬，該用棉花棒刺激、額外餵水改善便秘嗎？ 腹脹",
+      "list_weight": 0.01639344262295082,
+      "anchor_doc_rank": 1
+    },
+    {
+      "label": "original_query",
+      "query_text": "嬰兒多天沒解便且排便時很出力或便體乾硬，該用棉花棒刺激、額外餵水改善便秘嗎？",
+      "list_weight": 0.3,
+      "anchor_doc_rank": 1
+    }
+  ]
+}
+[Step 9] 114B-WIR-20 Reranker 階段完成
+{
+  "num_feedback_candidates": 100,
+  "reranker_model_release_deferred": true
+}
+GFF reranking queries: 100%|##########| 10/10 [05:13<00:00, 16.47s/it]GFF reranking queries: 100%|##########| 10/10 [05:13<00:00, 31.31s/it]
+Reranker 模型已釋放。
+ReFIT final retrieval queries:   0%|          | 0/10 [00:00<?, ?it/s]114B-WIR-11 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 1.00038791
+  updated_norm_l2: 0.99999994
+  shift_l2: 0.06958023
+  original_query_vector_preview: [-0.0004119873046875, 0.0224761962890625, -0.040191650390625, -0.0081939697265625, -0.0011577606201171875, 0.0511474609375, 0.0221710205078125, 0.00554656982421875, 0.0173187255859375, 0.03765869140625]
+  updated_query_vector_preview: [-0.00041800280450843275, 0.0249343104660511, -0.039236005395650864, -0.005273114889860153, -0.0011622665915638208, 0.04929683730006218, 0.022395633161067963, 0.008182565681636333, 0.016587769612669945, 0.03694944083690643]
+  delta_vector_preview: [-6.015499820932746e-06, 0.0024581141769886017, 0.0009556449949741364, 0.002920854836702347, -4.505971446633339e-06, -0.0018506236374378204, 0.00022461265325546265, 0.0026359958574175835, -0.0007309559732675552, -0.0007092505693435669]
+114B-WIR-11 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-11 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.06958023458719254,
+  "original_query_vector_preview": [
+    -0.0004119873046875,
+    0.0224761962890625,
+    -0.040191650390625,
+    -0.0081939697265625,
+    -0.0011577606201171875,
+    0.0511474609375,
+    0.0221710205078125,
+    0.00554656982421875,
+    0.0173187255859375,
+    0.03765869140625
+  ],
+  "updated_query_vector_preview": [
+    -0.00041800280450843275,
+    0.0249343104660511,
+    -0.039236005395650864,
+    -0.005273114889860153,
+    -0.0011622665915638208,
+    0.04929683730006218,
+    0.022395633161067963,
+    0.008182565681636333,
+    0.016587769612669945,
+    0.03694944083690643
+  ],
+  "teacher_score_preview": [
+    0.0037663563385537248,
+    0.0036609402352900207,
+    0.005698876062403927,
+    0.004970878165316378,
+    0.004276902780894133,
+    0.0037061531826088163,
+    0.005598889476467477,
+    0.003561112257562807,
+    0.0028781802811252777,
+    0.005278719556879261
+  ]
+}
+114B-WIR-11 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-11 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 106081,
+      "doc_id": "8d9f2cee",
+      "rank": 1,
+      "refit_dense_score": 0.7993830442428589
+    },
+    {
+      "doc_index": 64663,
+      "doc_id": "dd22c001",
+      "rank": 2,
+      "refit_dense_score": 0.7735390067100525
+    },
+    {
+      "doc_index": 19816,
+      "doc_id": "ab7e826d",
+      "rank": 3,
+      "refit_dense_score": 0.7665963768959045
+    },
+    {
+      "doc_index": 23881,
+      "doc_id": "8ebd4674",
+      "rank": 4,
+      "refit_dense_score": 0.757123589515686
+    },
+    {
+      "doc_index": 114599,
+      "doc_id": "34903580",
+      "rank": 5,
+      "refit_dense_score": 0.756946861743927
+    }
+  ]
+}
+114B-WIR-11 結果整理已完成。
+[Step 12] 114B-WIR-11 輸出單筆結果
+{
+  "query_id": "114B-WIR-11",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 106081,
+      "doc_id": "8d9f2cee",
+      "refit_dense_score": 0.7993830442428589
+    },
+    {
+      "rank": 2,
+      "doc_index": 64663,
+      "doc_id": "dd22c001",
+      "refit_dense_score": 0.7735390067100525
+    },
+    {
+      "rank": 3,
+      "doc_index": 19816,
+      "doc_id": "ab7e826d",
+      "refit_dense_score": 0.7665963768959045
+    }
+  ]
+}
+ReFIT final retrieval queries:  10%|#         | 1/10 [00:00<00:07,  1.16it/s]114B-WIR-12 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 1.00020647
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.07274016
+  original_query_vector_preview: [-0.0002961158752441406, 0.031768798828125, -0.050079345703125, -0.028411865234375, -0.0010309219360351562, 0.03369140625, 0.0350341796875, -0.010101318359375, 0.0008540153503417969, -0.0227203369140625]
+  updated_query_vector_preview: [-0.0003016631817445159, 0.03373399376869202, -0.048666149377822876, -0.027248576283454895, -0.001063317758962512, 0.032159775495529175, 0.03646920621395111, -0.010371520183980465, 0.0010848741512745619, -0.02589341253042221]
+  delta_vector_preview: [-5.547306500375271e-06, 0.0019651949405670166, 0.001413196325302124, 0.001163288950920105, -3.2395822927355766e-05, -0.0015316307544708252, 0.0014350265264511108, -0.00027020182460546494, 0.000230858800932765, -0.0031730756163597107]
+114B-WIR-12 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-12 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.07274015992879868,
+  "original_query_vector_preview": [
+    -0.0002961158752441406,
+    0.031768798828125,
+    -0.050079345703125,
+    -0.028411865234375,
+    -0.0010309219360351562,
+    0.03369140625,
+    0.0350341796875,
+    -0.010101318359375,
+    0.0008540153503417969,
+    -0.0227203369140625
+  ],
+  "updated_query_vector_preview": [
+    -0.0003016631817445159,
+    0.03373399376869202,
+    -0.048666149377822876,
+    -0.027248576283454895,
+    -0.001063317758962512,
+    0.032159775495529175,
+    0.03646920621395111,
+    -0.010371520183980465,
+    0.0010848741512745619,
+    -0.02589341253042221
+  ],
+  "teacher_score_preview": [
+    0.003504936097342531,
+    0.004737681755735294,
+    0.003825067065958879,
+    0.0032360620096571753,
+    0.004764923222540175,
+    0.004046471938407119,
+    0.0030966409948538307,
+    0.005062261891919085,
+    0.005579442077987821,
+    0.004241510182801807
+  ]
+}
+114B-WIR-12 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-12 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 27745,
+      "doc_id": "8d67f648",
+      "rank": 1,
+      "refit_dense_score": 0.8063954710960388
+    },
+    {
+      "doc_index": 43013,
+      "doc_id": "1c2e94d3",
+      "rank": 2,
+      "refit_dense_score": 0.7866235971450806
+    },
+    {
+      "doc_index": 82296,
+      "doc_id": "a0abfee5",
+      "rank": 3,
+      "refit_dense_score": 0.783403754234314
+    },
+    {
+      "doc_index": 49176,
+      "doc_id": "22b8e2bb",
+      "rank": 4,
+      "refit_dense_score": 0.782818615436554
+    },
+    {
+      "doc_index": 64400,
+      "doc_id": "577a9223",
+      "rank": 5,
+      "refit_dense_score": 0.7823793888092041
+    }
+  ]
+}
+114B-WIR-12 結果整理已完成。
+[Step 12] 114B-WIR-12 輸出單筆結果
+{
+  "query_id": "114B-WIR-12",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 27745,
+      "doc_id": "8d67f648",
+      "refit_dense_score": 0.8063954710960388
+    },
+    {
+      "rank": 2,
+      "doc_index": 43013,
+      "doc_id": "1c2e94d3",
+      "refit_dense_score": 0.7866235971450806
+    },
+    {
+      "rank": 3,
+      "doc_index": 82296,
+      "doc_id": "a0abfee5",
+      "refit_dense_score": 0.783403754234314
+    }
+  ]
+}
+ReFIT final retrieval queries:  20%|##        | 2/10 [00:00<00:03,  2.32it/s]114B-WIR-13 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 1.00007379
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.07317965
+  original_query_vector_preview: [-0.0004036426544189453, -0.004131317138671875, -0.029632568359375, 0.0106048583984375, -0.0012216567993164062, 0.0501708984375, 0.041839599609375, -0.0323486328125, 0.0027103424072265625, 0.0127716064453125]
+  updated_query_vector_preview: [-0.0004119357035961002, -0.0031348662450909615, -0.02947542630136013, 0.008325157687067986, -0.0012393395882099867, 0.05078310891985893, 0.04165465384721756, -0.03468639776110649, 0.0024011891800910234, 0.012778818607330322]
+  delta_vector_preview: [-8.293049177154899e-06, 0.0009964508935809135, 0.0001571420580148697, -0.0022797007113695145, -1.7682788893580437e-05, 0.0006122104823589325, -0.00018494576215744019, -0.002337764948606491, -0.00030915322713553905, 7.212162017822266e-06]
+114B-WIR-13 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-13 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.07317964732646942,
+  "original_query_vector_preview": [
+    -0.0004036426544189453,
+    -0.004131317138671875,
+    -0.029632568359375,
+    0.0106048583984375,
+    -0.0012216567993164062,
+    0.0501708984375,
+    0.041839599609375,
+    -0.0323486328125,
+    0.0027103424072265625,
+    0.0127716064453125
+  ],
+  "updated_query_vector_preview": [
+    -0.0004119357035961002,
+    -0.0031348662450909615,
+    -0.02947542630136013,
+    0.008325157687067986,
+    -0.0012393395882099867,
+    0.05078310891985893,
+    0.04165465384721756,
+    -0.03468639776110649,
+    0.0024011891800910234,
+    0.012778818607330322
+  ],
+  "teacher_score_preview": [
+    0.005715668390530893,
+    0.004105005249128855,
+    0.003972018626019054,
+    0.00367036515360346,
+    0.002776277790394615,
+    0.005360649475402587,
+    0.004621079736176013,
+    0.0028941452886663767,
+    0.002827540736205046,
+    0.005631940772078264
+  ]
+}
+114B-WIR-13 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-13 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 25441,
+      "doc_id": "4ef701d9",
+      "rank": 1,
+      "refit_dense_score": 0.8502967357635498
+    },
+    {
+      "doc_index": 779,
+      "doc_id": "b78ae762",
+      "rank": 2,
+      "refit_dense_score": 0.8276047706604004
+    },
+    {
+      "doc_index": 122106,
+      "doc_id": "6c231838",
+      "rank": 3,
+      "refit_dense_score": 0.819604218006134
+    },
+    {
+      "doc_index": 135243,
+      "doc_id": "4e74170a",
+      "rank": 4,
+      "refit_dense_score": 0.8179967403411865
+    },
+    {
+      "doc_index": 30360,
+      "doc_id": "d1b1a7b3",
+      "rank": 5,
+      "refit_dense_score": 0.8175226449966431
+    }
+  ]
+}
+114B-WIR-13 結果整理已完成。
+[Step 12] 114B-WIR-13 輸出單筆結果
+{
+  "query_id": "114B-WIR-13",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 25441,
+      "doc_id": "4ef701d9",
+      "refit_dense_score": 0.8502967357635498
+    },
+    {
+      "rank": 2,
+      "doc_index": 779,
+      "doc_id": "b78ae762",
+      "refit_dense_score": 0.8276047706604004
+    },
+    {
+      "rank": 3,
+      "doc_index": 122106,
+      "doc_id": "6c231838",
+      "refit_dense_score": 0.819604218006134
+    }
+  ]
+}
+ReFIT final retrieval queries:  30%|###       | 3/10 [00:01<00:02,  3.35it/s]114B-WIR-14 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 0.99988031
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.05282880
+  original_query_vector_preview: [-0.000579833984375, -0.0258026123046875, -0.0226898193359375, -0.0175018310546875, -0.0024871826171875, 0.03948974609375, 0.058807373046875, 0.0567626953125, 0.009185791015625, 0.0118255615234375]
+  updated_query_vector_preview: [-0.0005716512678191066, -0.027171000838279724, -0.023984840139746666, -0.016367672011256218, -0.0024163888301700354, 0.03817879781126976, 0.06052575260400772, 0.05853154882788658, 0.009199246764183044, 0.011452384293079376]
+  delta_vector_preview: [8.182716555893421e-06, -0.0013683885335922241, -0.001295020803809166, 0.001134159043431282, 7.079378701746464e-05, -0.0013109482824802399, 0.001718379557132721, 0.0017688535153865814, 1.3455748558044434e-05, -0.0003731772303581238]
+114B-WIR-14 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-14 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.052828799933195114,
+  "original_query_vector_preview": [
+    -0.000579833984375,
+    -0.0258026123046875,
+    -0.0226898193359375,
+    -0.0175018310546875,
+    -0.0024871826171875,
+    0.03948974609375,
+    0.058807373046875,
+    0.0567626953125,
+    0.009185791015625,
+    0.0118255615234375
+  ],
+  "updated_query_vector_preview": [
+    -0.0005716512678191066,
+    -0.027171000838279724,
+    -0.023984840139746666,
+    -0.016367672011256218,
+    -0.0024163888301700354,
+    0.03817879781126976,
+    0.06052575260400772,
+    0.05853154882788658,
+    0.009199246764183044,
+    0.011452384293079376
+  ],
+  "teacher_score_preview": [
+    0.004854560621604224,
+    0.004599340530213253,
+    0.005715668390530893,
+    0.005627743782159435,
+    0.004534231853110754,
+    0.003564052932501178,
+    0.004833846273560711,
+    0.003001907690488409,
+    0.0034521878396324376,
+    0.005142607321400654
+  ]
+}
+114B-WIR-14 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-14 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 59797,
+      "doc_id": "b8e77d62",
+      "rank": 1,
+      "refit_dense_score": 0.8027436137199402
+    },
+    {
+      "doc_index": 157279,
+      "doc_id": "b6bb9723",
+      "rank": 2,
+      "refit_dense_score": 0.762800931930542
+    },
+    {
+      "doc_index": 8560,
+      "doc_id": "0d688230",
+      "rank": 3,
+      "refit_dense_score": 0.7441319823265076
+    },
+    {
+      "doc_index": 141245,
+      "doc_id": "a5e9cb8e",
+      "rank": 4,
+      "refit_dense_score": 0.7432401180267334
+    },
+    {
+      "doc_index": 92537,
+      "doc_id": "c8a6e221",
+      "rank": 5,
+      "refit_dense_score": 0.7400415539741516
+    }
+  ]
+}
+114B-WIR-14 結果整理已完成。
+[Step 12] 114B-WIR-14 輸出單筆結果
+{
+  "query_id": "114B-WIR-14",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 59797,
+      "doc_id": "b8e77d62",
+      "refit_dense_score": 0.8027436137199402
+    },
+    {
+      "rank": 2,
+      "doc_index": 157279,
+      "doc_id": "b6bb9723",
+      "refit_dense_score": 0.762800931930542
+    },
+    {
+      "rank": 3,
+      "doc_index": 8560,
+      "doc_id": "0d688230",
+      "refit_dense_score": 0.7441319823265076
+    }
+  ]
+}
+ReFIT final retrieval queries:  40%|####      | 4/10 [00:01<00:01,  4.15it/s]114B-WIR-15 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 0.99972498
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.06231261
+  original_query_vector_preview: [-0.0001901388168334961, 0.022796630859375, 0.01328277587890625, -0.045166015625, -0.0006361007690429688, 0.081787109375, 0.00982666015625, 0.00789642333984375, 0.0100250244140625, -0.0189666748046875]
+  updated_query_vector_preview: [-0.00018314196495339274, 0.02358858846127987, 0.014791538007557392, -0.0451163724064827, -0.0006123950006440282, 0.08014212548732758, 0.009353049099445343, 0.007027836516499519, 0.010334683582186699, -0.01686275750398636]
+  delta_vector_preview: [6.99685188010335e-06, 0.0007919576019048691, 0.0015087621286511421, 4.964321851730347e-05, 2.3705768398940563e-05, -0.0016449838876724243, -0.000473611056804657, -0.0008685868233442307, 0.0003096591681241989, 0.0021039173007011414]
+114B-WIR-15 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-15 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.06231261044740677,
+  "original_query_vector_preview": [
+    -0.0001901388168334961,
+    0.022796630859375,
+    0.01328277587890625,
+    -0.045166015625,
+    -0.0006361007690429688,
+    0.081787109375,
+    0.00982666015625,
+    0.00789642333984375,
+    0.0100250244140625,
+    -0.0189666748046875
+  ],
+  "updated_query_vector_preview": [
+    -0.00018314196495339274,
+    0.02358858846127987,
+    0.014791538007557392,
+    -0.0451163724064827,
+    -0.0006123950006440282,
+    0.08014212548732758,
+    0.009353049099445343,
+    0.007027836516499519,
+    0.010334683582186699,
+    -0.01686275750398636
+  ],
+  "teacher_score_preview": [
+    0.005046773717820994,
+    0.004212066412663181,
+    0.0030166344999471963,
+    0.004007769808406532,
+    0.005387761916384339,
+    0.0022770553862102062,
+    0.0028927542684097727,
+    0.005275592108768436,
+    0.00399671585982508,
+    0.005715668390530893
+  ]
+}
+114B-WIR-15 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-15 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 120268,
+      "doc_id": "e0ebaa8d",
+      "rank": 1,
+      "refit_dense_score": 0.7854336500167847
+    },
+    {
+      "doc_index": 76195,
+      "doc_id": "ff2f3538",
+      "rank": 2,
+      "refit_dense_score": 0.7410673499107361
+    },
+    {
+      "doc_index": 102842,
+      "doc_id": "89f2abf8",
+      "rank": 3,
+      "refit_dense_score": 0.7385706901550293
+    },
+    {
+      "doc_index": 62786,
+      "doc_id": "a3e1a176",
+      "rank": 4,
+      "refit_dense_score": 0.735838770866394
+    },
+    {
+      "doc_index": 163948,
+      "doc_id": "6a28d82d",
+      "rank": 5,
+      "refit_dense_score": 0.7330371737480164
+    }
+  ]
+}
+114B-WIR-15 結果整理已完成。
+[Step 12] 114B-WIR-15 輸出單筆結果
+{
+  "query_id": "114B-WIR-15",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 120268,
+      "doc_id": "e0ebaa8d",
+      "refit_dense_score": 0.7854336500167847
+    },
+    {
+      "rank": 2,
+      "doc_index": 76195,
+      "doc_id": "ff2f3538",
+      "refit_dense_score": 0.7410673499107361
+    },
+    {
+      "rank": 3,
+      "doc_index": 102842,
+      "doc_id": "89f2abf8",
+      "refit_dense_score": 0.7385706901550293
+    }
+  ]
+}
+ReFIT final retrieval queries:  50%|#####     | 5/10 [00:01<00:01,  4.79it/s]114B-WIR-16 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 0.99963051
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.06400490
+  original_query_vector_preview: [-0.0004944801330566406, -0.016448974609375, 0.007259368896484375, -0.0165863037109375, -0.0018873214721679688, 0.061370849609375, 0.04095458984375, 0.0114288330078125, 0.0020732879638671875, 0.026458740234375]
+  updated_query_vector_preview: [-0.0005040672840550542, -0.0157267265021801, 0.006780225783586502, -0.016837770119309425, -0.0019148470601066947, 0.058827076107263565, 0.04298892989754677, 0.013284947723150253, 0.0017645645420998335, 0.024484166875481606]
+  delta_vector_preview: [-9.587150998413563e-06, 0.0007222481071949005, -0.0004791431128978729, -0.00025146640837192535, -2.752558793872595e-05, -0.002543773502111435, 0.002034340053796768, 0.0018561147153377533, -0.000308723421767354, -0.0019745733588933945]
+114B-WIR-16 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-16 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.06400489807128906,
+  "original_query_vector_preview": [
+    -0.0004944801330566406,
+    -0.016448974609375,
+    0.007259368896484375,
+    -0.0165863037109375,
+    -0.0018873214721679688,
+    0.061370849609375,
+    0.04095458984375,
+    0.0114288330078125,
+    0.0020732879638671875,
+    0.026458740234375
+  ],
+  "updated_query_vector_preview": [
+    -0.0005040672840550542,
+    -0.0157267265021801,
+    0.006780225783586502,
+    -0.016837770119309425,
+    -0.0019148470601066947,
+    0.058827076107263565,
+    0.04298892989754677,
+    0.013284947723150253,
+    0.0017645645420998335,
+    0.024484166875481606
+  ],
+  "teacher_score_preview": [
+    0.0035415196175584435,
+    0.0055302818068880995,
+    0.005248747934728971,
+    0.004779703581956874,
+    0.005211347713143335,
+    0.004409815417504398,
+    0.003726735095617539,
+    0.0034797413005799483,
+    0.00463258616933921,
+    0.004230483541908858
+  ]
+}
+114B-WIR-16 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-16 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 51044,
+      "doc_id": "8ed042bf",
+      "rank": 1,
+      "refit_dense_score": 0.7904008030891418
+    },
+    {
+      "doc_index": 120084,
+      "doc_id": "68afff01",
+      "rank": 2,
+      "refit_dense_score": 0.7599034309387207
+    },
+    {
+      "doc_index": 76118,
+      "doc_id": "808786db",
+      "rank": 3,
+      "refit_dense_score": 0.7598333358764648
+    },
+    {
+      "doc_index": 30065,
+      "doc_id": "474c35fa",
+      "rank": 4,
+      "refit_dense_score": 0.7589281797409058
+    },
+    {
+      "doc_index": 16205,
+      "doc_id": "ce95c5cc",
+      "rank": 5,
+      "refit_dense_score": 0.7563433051109314
+    }
+  ]
+}
+114B-WIR-16 結果整理已完成。
+[Step 12] 114B-WIR-16 輸出單筆結果
+{
+  "query_id": "114B-WIR-16",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 51044,
+      "doc_id": "8ed042bf",
+      "refit_dense_score": 0.7904008030891418
+    },
+    {
+      "rank": 2,
+      "doc_index": 120084,
+      "doc_id": "68afff01",
+      "refit_dense_score": 0.7599034309387207
+    },
+    {
+      "rank": 3,
+      "doc_index": 76118,
+      "doc_id": "808786db",
+      "refit_dense_score": 0.7598333358764648
+    }
+  ]
+}
+ReFIT final retrieval queries:  60%|######    | 6/10 [00:01<00:00,  5.12it/s]114B-WIR-17 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 1.00030994
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.04831285
+  original_query_vector_preview: [-0.0004987716674804688, -0.003997802734375, 0.033416748046875, -0.0298614501953125, -0.002056121826171875, 0.0517578125, 0.06463623046875, 0.05242919921875, 0.00730133056640625, 0.019744873046875]
+  updated_query_vector_preview: [-0.0005013472982682288, -0.004047727212309837, 0.03171317279338837, -0.02844250574707985, -0.002064675558358431, 0.053180187940597534, 0.06378400325775146, 0.05381111055612564, 0.007022046484053135, 0.01957528293132782]
+  delta_vector_preview: [-2.5756307877600193e-06, -4.992447793483734e-05, -0.0017035752534866333, 0.0014189444482326508, -8.553732186555862e-06, 0.0014223754405975342, -0.0008522272109985352, 0.0013819113373756409, -0.0002792840823531151, -0.00016959011554718018]
+114B-WIR-17 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-17 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.04831285402178764,
+  "original_query_vector_preview": [
+    -0.0004987716674804688,
+    -0.003997802734375,
+    0.033416748046875,
+    -0.0298614501953125,
+    -0.002056121826171875,
+    0.0517578125,
+    0.06463623046875,
+    0.05242919921875,
+    0.00730133056640625,
+    0.019744873046875
+  ],
+  "updated_query_vector_preview": [
+    -0.0005013472982682288,
+    -0.004047727212309837,
+    0.03171317279338837,
+    -0.02844250574707985,
+    -0.002064675558358431,
+    0.053180187940597534,
+    0.06378400325775146,
+    0.05381111055612564,
+    0.007022046484053135,
+    0.01957528293132782
+  ],
+  "teacher_score_preview": [
+    0.004941987113959439,
+    0.005244018795041416,
+    0.004388447392671881,
+    0.0054314164631126555,
+    0.005715668390530893,
+    0.0035817791188535596,
+    0.004362031364733007,
+    0.004548890404223143,
+    0.0032909132475848696,
+    0.0036699615140219485
+  ]
+}
+114B-WIR-17 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-17 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 70250,
+      "doc_id": "f5ee41f1",
+      "rank": 1,
+      "refit_dense_score": 0.796891450881958
+    },
+    {
+      "doc_index": 84092,
+      "doc_id": "8a88879a",
+      "rank": 2,
+      "refit_dense_score": 0.7733983397483826
+    },
+    {
+      "doc_index": 162611,
+      "doc_id": "d6a24aa5",
+      "rank": 3,
+      "refit_dense_score": 0.7545822262763977
+    },
+    {
+      "doc_index": 99406,
+      "doc_id": "4f5a09cf",
+      "rank": 4,
+      "refit_dense_score": 0.7511975169181824
+    },
+    {
+      "doc_index": 140227,
+      "doc_id": "ada8e62e",
+      "rank": 5,
+      "refit_dense_score": 0.7497645020484924
+    }
+  ]
+}
+114B-WIR-17 結果整理已完成。
+[Step 12] 114B-WIR-17 輸出單筆結果
+{
+  "query_id": "114B-WIR-17",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 70250,
+      "doc_id": "f5ee41f1",
+      "refit_dense_score": 0.796891450881958
+    },
+    {
+      "rank": 2,
+      "doc_index": 84092,
+      "doc_id": "8a88879a",
+      "refit_dense_score": 0.7733983397483826
+    },
+    {
+      "rank": 3,
+      "doc_index": 162611,
+      "doc_id": "d6a24aa5",
+      "refit_dense_score": 0.7545822262763977
+    }
+  ]
+}
+ReFIT final retrieval queries:  70%|#######   | 7/10 [00:01<00:00,  5.27it/s]114B-WIR-18 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 1.00036359
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.06822752
+  original_query_vector_preview: [-0.0003566741943359375, 0.01409912109375, 0.0112152099609375, 0.0034942626953125, -0.0015134811401367188, 0.07623291015625, 0.030364990234375, 0.006610870361328125, 0.01494598388671875, 0.031158447265625]
+  updated_query_vector_preview: [-0.00036110999644733965, 0.01155916228890419, 0.012880593538284302, 0.003345415461808443, -0.0015257092891260982, 0.0738164633512497, 0.031397197395563126, 0.006511058658361435, 0.014849333092570305, 0.031748753041028976]
+  delta_vector_preview: [-4.435802111402154e-06, -0.00253995880484581, 0.0016653835773468018, -0.00014884723350405693, -1.2228148989379406e-05, -0.002416446805000305, 0.0010322071611881256, -9.981170296669006e-05, -9.665079414844513e-05, 0.0005903057754039764]
+114B-WIR-18 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-18 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.06822752207517624,
+  "original_query_vector_preview": [
+    -0.0003566741943359375,
+    0.01409912109375,
+    0.0112152099609375,
+    0.0034942626953125,
+    -0.0015134811401367188,
+    0.07623291015625,
+    0.030364990234375,
+    0.006610870361328125,
+    0.01494598388671875,
+    0.031158447265625
+  ],
+  "updated_query_vector_preview": [
+    -0.00036110999644733965,
+    0.01155916228890419,
+    0.012880593538284302,
+    0.003345415461808443,
+    -0.0015257092891260982,
+    0.0738164633512497,
+    0.031397197395563126,
+    0.006511058658361435,
+    0.014849333092570305,
+    0.031748753041028976
+  ],
+  "teacher_score_preview": [
+    0.00532947016553574,
+    0.0034968900814081267,
+    0.0057242676699811885,
+    0.005445197213042968,
+    0.004981495696035967,
+    0.00520142863743275,
+    0.003070759670895583,
+    0.003689653478049986,
+    0.003867971696976776,
+    0.004044768120517132
+  ]
+}
+114B-WIR-18 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-18 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 120819,
+      "doc_id": "b66586de",
+      "rank": 1,
+      "refit_dense_score": 0.8458594083786011
+    },
+    {
+      "doc_index": 63602,
+      "doc_id": "5c21d9b2",
+      "rank": 2,
+      "refit_dense_score": 0.8202036023139954
+    },
+    {
+      "doc_index": 152061,
+      "doc_id": "57c575f2",
+      "rank": 3,
+      "refit_dense_score": 0.8181936740875244
+    },
+    {
+      "doc_index": 105883,
+      "doc_id": "3ea50dbd",
+      "rank": 4,
+      "refit_dense_score": 0.8181853890419006
+    },
+    {
+      "doc_index": 82710,
+      "doc_id": "b34f2e5b",
+      "rank": 5,
+      "refit_dense_score": 0.8165078163146973
+    }
+  ]
+}
+114B-WIR-18 結果整理已完成。
+[Step 12] 114B-WIR-18 輸出單筆結果
+{
+  "query_id": "114B-WIR-18",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 120819,
+      "doc_id": "b66586de",
+      "refit_dense_score": 0.8458594083786011
+    },
+    {
+      "rank": 2,
+      "doc_index": 63602,
+      "doc_id": "5c21d9b2",
+      "refit_dense_score": 0.8202036023139954
+    },
+    {
+      "rank": 3,
+      "doc_index": 152061,
+      "doc_id": "57c575f2",
+      "refit_dense_score": 0.8181936740875244
+    }
+  ]
+}
+ReFIT final retrieval queries:  80%|########  | 8/10 [00:01<00:00,  5.55it/s]114B-WIR-19 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 1.00042343
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.05930597
+  original_query_vector_preview: [-0.0002448558807373047, -0.0191192626953125, 0.0078582763671875, -0.01358795166015625, -0.0009784698486328125, 0.044708251953125, 0.059600830078125, 0.02081298828125, 0.0097808837890625, -0.022430419921875]
+  updated_query_vector_preview: [-0.0002391183952568099, -0.019769718870520592, 0.008215079084038734, -0.014928036369383335, -0.0009669713908806443, 0.044997841119766235, 0.060534920543432236, 0.020307371392846107, 0.00980986375361681, -0.024844437837600708]
+  delta_vector_preview: [5.737485480494797e-06, -0.0006504561752080917, 0.00035680271685123444, -0.0013400847092270851, 1.1498457752168179e-05, 0.00028958916664123535, 0.0009340904653072357, -0.0005056168884038925, 2.8979964554309845e-05, -0.002414017915725708]
+114B-WIR-19 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-19 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.05930596590042114,
+  "original_query_vector_preview": [
+    -0.0002448558807373047,
+    -0.0191192626953125,
+    0.0078582763671875,
+    -0.01358795166015625,
+    -0.0009784698486328125,
+    0.044708251953125,
+    0.059600830078125,
+    0.02081298828125,
+    0.0097808837890625,
+    -0.022430419921875
+  ],
+  "updated_query_vector_preview": [
+    -0.0002391183952568099,
+    -0.019769718870520592,
+    0.008215079084038734,
+    -0.014928036369383335,
+    -0.0009669713908806443,
+    0.044997841119766235,
+    0.060534920543432236,
+    0.020307371392846107,
+    0.00980986375361681,
+    -0.024844437837600708
+  ],
+  "teacher_score_preview": [
+    0.0031445920594268977,
+    0.004847858948630405,
+    0.004117260505021117,
+    0.004576045009460685,
+    0.0057242676699811885,
+    0.003228301265793367,
+    0.004754879638442119,
+    0.002831046375542453,
+    0.003004531283219808,
+    0.00532135481529637
+  ]
+}
+114B-WIR-19 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-19 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 108868,
+      "doc_id": "d2a6e8f5",
+      "rank": 1,
+      "refit_dense_score": 0.8112872838973999
+    },
+    {
+      "doc_index": 8781,
+      "doc_id": "7c3d6569",
+      "rank": 2,
+      "refit_dense_score": 0.7884681224822998
+    },
+    {
+      "doc_index": 66966,
+      "doc_id": "9c1e4d17",
+      "rank": 3,
+      "refit_dense_score": 0.7803583145141602
+    },
+    {
+      "doc_index": 106175,
+      "doc_id": "30802495",
+      "rank": 4,
+      "refit_dense_score": 0.7761614918708801
+    },
+    {
+      "doc_index": 28989,
+      "doc_id": "e68f8eb9",
+      "rank": 5,
+      "refit_dense_score": 0.7688596844673157
+    }
+  ]
+}
+114B-WIR-19 結果整理已完成。
+[Step 12] 114B-WIR-19 輸出單筆結果
+{
+  "query_id": "114B-WIR-19",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 108868,
+      "doc_id": "d2a6e8f5",
+      "refit_dense_score": 0.8112872838973999
+    },
+    {
+      "rank": 2,
+      "doc_index": 8781,
+      "doc_id": "7c3d6569",
+      "refit_dense_score": 0.7884681224822998
+    },
+    {
+      "rank": 3,
+      "doc_index": 66966,
+      "doc_id": "9c1e4d17",
+      "refit_dense_score": 0.7803583145141602
+    }
+  ]
+}
+ReFIT final retrieval queries:  90%|######### | 9/10 [00:02<00:00,  5.84it/s]114B-WIR-20 Query embedding debug:
+  embedding_dim: 2560
+  preview_dims: 10
+  original_norm_l2: 0.99987930
+  updated_norm_l2: 1.00000000
+  shift_l2: 0.05090259
+  original_query_vector_preview: [-0.00037360191345214844, 0.0166473388671875, -0.01230621337890625, 0.0014095306396484375, -0.0018787384033203125, 0.038909912109375, 0.03668212890625, -0.0084075927734375, 0.01206207275390625, -0.046600341796875]
+  updated_query_vector_preview: [-0.0003639751812443137, 0.015564493834972382, -0.009974376298487186, 0.002530800411477685, -0.001852281391620636, 0.03983934223651886, 0.03583158552646637, -0.00532598327845335, 0.012084171175956726, -0.04572821408510208]
+  delta_vector_preview: [9.62673220783472e-06, -0.0010828450322151184, 0.0023318370804190636, 0.0011212697718292475, 2.6457011699676514e-05, 0.0009294301271438599, -0.0008505433797836304, 0.00308160949498415, 2.2098422050476074e-05, 0.0008721277117729187]
+114B-WIR-20 ReFIT query 向量更新已完成。
+[Step 10] 114B-WIR-20 ReFIT Query Update
+{
+  "refit_updates": 100,
+  "query_vector_shift_l2": 0.0509025901556015,
+  "original_query_vector_preview": [
+    -0.00037360191345214844,
+    0.0166473388671875,
+    -0.01230621337890625,
+    0.0014095306396484375,
+    -0.0018787384033203125,
+    0.038909912109375,
+    0.03668212890625,
+    -0.0084075927734375,
+    0.01206207275390625,
+    -0.046600341796875
+  ],
+  "updated_query_vector_preview": [
+    -0.0003639751812443137,
+    0.015564493834972382,
+    -0.009974376298487186,
+    0.002530800411477685,
+    -0.001852281391620636,
+    0.03983934223651886,
+    0.03583158552646637,
+    -0.00532598327845335,
+    0.012084171175956726,
+    -0.04572821408510208
+  ],
+  "teacher_score_preview": [
+    0.00460318385685081,
+    0.005135004821600771,
+    0.004172142370583924,
+    0.0057242676699811885,
+    0.003929287131727086,
+    0.0029426428816174636,
+    0.0031857244152326118,
+    0.00379974660543654,
+    0.004379900079709197,
+    0.0032746459311171834
+  ]
+}
+114B-WIR-20 第二次 dense retrieval 已完成，共 30 筆候選。
+[Step 11] 114B-WIR-20 第二次 Dense Retrieval
+{
+  "top_k": 30,
+  "top_candidates": [
+    {
+      "doc_index": 124270,
+      "doc_id": "68da6336",
+      "rank": 1,
+      "refit_dense_score": 0.7804359197616577
+    },
+    {
+      "doc_index": 163039,
+      "doc_id": "8e7caea3",
+      "rank": 2,
+      "refit_dense_score": 0.7504937648773193
+    },
+    {
+      "doc_index": 86020,
+      "doc_id": "75db27e7",
+      "rank": 3,
+      "refit_dense_score": 0.7336502075195312
+    },
+    {
+      "doc_index": 33234,
+      "doc_id": "3394a909",
+      "rank": 4,
+      "refit_dense_score": 0.7315831184387207
+    },
+    {
+      "doc_index": 145838,
+      "doc_id": "33fac84a",
+      "rank": 5,
+      "refit_dense_score": 0.7227777242660522
+    }
+  ]
+}
+114B-WIR-20 結果整理已完成。
+[Step 12] 114B-WIR-20 輸出單筆結果
+{
+  "query_id": "114B-WIR-20",
+  "num_results": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_index": 124270,
+      "doc_id": "68da6336",
+      "refit_dense_score": 0.7804359197616577
+    },
+    {
+      "rank": 2,
+      "doc_index": 163039,
+      "doc_id": "8e7caea3",
+      "refit_dense_score": 0.7504937648773193
+    },
+    {
+      "rank": 3,
+      "doc_index": 86020,
+      "doc_id": "75db27e7",
+      "refit_dense_score": 0.7336502075195312
+    }
+  ]
+}
+ReFIT final retrieval queries: 100%|##########| 10/10 [00:02<00:00,  5.96it/s]ReFIT final retrieval queries: 100%|##########| 10/10 [00:02<00:00,  4.43it/s]
+Saved results to /workplace/dxlin/Homework/IR/normal_RR_GFF_ReFIT/outputs/qwen_gff_refit_results.json
+結果輸出已完成。
+GFF + ReFIT 流程完成，總耗時 1331.21 秒。
