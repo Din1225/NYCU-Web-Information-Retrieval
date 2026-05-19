@@ -1,0 +1,12 @@
+# Required packages for hybrid_BM25_Dense_Rerank
+numpy
+torch
+transformers
+huggingface_hub
+tqdm
+sentencepiece
+jieba
+
+# Optional but recommended for default Qwen 4-bit GPU loading
+# accelerate
+# bitsandbytes
