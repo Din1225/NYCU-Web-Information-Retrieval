@@ -73,3 +73,30 @@ def load_queries(path: str | Path, limit: int | None = None) -> list[dict[str, A
             break
 
     return queries
+
+
+def load_subqueries_map(path: str | Path) -> dict[str, list[str]]:
+    """讀取 sub-query JSON，回傳 query_id -> sub_queries 對照表。"""
+    raw_payload = load_json(path)
+    if not isinstance(raw_payload, list):
+        raise ValueError(f"Sub-query file must contain a JSON list: {path}")
+
+    subqueries_map: dict[str, list[str]] = {}
+    for index, item in enumerate(raw_payload):
+        if not isinstance(item, dict):
+            raise ValueError(f"Sub-query item at index {index} is not a JSON object")
+
+        query_id = item.get("query_id", item.get("ID"))
+        if query_id is None:
+            raise ValueError(f"Sub-query item at index {index} must contain query_id")
+
+        sub_queries = item.get("sub_queries", item.get("sub_question"))
+        if not isinstance(sub_queries, list):
+            raise ValueError(
+                f"Sub-query item at index {index} must contain sub_queries or sub_question as a JSON list"
+            )
+
+        normalized_sub_queries = [str(sub_query).strip() for sub_query in sub_queries if str(sub_query).strip()]
+        subqueries_map[str(query_id)] = normalized_sub_queries
+
+    return subqueries_map

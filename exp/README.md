@@ -159,7 +159,7 @@ python exp/scripts/evaluate_dense_rerank.py \
 
 python exp/scripts/evaluate_dense_rerank.py \
   --annotation 114B-WIR-Phase1-Annotation.json \
-  --result exp/outputs/hybrid_union_query1_results_for_eval.json \
+  --result exp/outputs/hybrid_union_query1_LLMrisk_results_for_eval3.json \
   --result_field rerank_results
 ```
 

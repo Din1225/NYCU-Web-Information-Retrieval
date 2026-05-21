@@ -1,0 +1,3944 @@
+Log file: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/logs/hybrid_union_LLMrisk_query2.log
+=== Hybrid BM25 + Dense Fusion Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase2_query.json
+subquery_path: /workplace/dxlin/Homework/IR/query/phase2_sub_query.json
+output_path: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/hybrid_union_query2_LLMrisk_results.json
+dense_model_name_or_path: Qwen/Qwen3-Embedding-4B
+reranker_model_name_or_path: Qwen/Qwen3-Reranker-4B
+risk_model_name_or_path: Qwen/Qwen3.5-4B
+cache_dir: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache
+model_cache_dir: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/models
+risk_model_cache_dir: /workplace/Share/LLM_model
+log_file: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/logs/hybrid_union_LLMrisk_query2.log
+bm25_top_k: 100
+dense_top_k: 100
+risk_top_k: 50
+final_top_k: 30
+fusion_method: union
+rrf_k: 60
+risk_lambda: 0.2
+bm25_k1: 1.5
+bm25_b: 0.75
+use_4bit: True
+compute_dtype: float16
+use_cache: True
+================================================
+開始執行 Hybrid retrieval：BM25 top-k + Dense top-k -> union -> rerank top-50 -> risk penalty -> final top-k。
+Loaded 171562 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 10 queries from /workplace/dxlin/Homework/IR/query/phase2_query.json
+
+=== Step 1: 讀取文件、查詢與子查詢 ===
+{
+  "num_documents": 171562,
+  "num_queries": 10,
+  "subquery_path": "/workplace/dxlin/Homework/IR/query/phase2_sub_query.json",
+  "num_subquery_groups": 10,
+  "risk_penalty_enabled": true,
+  "document_sample_ids": [
+    "2457ed7b",
+    "479f020f",
+    "1200540a"
+  ],
+  "query_sample_ids": [
+    "114B-WIR-11",
+    "114B-WIR-12",
+    "114B-WIR-13"
+  ]
+}
+Loaded cached BM25 index from /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/bm25/bm25_index_759fe77bc2a67aa0.pkl
+
+=== Step 2: 建立或讀取 BM25 index ===
+{
+  "cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/bm25",
+  "bm25_k1": 1.5,
+  "bm25_b": 0.75
+}
+Loaded cached dense embeddings from /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/dense/qwen3_embedding_f125e0cdc1220360.npy
+
+=== Step 3: 建立或讀取 Dense embeddings ===
+{
+  "embedding_dim": 2560,
+  "num_document_embeddings": 171562,
+  "cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/dense",
+  "model_cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/models/dense"
+}
+Hybrid candidate retrieval:   0%|          | 0/10 [00:00<?, ?it/s]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<01:12,  5.47it/s][A
+Loading weights:   3%|2         | 11/398 [00:00<00:08, 46.07it/s][A
+Loading weights:   7%|6         | 27/398 [00:00<00:04, 88.62it/s][A
+Loading weights:  12%|#2        | 48/398 [00:00<00:02, 130.95it/s][A
+Loading weights:  17%|#7        | 69/398 [00:00<00:02, 156.80it/s][A
+Loading weights:  22%|##2       | 89/398 [00:00<00:01, 170.31it/s][A
+Loading weights:  27%|##6       | 107/398 [00:00<00:01, 170.90it/s][A
+Loading weights:  31%|###1      | 125/398 [00:00<00:01, 173.43it/s][A
+Loading weights:  37%|###6      | 146/398 [00:01<00:01, 182.64it/s][A
+Loading weights:  41%|####1     | 165/398 [00:01<00:01, 183.92it/s][A
+Loading weights:  46%|####6     | 184/398 [00:01<00:01, 185.61it/s][A
+Loading weights:  51%|#####1    | 203/398 [00:01<00:01, 181.37it/s][A
+Loading weights:  57%|#####6    | 225/398 [00:01<00:00, 185.70it/s][A
+Loading weights:  62%|######2   | 247/398 [00:01<00:00, 188.88it/s][A
+Loading weights:  68%|######7   | 269/398 [00:01<00:00, 190.88it/s][A
+Loading weights:  73%|#######2  | 290/398 [00:01<00:00, 195.51it/s][A
+Loading weights:  78%|#######8  | 312/398 [00:01<00:00, 195.28it/s][A
+Loading weights:  84%|########3 | 333/398 [00:01<00:00, 199.20it/s][A
+Loading weights:  89%|########8 | 353/398 [00:02<00:00, 198.52it/s][A
+Loading weights:  94%|#########3| 373/398 [00:02<00:00, 195.28it/s][A
+Loading weights:  99%|#########8| 393/398 [00:02<00:00, 192.59it/s][ALoading weights: 100%|##########| 398/398 [00:02<00:00, 173.57it/s]
+
+=== Step 4: 114B-WIR-11 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-11",
+  "query": "當家人出現情緒失控、妄想、多疑或行為異常等情形時，家屬應如何協助就醫或處理？",
+  "sub_query_count": 1,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 166,
+  "union_size": 166,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "508aad2b",
+      "doc_index": 130682,
+      "bm25_score": 80.89627075195312,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "ce0c0648",
+      "doc_index": 31509,
+      "bm25_score": 67.19466400146484,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "b0cb559f",
+      "doc_index": 164650,
+      "bm25_score": 67.0823974609375,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "8d9f2cee",
+      "doc_index": 106081,
+      "dense_score": 0.7626796960830688,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "3ab02362",
+      "doc_index": 67238,
+      "dense_score": 0.7615840435028076,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "75c83165",
+      "doc_index": 7218,
+      "dense_score": 0.7595114707946777,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "8d9f2cee",
+      "doc_index": 106081,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "508aad2b",
+      "doc_index": 130682,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "3ab02362",
+      "doc_index": 67238,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  10%|#         | 1/10 [00:12<01:52, 12.45s/it]
+=== Step 4: 114B-WIR-12 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-12",
+  "query": "口腔或舌頭出現白點、顆粒、突起或粗糙感等變化，是否為正常現象或疾病？",
+  "sub_query_count": 2,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 171,
+  "union_size": 171,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "d055c7ff",
+      "doc_index": 49739,
+      "bm25_score": 94.18379211425781,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "d5d14555",
+      "doc_index": 79289,
+      "bm25_score": 86.52745056152344,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "92c3561c",
+      "doc_index": 79300,
+      "bm25_score": 83.03587341308594,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "d2bdad08",
+      "doc_index": 23249,
+      "dense_score": 0.77940434217453,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "c864136c",
+      "doc_index": 161143,
+      "dense_score": 0.7698253393173218,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "577a9223",
+      "doc_index": 64400,
+      "dense_score": 0.761126697063446,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "d2bdad08",
+      "doc_index": 23249,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "d055c7ff",
+      "doc_index": 49739,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "c864136c",
+      "doc_index": 161143,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  20%|##        | 2/10 [00:12<00:41,  5.21s/it]
+=== Step 4: 114B-WIR-13 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-13",
+  "query": "出現閃光、亮點等視覺現象，但眼科檢查未發現異常，是否與玻璃體退化或視網膜問題有關，需要持續追蹤或再次檢查嗎？",
+  "sub_query_count": 2,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 170,
+  "union_size": 170,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "4ef701d9",
+      "doc_index": 25441,
+      "bm25_score": 141.70648193359375,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "f05286ab",
+      "doc_index": 25457,
+      "bm25_score": 138.2296600341797,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "0a091788",
+      "doc_index": 27076,
+      "bm25_score": 136.29917907714844,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "4ef701d9",
+      "doc_index": 25441,
+      "dense_score": 0.833361029624939,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "a5c7c939",
+      "doc_index": 31823,
+      "dense_score": 0.8133420348167419,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "11e7d29d",
+      "doc_index": 142922,
+      "dense_score": 0.8096485733985901,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "4ef701d9",
+      "doc_index": 25441,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "a5c7c939",
+      "doc_index": 31823,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "f05286ab",
+      "doc_index": 25457,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  30%|###       | 3/10 [00:12<00:20,  2.90s/it]
+=== Step 4: 114B-WIR-14 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-14",
+  "query": "血糖偏高或糖尿病前期時，應如何透過飲食、運動與體重控制來改善血糖？",
+  "sub_query_count": 2,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 161,
+  "union_size": 161,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "ef286bd3",
+      "doc_index": 59782,
+      "bm25_score": 108.32289123535156,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "50aa3504",
+      "doc_index": 107240,
+      "bm25_score": 98.95791625976562,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "c1d4baea",
+      "doc_index": 120115,
+      "bm25_score": 98.2556381225586,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "b8e77d62",
+      "doc_index": 59797,
+      "dense_score": 0.7540918588638306,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "b6bb9723",
+      "doc_index": 157279,
+      "dense_score": 0.7022947072982788,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "0b7d70a1",
+      "doc_index": 163028,
+      "dense_score": 0.6872842907905579,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "b8e77d62",
+      "doc_index": 59797,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "ef286bd3",
+      "doc_index": 59782,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "b6bb9723",
+      "doc_index": 157279,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  40%|####      | 4/10 [00:12<00:10,  1.80s/it]
+=== Step 4: 114B-WIR-15 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-15",
+  "query": "膝關節韌帶斷裂或鬆弛時，是否一定需要進行韌帶重建手術，或可以透過保守治療與肌力訓練改善？",
+  "sub_query_count": 2,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 159,
+  "union_size": 159,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "23859119",
+      "doc_index": 74978,
+      "bm25_score": 119.02246856689453,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "30c54e12",
+      "doc_index": 62173,
+      "bm25_score": 113.62093353271484,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "f3b4b603",
+      "doc_index": 115431,
+      "bm25_score": 112.3465805053711,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "e0ebaa8d",
+      "doc_index": 120268,
+      "dense_score": 0.7229061126708984,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "12b4917f",
+      "doc_index": 62187,
+      "dense_score": 0.7195602655410767,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "ff2f3538",
+      "doc_index": 76195,
+      "dense_score": 0.7073163986206055,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "e0ebaa8d",
+      "doc_index": 120268,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "23859119",
+      "doc_index": 74978,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "12b4917f",
+      "doc_index": 62187,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  50%|#####     | 5/10 [00:13<00:06,  1.20s/it]
+=== Step 4: 114B-WIR-16 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-16",
+  "query": "後腦勺到脖子總是緊繃悶痛，是不是因為姿勢不良或壓力過大引起的？",
+  "sub_query_count": 2,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 178,
+  "union_size": 178,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "a01a50d7",
+      "doc_index": 42246,
+      "bm25_score": 73.49018096923828,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "7af2fdf2",
+      "doc_index": 142857,
+      "bm25_score": 73.38541412353516,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "b6180155",
+      "doc_index": 44251,
+      "bm25_score": 69.27072143554688,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "ce95c5cc",
+      "doc_index": 16205,
+      "dense_score": 0.7417646646499634,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "808786db",
+      "doc_index": 76118,
+      "dense_score": 0.7378626465797424,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "4611b26c",
+      "doc_index": 111881,
+      "dense_score": 0.7146079540252686,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "ce95c5cc",
+      "doc_index": 16205,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "a01a50d7",
+      "doc_index": 42246,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "808786db",
+      "doc_index": 76118,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  60%|######    | 6/10 [00:13<00:03,  1.19it/s]
+=== Step 4: 114B-WIR-17 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-17",
+  "query": "除了用藥外，飲食、運動或減重等生活方式改變能否有效控制血壓，甚至減少用藥？",
+  "sub_query_count": 2,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 179,
+  "union_size": 179,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "f53b8e09",
+      "doc_index": 24660,
+      "bm25_score": 95.39087677001953,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "7c8be1cd",
+      "doc_index": 100180,
+      "bm25_score": 88.99649047851562,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "22d8d635",
+      "doc_index": 97876,
+      "bm25_score": 83.6602783203125,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "f5ee41f1",
+      "doc_index": 70250,
+      "dense_score": 0.767508864402771,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "4f5a09cf",
+      "doc_index": 99406,
+      "dense_score": 0.7393584847450256,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "fdcc6126",
+      "doc_index": 99404,
+      "dense_score": 0.738152027130127,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "f5ee41f1",
+      "doc_index": 70250,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "f53b8e09",
+      "doc_index": 24660,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "4f5a09cf",
+      "doc_index": 99406,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  70%|#######   | 7/10 [00:13<00:01,  1.64it/s]
+=== Step 4: 114B-WIR-18 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-18",
+  "query": "血色素、MCV 及鐵蛋白偏低，屬於缺鐵性貧血還是地中海型貧血？",
+  "sub_query_count": 1,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 138,
+  "union_size": 138,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "54161026",
+      "doc_index": 34261,
+      "bm25_score": 152.75222778320312,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "b34f2e5b",
+      "doc_index": 82710,
+      "bm25_score": 147.70272827148438,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "94216686",
+      "doc_index": 49837,
+      "bm25_score": 141.1944580078125,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "436853de",
+      "doc_index": 28246,
+      "dense_score": 0.8345293998718262,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "36191405",
+      "doc_index": 94629,
+      "dense_score": 0.8247115612030029,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "9858667e",
+      "doc_index": 18265,
+      "dense_score": 0.8222073316574097,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "436853de",
+      "doc_index": 28246,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "54161026",
+      "doc_index": 34261,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "36191405",
+      "doc_index": 94629,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  80%|########  | 8/10 [00:13<00:00,  2.20it/s]
+=== Step 4: 114B-WIR-19 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-19",
+  "query": "肚臍周圍摸到小球狀物或感覺有東西在滑動，這是疝氣、腫瘤，還是單純的腸子蠕動或腹主動脈跳動？",
+  "sub_query_count": 2,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 172,
+  "union_size": 172,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "9c1e4d17",
+      "doc_index": 66966,
+      "bm25_score": 113.9631118774414,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "d1912011",
+      "doc_index": 6378,
+      "bm25_score": 95.37931823730469,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "622c32cb",
+      "doc_index": 67164,
+      "bm25_score": 91.52589416503906,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "e68f8eb9",
+      "doc_index": 28989,
+      "dense_score": 0.7668261528015137,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "9c1e4d17",
+      "doc_index": 66966,
+      "dense_score": 0.7654191255569458,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "30802495",
+      "doc_index": 106175,
+      "dense_score": 0.7629389762878418,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "e68f8eb9",
+      "doc_index": 28989,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "9c1e4d17",
+      "doc_index": 66966,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "d1912011",
+      "doc_index": 6378,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  90%|######### | 9/10 [00:13<00:00,  2.81it/s]
+=== Step 4: 114B-WIR-20 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-20",
+  "query": "嬰兒多天沒解便且排便時很出力或便體乾硬，該用棉花棒刺激、額外餵水改善便秘嗎？",
+  "sub_query_count": 1,
+  "fusion_method": "union",
+  "rrf_k": null,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 162,
+  "union_size": 162,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "49ef3126",
+      "doc_index": 129066,
+      "bm25_score": 81.13837432861328,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "0087b4c1",
+      "doc_index": 134868,
+      "bm25_score": 79.72669982910156,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "aaeef670",
+      "doc_index": 111434,
+      "bm25_score": 76.00513458251953,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "8e7caea3",
+      "doc_index": 163039,
+      "dense_score": 0.7469358444213867,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "9456bc9f",
+      "doc_index": 26227,
+      "dense_score": 0.7375243902206421,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "80d22d56",
+      "doc_index": 8101,
+      "dense_score": 0.7205237150192261,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "8e7caea3",
+      "doc_index": 163039,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "49ef3126",
+      "doc_index": 129066,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "9456bc9f",
+      "doc_index": 26227,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval: 100%|##########| 10/10 [00:13<00:00,  3.50it/s]Hybrid candidate retrieval: 100%|##########| 10/10 [00:13<00:00,  1.37s/it]
+Dense retriever 模型已釋放。
+
+=== Step 5: 載入 Reranker ===
+{
+  "reranker_model_name_or_path": "Qwen/Qwen3-Reranker-4B",
+  "model_cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/models/reranker",
+  "reranker_batch_size": 16,
+  "reranker_top_k": 50
+}
+Reranking fused candidates:   0%|          | 0/10 [00:00<?, ?it/s]/workplace/zyxu/miniconda3/envs/ir2/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2341: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<01:12,  5.50it/s][A
+Loading weights:   6%|5         | 23/398 [00:00<00:03, 99.48it/s][A
+Loading weights:  12%|#1        | 47/398 [00:00<00:02, 152.81it/s][A
+Loading weights:  18%|#7        | 71/398 [00:00<00:01, 179.55it/s][A
+Loading weights:  26%|##5       | 102/398 [00:00<00:01, 216.92it/s][A
+Loading weights:  32%|###1      | 126/398 [00:00<00:01, 219.94it/s][A
+Loading weights:  39%|###8      | 155/398 [00:00<00:01, 241.31it/s][A
+Loading weights:  45%|####5     | 180/398 [00:00<00:00, 239.34it/s][A
+Loading weights:  52%|#####2    | 207/398 [00:01<00:00, 246.58it/s][A
+Loading weights:  59%|#####8    | 234/398 [00:01<00:00, 250.81it/s][A
+Loading weights:  65%|######5   | 260/398 [00:01<00:00, 241.90it/s][A
+Loading weights:  72%|#######1  | 285/398 [00:01<00:00, 242.86it/s][A
+Loading weights:  78%|#######8  | 311/398 [00:01<00:00, 242.34it/s][A
+Loading weights:  84%|########4 | 336/398 [00:01<00:00, 240.11it/s][A
+Loading weights:  92%|#########1| 365/398 [00:01<00:00, 254.40it/s][A
+Loading weights:  98%|#########8| 391/398 [00:01<00:00, 192.14it/s][ALoading weights: 100%|##########| 398/398 [00:01<00:00, 211.88it/s]
+
+=== Step 6: 114B-WIR-11 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-11",
+  "sub_query_count": 1,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 32,
+      "doc_id": "476ba750",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 22,
+      "doc_id": "6e1bc72b",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 58,
+      "doc_id": "17457794",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  10%|#         | 1/10 [00:09<01:26,  9.61s/it]
+=== Step 6: 114B-WIR-12 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-12",
+  "sub_query_count": 2,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 6,
+      "doc_id": "92c3561c",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 41,
+      "doc_id": "3ecebfb2",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 106,
+      "doc_id": "670680f8",
+      "rerank_score": 0.99658203125,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  20%|##        | 2/10 [00:16<01:02,  7.84s/it]
+=== Step 6: 114B-WIR-13 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-13",
+  "sub_query_count": 2,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 86,
+      "doc_id": "9e6cc9e3",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 83,
+      "doc_id": "d65bd55b",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 87,
+      "doc_id": "eda1fa27",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  30%|###       | 3/10 [00:23<00:51,  7.38s/it]
+=== Step 6: 114B-WIR-14 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-14",
+  "sub_query_count": 2,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 10,
+      "doc_id": "41131a18",
+      "rerank_score": 0.998046875,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "ef286bd3",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 14,
+      "doc_id": "20ee4e96",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "bm25"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  40%|####      | 4/10 [00:29<00:42,  7.03s/it]
+=== Step 6: 114B-WIR-15 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-15",
+  "sub_query_count": 2,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 2,
+      "doc_id": "23859119",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 4,
+      "doc_id": "30c54e12",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 9,
+      "doc_id": "a1510742",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  50%|#####     | 5/10 [00:35<00:33,  6.76s/it]
+=== Step 6: 114B-WIR-16 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-16",
+  "sub_query_count": 2,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 31,
+      "doc_id": "4e5db31f",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 160,
+      "doc_id": "addbebbb",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 13,
+      "doc_id": "9c2fd1a9",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  60%|######    | 6/10 [00:42<00:27,  6.88s/it]
+=== Step 6: 114B-WIR-17 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-17",
+  "sub_query_count": 2,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 160,
+      "doc_id": "9293cd8e",
+      "rerank_score": 0.98828125,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 141,
+      "doc_id": "7e12ada0",
+      "rerank_score": 0.9873046875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 67,
+      "doc_id": "0cd379f5",
+      "rerank_score": 0.98681640625,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  70%|#######   | 7/10 [00:50<00:20,  7.00s/it]
+=== Step 6: 114B-WIR-18 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-18",
+  "sub_query_count": 1,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 10,
+      "doc_id": "57c575f2",
+      "rerank_score": 0.99072265625,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 131,
+      "doc_id": "1768a12f",
+      "rerank_score": 0.9814453125,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 88,
+      "doc_id": "daa793d5",
+      "rerank_score": 0.97998046875,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  80%|########  | 8/10 [00:55<00:13,  6.52s/it]
+=== Step 6: 114B-WIR-19 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-19",
+  "sub_query_count": 2,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 24,
+      "doc_id": "748b70ef",
+      "rerank_score": 0.958984375,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 34,
+      "doc_id": "8b21e413",
+      "rerank_score": 0.9560546875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 26,
+      "doc_id": "bc0a527a",
+      "rerank_score": 0.94873046875,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  90%|######### | 9/10 [01:02<00:06,  6.61s/it]
+=== Step 6: 114B-WIR-20 Rerank top-50 ===
+{
+  "query_id": "114B-WIR-20",
+  "sub_query_count": 1,
+  "rerank_top_k": 50,
+  "result_preview": [
+    {
+      "rank": 7,
+      "doc_id": "3394a909",
+      "rerank_score": 0.998046875,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 17,
+      "doc_id": "38a8c433",
+      "rerank_score": 0.96728515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "49ef3126",
+      "rerank_score": 0.96435546875,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates: 100%|##########| 10/10 [01:09<00:00,  6.59s/it]Reranking fused candidates: 100%|##########| 10/10 [01:09<00:00,  6.90s/it]
+Reranker 模型已釋放。
+
+=== Step 7: 載入 Risk Detector ===
+{
+  "risk_model_name_or_path": "Qwen/Qwen3.5-4B",
+  "risk_model_cache_dir": "/workplace/Share/LLM_model",
+  "risk_batch_size": 4,
+  "risk_lambda": 0.2
+}
+Applying risk penalty:   0%|          | 0/10 [00:00<?, ?it/s]
+Loading weights:   0%|          | 0/426 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/426 [00:00<01:37,  4.34it/s][A
+Loading weights:   6%|6         | 26/426 [00:00<00:04, 98.23it/s][A
+Loading weights:  12%|#1        | 51/426 [00:00<00:02, 150.90it/s][A
+Loading weights:  19%|#9        | 81/426 [00:00<00:01, 198.76it/s][A
+Loading weights:  27%|##6       | 114/426 [00:00<00:01, 239.37it/s][A
+Loading weights:  34%|###3      | 143/426 [00:00<00:01, 253.82it/s][A
+Loading weights:  40%|####      | 171/426 [00:00<00:00, 256.44it/s][A
+Loading weights:  47%|####6     | 200/426 [00:00<00:00, 262.81it/s][A
+Loading weights:  54%|#####3    | 228/426 [00:01<00:00, 264.49it/s][A
+Loading weights:  60%|######    | 256/426 [00:01<00:00, 195.74it/s][A
+Loading weights:  65%|######5   | 279/426 [00:01<00:00, 203.52it/s][A
+Loading weights:  72%|#######2  | 307/426 [00:01<00:00, 217.51it/s][A
+Loading weights:  78%|#######8  | 333/426 [00:01<00:00, 228.52it/s][A
+Loading weights:  85%|########4 | 360/426 [00:01<00:00, 239.12it/s][A
+Loading weights:  92%|#########2| 393/426 [00:01<00:00, 258.44it/s][A
+Loading weights:  99%|#########8| 420/426 [00:01<00:00, 248.29it/s][ALoading weights: 100%|##########| 426/426 [00:01<00:00, 219.84it/s]
+
+=== Risk Detector JSON Parse Success Sample ===
+Raw LLM output:
+{"topic_mismatch_risk": 0.0, "missing_subquery_risk": 0.0, "keyword_only_risk": 0.0, "shallow_answer_risk": 0.9}
+Parsed JSON:
+{
+  "topic_mismatch_risk": 0.0,
+  "missing_subquery_risk": 0.0,
+  "keyword_only_risk": 0.0,
+  "shallow_answer_risk": 0.9
+}
+
+=== Risk Detector JSON Parse Success Sample ===
+Raw LLM output:
+{"topic_mismatch_risk": 0.0, "missing_subquery_risk": 0.0, "keyword_only_risk": 0.0, "shallow_answer_risk": 0.2}
+Parsed JSON:
+{
+  "topic_mismatch_risk": 0.0,
+  "missing_subquery_risk": 0.0,
+  "keyword_only_risk": 0.0,
+  "shallow_answer_risk": 0.2
+}
+
+=== Risk Detector JSON Parse Success Sample ===
+Raw LLM output:
+{"topic_mismatch_risk": 0.0, "missing_subquery_risk": 0.0, "keyword_only_risk": 0.0, "shallow_answer_risk": 0.1}
+Parsed JSON:
+{
+  "topic_mismatch_risk": 0.0,
+  "missing_subquery_risk": 0.0,
+  "keyword_only_risk": 0.0,
+  "shallow_answer_risk": 0.1
+}
+
+=== Risk Detector JSON Parse Failed ===
+Raw LLM output:
+評估，
+Extracted JSON candidate:
+評估，
+
+=== Step 8: 114B-WIR-11 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-11",
+  "sub_query_count": 1,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "90ee7f00",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.0,
+      "final_score": 0.99658203125
+    },
+    {
+      "rank": 2,
+      "doc_id": "9ee44c1a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9951171875,
+      "risk": 0.0,
+      "final_score": 0.9951171875
+    },
+    {
+      "rank": 3,
+      "doc_id": "17457794",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.015,
+      "final_score": 0.99455859375
+    },
+    {
+      "rank": 4,
+      "doc_id": "6e1bc72b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99853515625,
+      "risk": 0.03,
+      "final_score": 0.99253515625
+    },
+    {
+      "rank": 5,
+      "doc_id": "f5c64398",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.994140625,
+      "risk": 0.015,
+      "final_score": 0.991140625
+    },
+    {
+      "rank": 6,
+      "doc_id": "4de9f468",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99072265625,
+      "risk": 0.0,
+      "final_score": 0.99072265625
+    },
+    {
+      "rank": 7,
+      "doc_id": "2663a6a8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.03,
+      "final_score": 0.99058203125
+    },
+    {
+      "rank": 8,
+      "doc_id": "6b77d97a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.03,
+      "final_score": 0.99009375
+    },
+    {
+      "rank": 9,
+      "doc_id": "965352c7",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9892578125,
+      "risk": 0.0,
+      "final_score": 0.9892578125
+    },
+    {
+      "rank": 10,
+      "doc_id": "36de8e81",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99169921875,
+      "risk": 0.015,
+      "final_score": 0.98869921875
+    },
+    {
+      "rank": 11,
+      "doc_id": "442d6c1f",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9912109375,
+      "risk": 0.015,
+      "final_score": 0.9882109375
+    },
+    {
+      "rank": 12,
+      "doc_id": "9a69f324",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99267578125,
+      "risk": 0.03,
+      "final_score": 0.98667578125
+    },
+    {
+      "rank": 13,
+      "doc_id": "2cf43797",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99072265625,
+      "risk": 0.03,
+      "final_score": 0.98472265625
+    },
+    {
+      "rank": 14,
+      "doc_id": "75c83165",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9833984375,
+      "risk": 0.0,
+      "final_score": 0.9833984375
+    },
+    {
+      "rank": 15,
+      "doc_id": "43fd0b2e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98876953125,
+      "risk": 0.03,
+      "final_score": 0.98276953125
+    },
+    {
+      "rank": 16,
+      "doc_id": "b97fe06a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9853515625,
+      "risk": 0.015,
+      "final_score": 0.9823515625
+    },
+    {
+      "rank": 17,
+      "doc_id": "bb11ef93",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98388671875,
+      "risk": 0.015,
+      "final_score": 0.98088671875
+    },
+    {
+      "rank": 18,
+      "doc_id": "6a9f14d9",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98583984375,
+      "risk": 0.03,
+      "final_score": 0.97983984375
+    },
+    {
+      "rank": 19,
+      "doc_id": "4dbdd592",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9814453125,
+      "risk": 0.015,
+      "final_score": 0.9784453125
+    },
+    {
+      "rank": 20,
+      "doc_id": "2c187018",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9814453125,
+      "risk": 0.015,
+      "final_score": 0.9784453125
+    },
+    {
+      "rank": 21,
+      "doc_id": "91dbf5d8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.984375,
+      "risk": 0.03,
+      "final_score": 0.978375
+    },
+    {
+      "rank": 22,
+      "doc_id": "457b3659",
+      "risk_parse_ok": false,
+      "rerank_score_norm": 0.97705078125,
+      "risk": 0.0,
+      "final_score": 0.97705078125
+    },
+    {
+      "rank": 23,
+      "doc_id": "d29c5c26",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9765625,
+      "risk": 0.015,
+      "final_score": 0.9735625
+    },
+    {
+      "rank": 24,
+      "doc_id": "cec663a7",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97900390625,
+      "risk": 0.03,
+      "final_score": 0.97300390625
+    },
+    {
+      "rank": 25,
+      "doc_id": "c4f949a8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.12,
+      "final_score": 0.97258203125
+    },
+    {
+      "rank": 26,
+      "doc_id": "476ba750",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99951171875,
+      "risk": 0.135,
+      "final_score": 0.97251171875
+    },
+    {
+      "rank": 27,
+      "doc_id": "2c3ac471",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.135,
+      "final_score": 0.97055859375
+    },
+    {
+      "rank": 28,
+      "doc_id": "34903580",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99560546875,
+      "risk": 0.135,
+      "final_score": 0.96860546875
+    },
+    {
+      "rank": 29,
+      "doc_id": "0035b054",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9951171875,
+      "risk": 0.135,
+      "final_score": 0.9681171875
+    },
+    {
+      "rank": 30,
+      "doc_id": "2b0ce540",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.994140625,
+      "risk": 0.135,
+      "final_score": 0.967140625
+    }
+  ]
+}
+Applying risk penalty:  10%|#         | 1/10 [01:03<09:34, 63.80s/it]
+=== Step 8: 114B-WIR-12 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-12",
+  "sub_query_count": 2,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "3ecebfb2",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.0,
+      "final_score": 0.99755859375
+    },
+    {
+      "rank": 2,
+      "doc_id": "8d24206d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99365234375,
+      "risk": 0.0,
+      "final_score": 0.99365234375
+    },
+    {
+      "rank": 3,
+      "doc_id": "92c3561c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.03,
+      "final_score": 0.99155859375
+    },
+    {
+      "rank": 4,
+      "doc_id": "670680f8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.03,
+      "final_score": 0.99058203125
+    },
+    {
+      "rank": 5,
+      "doc_id": "24821685",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98974609375,
+      "risk": 0.0,
+      "final_score": 0.98974609375
+    },
+    {
+      "rank": 6,
+      "doc_id": "3991250b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.994140625,
+      "risk": 0.03,
+      "final_score": 0.988140625
+    },
+    {
+      "rank": 7,
+      "doc_id": "5174cd3d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9853515625,
+      "risk": 0.0,
+      "final_score": 0.9853515625
+    },
+    {
+      "rank": 8,
+      "doc_id": "805f39ec",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9853515625,
+      "risk": 0.0,
+      "final_score": 0.9853515625
+    },
+    {
+      "rank": 9,
+      "doc_id": "d055c7ff",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9912109375,
+      "risk": 0.03,
+      "final_score": 0.9852109375
+    },
+    {
+      "rank": 10,
+      "doc_id": "680acd05",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98486328125,
+      "risk": 0.0,
+      "final_score": 0.98486328125
+    },
+    {
+      "rank": 11,
+      "doc_id": "b3657684",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98486328125,
+      "risk": 0.0,
+      "final_score": 0.98486328125
+    },
+    {
+      "rank": 12,
+      "doc_id": "372ff8f1",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98876953125,
+      "risk": 0.03,
+      "final_score": 0.98276953125
+    },
+    {
+      "rank": 13,
+      "doc_id": "9d310893",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98095703125,
+      "risk": 0.0,
+      "final_score": 0.98095703125
+    },
+    {
+      "rank": 14,
+      "doc_id": "8459d5d6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98095703125,
+      "risk": 0.0,
+      "final_score": 0.98095703125
+    },
+    {
+      "rank": 15,
+      "doc_id": "34ef0347",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98095703125,
+      "risk": 0.0,
+      "final_score": 0.98095703125
+    },
+    {
+      "rank": 16,
+      "doc_id": "870813d9",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97998046875,
+      "risk": 0.0,
+      "final_score": 0.97998046875
+    },
+    {
+      "rank": 17,
+      "doc_id": "d5d14555",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98583984375,
+      "risk": 0.03,
+      "final_score": 0.97983984375
+    },
+    {
+      "rank": 18,
+      "doc_id": "27db8b48",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97900390625,
+      "risk": 0.0,
+      "final_score": 0.97900390625
+    },
+    {
+      "rank": 19,
+      "doc_id": "7132906b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98291015625,
+      "risk": 0.03,
+      "final_score": 0.97691015625
+    },
+    {
+      "rank": 20,
+      "doc_id": "8c04b1cf",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.982421875,
+      "risk": 0.03,
+      "final_score": 0.976421875
+    },
+    {
+      "rank": 21,
+      "doc_id": "c864136c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98193359375,
+      "risk": 0.03,
+      "final_score": 0.97593359375
+    },
+    {
+      "rank": 22,
+      "doc_id": "2f83497b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9814453125,
+      "risk": 0.03,
+      "final_score": 0.9754453125
+    },
+    {
+      "rank": 23,
+      "doc_id": "c28e79c6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9814453125,
+      "risk": 0.03,
+      "final_score": 0.9754453125
+    },
+    {
+      "rank": 24,
+      "doc_id": "dc234336",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97802734375,
+      "risk": 0.015,
+      "final_score": 0.97502734375
+    },
+    {
+      "rank": 25,
+      "doc_id": "e4d3c281",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98046875,
+      "risk": 0.03,
+      "final_score": 0.97446875
+    },
+    {
+      "rank": 26,
+      "doc_id": "496217e6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9794921875,
+      "risk": 0.03,
+      "final_score": 0.9734921875
+    },
+    {
+      "rank": 27,
+      "doc_id": "577a9223",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97119140625,
+      "risk": 0.0,
+      "final_score": 0.97119140625
+    },
+    {
+      "rank": 28,
+      "doc_id": "299bca07",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.135,
+      "final_score": 0.96909375
+    },
+    {
+      "rank": 29,
+      "doc_id": "288e02fa",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99560546875,
+      "risk": 0.135,
+      "final_score": 0.96860546875
+    },
+    {
+      "rank": 30,
+      "doc_id": "faea955a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99365234375,
+      "risk": 0.135,
+      "final_score": 0.96665234375
+    }
+  ]
+}
+Applying risk penalty:  20%|##        | 2/10 [02:01<08:01, 60.13s/it]
+=== Risk Detector JSON Parse Failed ===
+Raw LLM output:
+keyword_only_r回答
+Extracted JSON candidate:
+keyword_only_r回答
+
+=== Step 8: 114B-WIR-13 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-13",
+  "sub_query_count": 2,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "d65bd55b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9990234375,
+      "risk": 0.0,
+      "final_score": 0.9990234375
+    },
+    {
+      "rank": 2,
+      "doc_id": "15733623",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99853515625,
+      "risk": 0.0,
+      "final_score": 0.99853515625
+    },
+    {
+      "rank": 3,
+      "doc_id": "ea139aaa",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.0,
+      "final_score": 0.99755859375
+    },
+    {
+      "rank": 4,
+      "doc_id": "7c2b8bf1",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9970703125,
+      "risk": 0.0,
+      "final_score": 0.9970703125
+    },
+    {
+      "rank": 5,
+      "doc_id": "eda1fa27",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9990234375,
+      "risk": 0.015,
+      "final_score": 0.9960234375
+    },
+    {
+      "rank": 6,
+      "doc_id": "ee14c498",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99853515625,
+      "risk": 0.015,
+      "final_score": 0.99553515625
+    },
+    {
+      "rank": 7,
+      "doc_id": "da55ee33",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.998046875,
+      "risk": 0.015,
+      "final_score": 0.995046875
+    },
+    {
+      "rank": 8,
+      "doc_id": "4ef701d9",
+      "risk_parse_ok": false,
+      "rerank_score_norm": 0.99462890625,
+      "risk": 0.0,
+      "final_score": 0.99462890625
+    },
+    {
+      "rank": 9,
+      "doc_id": "4bbc3242",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.015,
+      "final_score": 0.99358203125
+    },
+    {
+      "rank": 10,
+      "doc_id": "fbf53bf8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.015,
+      "final_score": 0.99358203125
+    },
+    {
+      "rank": 11,
+      "doc_id": "4a283315",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.015,
+      "final_score": 0.99358203125
+    },
+    {
+      "rank": 12,
+      "doc_id": "4e74170a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.015,
+      "final_score": 0.99309375
+    },
+    {
+      "rank": 13,
+      "doc_id": "a267f945",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.015,
+      "final_score": 0.99309375
+    },
+    {
+      "rank": 14,
+      "doc_id": "a043a7c5",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.015,
+      "final_score": 0.99309375
+    },
+    {
+      "rank": 15,
+      "doc_id": "fba5f8a0",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99560546875,
+      "risk": 0.015,
+      "final_score": 0.99260546875
+    },
+    {
+      "rank": 16,
+      "doc_id": "d20d0e0f",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99853515625,
+      "risk": 0.03,
+      "final_score": 0.99253515625
+    },
+    {
+      "rank": 17,
+      "doc_id": "1353389f",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99169921875,
+      "risk": 0.0,
+      "final_score": 0.99169921875
+    },
+    {
+      "rank": 18,
+      "doc_id": "fe757e97",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99462890625,
+      "risk": 0.015,
+      "final_score": 0.99162890625
+    },
+    {
+      "rank": 19,
+      "doc_id": "ab39b1d3",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99462890625,
+      "risk": 0.015,
+      "final_score": 0.99162890625
+    },
+    {
+      "rank": 20,
+      "doc_id": "11e08ed4",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99462890625,
+      "risk": 0.015,
+      "final_score": 0.99162890625
+    },
+    {
+      "rank": 21,
+      "doc_id": "d51fa83d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.994140625,
+      "risk": 0.015,
+      "final_score": 0.991140625
+    },
+    {
+      "rank": 22,
+      "doc_id": "08e736ab",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.994140625,
+      "risk": 0.015,
+      "final_score": 0.991140625
+    },
+    {
+      "rank": 23,
+      "doc_id": "b11f0651",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.03,
+      "final_score": 0.99058203125
+    },
+    {
+      "rank": 24,
+      "doc_id": "ab1277d2",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.990234375,
+      "risk": 0.0,
+      "final_score": 0.990234375
+    },
+    {
+      "rank": 25,
+      "doc_id": "98a017a3",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9931640625,
+      "risk": 0.015,
+      "final_score": 0.9901640625
+    },
+    {
+      "rank": 26,
+      "doc_id": "6c231838",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.03,
+      "final_score": 0.99009375
+    },
+    {
+      "rank": 27,
+      "doc_id": "ce4a2bab",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.03,
+      "final_score": 0.99009375
+    },
+    {
+      "rank": 28,
+      "doc_id": "417ac1e6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.03,
+      "final_score": 0.99009375
+    },
+    {
+      "rank": 29,
+      "doc_id": "a2699066",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99267578125,
+      "risk": 0.015,
+      "final_score": 0.98967578125
+    },
+    {
+      "rank": 30,
+      "doc_id": "1c4616bb",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99560546875,
+      "risk": 0.03,
+      "final_score": 0.98960546875
+    }
+  ]
+}
+Applying risk penalty:  30%|###       | 3/10 [02:59<06:54, 59.18s/it]
+=== Risk Detector JSON Parse Failed ===
+Raw LLM output:
+
+Extracted JSON candidate:
+
+
+=== Step 8: 114B-WIR-14 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-14",
+  "sub_query_count": 2,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "ef286bd3",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.0,
+      "final_score": 0.99755859375
+    },
+    {
+      "rank": 2,
+      "doc_id": "20ee4e96",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.0,
+      "final_score": 0.99755859375
+    },
+    {
+      "rank": 3,
+      "doc_id": "4bae2c54",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99072265625,
+      "risk": 0.0,
+      "final_score": 0.99072265625
+    },
+    {
+      "rank": 4,
+      "doc_id": "b8e77d62",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.03,
+      "final_score": 0.99058203125
+    },
+    {
+      "rank": 5,
+      "doc_id": "d31fb2ae",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98974609375,
+      "risk": 0.0,
+      "final_score": 0.98974609375
+    },
+    {
+      "rank": 6,
+      "doc_id": "b2692b99",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9951171875,
+      "risk": 0.03,
+      "final_score": 0.9891171875
+    },
+    {
+      "rank": 7,
+      "doc_id": "790bcc19",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9873046875,
+      "risk": 0.03,
+      "final_score": 0.9813046875
+    },
+    {
+      "rank": 8,
+      "doc_id": "452320b5",
+      "risk_parse_ok": false,
+      "rerank_score_norm": 0.97509765625,
+      "risk": 0.0,
+      "final_score": 0.97509765625
+    },
+    {
+      "rank": 9,
+      "doc_id": "f10fc233",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.974609375,
+      "risk": 0.0,
+      "final_score": 0.974609375
+    },
+    {
+      "rank": 10,
+      "doc_id": "42c8e64a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.135,
+      "final_score": 0.97055859375
+    },
+    {
+      "rank": 11,
+      "doc_id": "49cc2a72",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9931640625,
+      "risk": 0.135,
+      "final_score": 0.9661640625
+    },
+    {
+      "rank": 12,
+      "doc_id": "ae55efd7",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9541015625,
+      "risk": 0.0,
+      "final_score": 0.9541015625
+    },
+    {
+      "rank": 13,
+      "doc_id": "812b48f5",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9599609375,
+      "risk": 0.03,
+      "final_score": 0.9539609375
+    },
+    {
+      "rank": 14,
+      "doc_id": "a5e9cb8e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97998046875,
+      "risk": 0.135,
+      "final_score": 0.95298046875
+    },
+    {
+      "rank": 15,
+      "doc_id": "46b089b3",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9501953125,
+      "risk": 0.0,
+      "final_score": 0.9501953125
+    },
+    {
+      "rank": 16,
+      "doc_id": "f86bbe5b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.94970703125,
+      "risk": 0.0,
+      "final_score": 0.94970703125
+    },
+    {
+      "rank": 17,
+      "doc_id": "b6bb9723",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97265625,
+      "risk": 0.135,
+      "final_score": 0.94565625
+    },
+    {
+      "rank": 18,
+      "doc_id": "635b0220",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9697265625,
+      "risk": 0.135,
+      "final_score": 0.9427265625
+    },
+    {
+      "rank": 19,
+      "doc_id": "1d042893",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.96826171875,
+      "risk": 0.135,
+      "final_score": 0.94126171875
+    },
+    {
+      "rank": 20,
+      "doc_id": "343f327b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.96923828125,
+      "risk": 0.15,
+      "final_score": 0.93923828125
+    },
+    {
+      "rank": 21,
+      "doc_id": "1180959e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9658203125,
+      "risk": 0.135,
+      "final_score": 0.9388203125
+    },
+    {
+      "rank": 22,
+      "doc_id": "c1d4baea",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.92529296875,
+      "risk": 0.03,
+      "final_score": 0.91929296875
+    },
+    {
+      "rank": 23,
+      "doc_id": "fc09ea8e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.93603515625,
+      "risk": 0.12,
+      "final_score": 0.91203515625
+    },
+    {
+      "rank": 24,
+      "doc_id": "7c7f23ae",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9111328125,
+      "risk": 0.0,
+      "final_score": 0.9111328125
+    },
+    {
+      "rank": 25,
+      "doc_id": "69a965fe",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.93603515625,
+      "risk": 0.135,
+      "final_score": 0.90903515625
+    },
+    {
+      "rank": 26,
+      "doc_id": "e16aaa0b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.89306640625,
+      "risk": 0.015,
+      "final_score": 0.89006640625
+    },
+    {
+      "rank": 27,
+      "doc_id": "372cf45c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.90673828125,
+      "risk": 0.3,
+      "final_score": 0.84673828125
+    },
+    {
+      "rank": 28,
+      "doc_id": "a8df04bd",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.96337890625,
+      "risk": 0.59,
+      "final_score": 0.84537890625
+    },
+    {
+      "rank": 29,
+      "doc_id": "0d688230",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9970703125,
+      "risk": 0.82,
+      "final_score": 0.8330703125
+    },
+    {
+      "rank": 30,
+      "doc_id": "f990105c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98779296875,
+      "risk": 0.7949999999999999,
+      "final_score": 0.82879296875
+    }
+  ]
+}
+Applying risk penalty:  40%|####      | 4/10 [03:59<05:56, 59.47s/it]
+=== Step 8: 114B-WIR-15 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-15",
+  "sub_query_count": 2,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "23859119",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9990234375,
+      "risk": 0.0,
+      "final_score": 0.9990234375
+    },
+    {
+      "rank": 2,
+      "doc_id": "7eb8e16d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9951171875,
+      "risk": 0.0,
+      "final_score": 0.9951171875
+    },
+    {
+      "rank": 3,
+      "doc_id": "af2b2ed5",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9931640625,
+      "risk": 0.0,
+      "final_score": 0.9931640625
+    },
+    {
+      "rank": 4,
+      "doc_id": "a1510742",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9990234375,
+      "risk": 0.03,
+      "final_score": 0.9930234375
+    },
+    {
+      "rank": 5,
+      "doc_id": "5fe8a165",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99169921875,
+      "risk": 0.0,
+      "final_score": 0.99169921875
+    },
+    {
+      "rank": 6,
+      "doc_id": "6a28d82d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9912109375,
+      "risk": 0.0,
+      "final_score": 0.9912109375
+    },
+    {
+      "rank": 7,
+      "doc_id": "b09f6a4f",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.03,
+      "final_score": 0.99009375
+    },
+    {
+      "rank": 8,
+      "doc_id": "ea5f3742",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98876953125,
+      "risk": 0.0,
+      "final_score": 0.98876953125
+    },
+    {
+      "rank": 9,
+      "doc_id": "f26bfceb",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99462890625,
+      "risk": 0.03,
+      "final_score": 0.98862890625
+    },
+    {
+      "rank": 10,
+      "doc_id": "562af8f9",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99267578125,
+      "risk": 0.03,
+      "final_score": 0.98667578125
+    },
+    {
+      "rank": 11,
+      "doc_id": "0f30b579",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9921875,
+      "risk": 0.03,
+      "final_score": 0.9861875
+    },
+    {
+      "rank": 12,
+      "doc_id": "0080af0c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9853515625,
+      "risk": 0.0,
+      "final_score": 0.9853515625
+    },
+    {
+      "rank": 13,
+      "doc_id": "1e4cbe27",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9853515625,
+      "risk": 0.0,
+      "final_score": 0.9853515625
+    },
+    {
+      "rank": 14,
+      "doc_id": "503cf22b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.986328125,
+      "risk": 0.015,
+      "final_score": 0.983328125
+    },
+    {
+      "rank": 15,
+      "doc_id": "ecb97c53",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.982421875,
+      "risk": 0.0,
+      "final_score": 0.982421875
+    },
+    {
+      "rank": 16,
+      "doc_id": "a3e1a176",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98095703125,
+      "risk": 0.0,
+      "final_score": 0.98095703125
+    },
+    {
+      "rank": 17,
+      "doc_id": "89f2abf8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98681640625,
+      "risk": 0.03,
+      "final_score": 0.98081640625
+    },
+    {
+      "rank": 18,
+      "doc_id": "fb9b905d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.978515625,
+      "risk": 0.015,
+      "final_score": 0.975515625
+    },
+    {
+      "rank": 19,
+      "doc_id": "8c788004",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97802734375,
+      "risk": 0.015,
+      "final_score": 0.97502734375
+    },
+    {
+      "rank": 20,
+      "doc_id": "30c54e12",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9990234375,
+      "risk": 0.135,
+      "final_score": 0.9720234375
+    },
+    {
+      "rank": 21,
+      "doc_id": "e0ebaa8d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99462890625,
+      "risk": 0.135,
+      "final_score": 0.96762890625
+    },
+    {
+      "rank": 22,
+      "doc_id": "776f8e23",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97265625,
+      "risk": 0.03,
+      "final_score": 0.96665625
+    },
+    {
+      "rank": 23,
+      "doc_id": "d948e2c9",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99365234375,
+      "risk": 0.135,
+      "final_score": 0.96665234375
+    },
+    {
+      "rank": 24,
+      "doc_id": "ff508c6a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99365234375,
+      "risk": 0.135,
+      "final_score": 0.96665234375
+    },
+    {
+      "rank": 25,
+      "doc_id": "017b7d75",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.96630859375,
+      "risk": 0.0,
+      "final_score": 0.96630859375
+    },
+    {
+      "rank": 26,
+      "doc_id": "d20ee7cc",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.970703125,
+      "risk": 0.03,
+      "final_score": 0.964703125
+    },
+    {
+      "rank": 27,
+      "doc_id": "b1782ba4",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99169921875,
+      "risk": 0.135,
+      "final_score": 0.96469921875
+    },
+    {
+      "rank": 28,
+      "doc_id": "26002b6b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.990234375,
+      "risk": 0.135,
+      "final_score": 0.963234375
+    },
+    {
+      "rank": 29,
+      "doc_id": "327ab95a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.962890625,
+      "risk": 0.0,
+      "final_score": 0.962890625
+    },
+    {
+      "rank": 30,
+      "doc_id": "9f85364e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98974609375,
+      "risk": 0.135,
+      "final_score": 0.96274609375
+    }
+  ]
+}
+Applying risk penalty:  50%|#####     | 5/10 [04:57<04:55, 59.17s/it]
+=== Step 8: 114B-WIR-16 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-16",
+  "sub_query_count": 2,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "4e5db31f",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99853515625,
+      "risk": 0.0,
+      "final_score": 0.99853515625
+    },
+    {
+      "rank": 2,
+      "doc_id": "8865751c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99658203125,
+      "risk": 0.0,
+      "final_score": 0.99658203125
+    },
+    {
+      "rank": 3,
+      "doc_id": "a05db851",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.0,
+      "final_score": 0.99609375
+    },
+    {
+      "rank": 4,
+      "doc_id": "18c675a5",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99267578125,
+      "risk": 0.0,
+      "final_score": 0.99267578125
+    },
+    {
+      "rank": 5,
+      "doc_id": "9c2fd1a9",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.03,
+      "final_score": 0.99155859375
+    },
+    {
+      "rank": 6,
+      "doc_id": "102b726e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.990234375,
+      "risk": 0.0,
+      "final_score": 0.990234375
+    },
+    {
+      "rank": 7,
+      "doc_id": "9381f9c0",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9931640625,
+      "risk": 0.015,
+      "final_score": 0.9901640625
+    },
+    {
+      "rank": 8,
+      "doc_id": "4611b26c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99609375,
+      "risk": 0.03,
+      "final_score": 0.99009375
+    },
+    {
+      "rank": 9,
+      "doc_id": "1677b012",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9951171875,
+      "risk": 0.03,
+      "final_score": 0.9891171875
+    },
+    {
+      "rank": 10,
+      "doc_id": "a29ddb04",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.994140625,
+      "risk": 0.03,
+      "final_score": 0.988140625
+    },
+    {
+      "rank": 11,
+      "doc_id": "439b5d29",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98681640625,
+      "risk": 0.0,
+      "final_score": 0.98681640625
+    },
+    {
+      "rank": 12,
+      "doc_id": "3f56579b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.986328125,
+      "risk": 0.0,
+      "final_score": 0.986328125
+    },
+    {
+      "rank": 13,
+      "doc_id": "168fd7ac",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98486328125,
+      "risk": 0.0,
+      "final_score": 0.98486328125
+    },
+    {
+      "rank": 14,
+      "doc_id": "addbebbb",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99853515625,
+      "risk": 0.075,
+      "final_score": 0.98353515625
+    },
+    {
+      "rank": 15,
+      "doc_id": "866c31e0",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98583984375,
+      "risk": 0.015,
+      "final_score": 0.98283984375
+    },
+    {
+      "rank": 16,
+      "doc_id": "b76c0c6e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98583984375,
+      "risk": 0.015,
+      "final_score": 0.98283984375
+    },
+    {
+      "rank": 17,
+      "doc_id": "7af2fdf2",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98828125,
+      "risk": 0.03,
+      "final_score": 0.98228125
+    },
+    {
+      "rank": 18,
+      "doc_id": "0349eac2",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9853515625,
+      "risk": 0.03,
+      "final_score": 0.9793515625
+    },
+    {
+      "rank": 19,
+      "doc_id": "61b9933a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99755859375,
+      "risk": 0.12,
+      "final_score": 0.97355859375
+    },
+    {
+      "rank": 20,
+      "doc_id": "663c72b6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.994140625,
+      "risk": 0.12,
+      "final_score": 0.970140625
+    },
+    {
+      "rank": 21,
+      "doc_id": "8ed042bf",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99169921875,
+      "risk": 0.12,
+      "final_score": 0.96769921875
+    },
+    {
+      "rank": 22,
+      "doc_id": "ce95c5cc",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99462890625,
+      "risk": 0.135,
+      "final_score": 0.96762890625
+    },
+    {
+      "rank": 23,
+      "doc_id": "acc2e894",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.96875,
+      "risk": 0.015,
+      "final_score": 0.96575
+    },
+    {
+      "rank": 24,
+      "doc_id": "63b7d318",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9697265625,
+      "risk": 0.03,
+      "final_score": 0.9637265625
+    },
+    {
+      "rank": 25,
+      "doc_id": "f0ffdc63",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99072265625,
+      "risk": 0.135,
+      "final_score": 0.96372265625
+    },
+    {
+      "rank": 26,
+      "doc_id": "bbad1bde",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9853515625,
+      "risk": 0.12,
+      "final_score": 0.9613515625
+    },
+    {
+      "rank": 27,
+      "doc_id": "27f4955d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9658203125,
+      "risk": 0.03,
+      "final_score": 0.9598203125
+    },
+    {
+      "rank": 28,
+      "doc_id": "e942bb05",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9619140625,
+      "risk": 0.015,
+      "final_score": 0.9589140625
+    },
+    {
+      "rank": 29,
+      "doc_id": "7a56cfb8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98291015625,
+      "risk": 0.12,
+      "final_score": 0.95891015625
+    },
+    {
+      "rank": 30,
+      "doc_id": "d7e173e8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98193359375,
+      "risk": 0.135,
+      "final_score": 0.95493359375
+    }
+  ]
+}
+Applying risk penalty:  60%|######    | 6/10 [05:56<03:56, 59.03s/it]
+=== Step 8: 114B-WIR-17 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-17",
+  "sub_query_count": 2,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "0cd379f5",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98681640625,
+      "risk": 0.135,
+      "final_score": 0.95981640625
+    },
+    {
+      "rank": 2,
+      "doc_id": "a1505417",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.986328125,
+      "risk": 0.135,
+      "final_score": 0.959328125
+    },
+    {
+      "rank": 3,
+      "doc_id": "d3e32d85",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9560546875,
+      "risk": 0.015,
+      "final_score": 0.9530546875
+    },
+    {
+      "rank": 4,
+      "doc_id": "9056f30d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.958984375,
+      "risk": 0.135,
+      "final_score": 0.931984375
+    },
+    {
+      "rank": 5,
+      "doc_id": "f53b8e09",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9072265625,
+      "risk": 0.015,
+      "final_score": 0.9042265625
+    },
+    {
+      "rank": 6,
+      "doc_id": "8a88879a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.89404296875,
+      "risk": 0.0,
+      "final_score": 0.89404296875
+    },
+    {
+      "rank": 7,
+      "doc_id": "0d929374",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.88720703125,
+      "risk": 0.0,
+      "final_score": 0.88720703125
+    },
+    {
+      "rank": 8,
+      "doc_id": "7778cd01",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.921875,
+      "risk": 0.3,
+      "final_score": 0.861875
+    },
+    {
+      "rank": 9,
+      "doc_id": "fcd6d22b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9150390625,
+      "risk": 0.3,
+      "final_score": 0.8550390625
+    },
+    {
+      "rank": 10,
+      "doc_id": "74026244",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.8671875,
+      "risk": 0.135,
+      "final_score": 0.8401875
+    },
+    {
+      "rank": 11,
+      "doc_id": "9293cd8e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98828125,
+      "risk": 0.84,
+      "final_score": 0.82028125
+    },
+    {
+      "rank": 12,
+      "doc_id": "d7ebbf8c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9482421875,
+      "risk": 0.64,
+      "final_score": 0.8202421875
+    },
+    {
+      "rank": 13,
+      "doc_id": "7e12ada0",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9873046875,
+      "risk": 0.892,
+      "final_score": 0.8089046875
+    },
+    {
+      "rank": 14,
+      "doc_id": "ada8e62e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.98583984375,
+      "risk": 0.8875,
+      "final_score": 0.80833984375
+    },
+    {
+      "rank": 15,
+      "doc_id": "3eabb6d8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9833984375,
+      "risk": 0.905,
+      "final_score": 0.8023984375
+    },
+    {
+      "rank": 16,
+      "doc_id": "9a256e13",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9716796875,
+      "risk": 0.8575,
+      "final_score": 0.8001796875
+    },
+    {
+      "rank": 17,
+      "doc_id": "c60ad762",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.94091796875,
+      "risk": 0.7150000000000001,
+      "final_score": 0.79791796875
+    },
+    {
+      "rank": 18,
+      "doc_id": "4e03c1e2",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.958984375,
+      "risk": 0.8250000000000001,
+      "final_score": 0.793984375
+    },
+    {
+      "rank": 19,
+      "doc_id": "f5ee41f1",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.95849609375,
+      "risk": 0.8250000000000001,
+      "final_score": 0.79349609375
+    },
+    {
+      "rank": 20,
+      "doc_id": "dbf116e0",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.85009765625,
+      "risk": 0.3,
+      "final_score": 0.79009765625
+    },
+    {
+      "rank": 21,
+      "doc_id": "d6a24aa5",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9462890625,
+      "risk": 0.84,
+      "final_score": 0.7782890625
+    },
+    {
+      "rank": 22,
+      "doc_id": "c05effb6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.931640625,
+      "risk": 0.78,
+      "final_score": 0.775640625
+    },
+    {
+      "rank": 23,
+      "doc_id": "7c8be1cd",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.931640625,
+      "risk": 0.7949999999999999,
+      "final_score": 0.772640625
+    },
+    {
+      "rank": 24,
+      "doc_id": "1f45903f",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.93115234375,
+      "risk": 0.84,
+      "final_score": 0.76315234375
+    },
+    {
+      "rank": 25,
+      "doc_id": "779daa54",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.763671875,
+      "risk": 0.015,
+      "final_score": 0.760671875
+    },
+    {
+      "rank": 26,
+      "doc_id": "b5b78140",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.7578125,
+      "risk": 0.015,
+      "final_score": 0.7548125
+    },
+    {
+      "rank": 27,
+      "doc_id": "360ff2b4",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.931640625,
+      "risk": 0.905,
+      "final_score": 0.750640625
+    },
+    {
+      "rank": 28,
+      "doc_id": "7de2c828",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.77734375,
+      "risk": 0.135,
+      "final_score": 0.75034375
+    },
+    {
+      "rank": 29,
+      "doc_id": "6f2cde68",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.89404296875,
+      "risk": 0.785,
+      "final_score": 0.73704296875
+    },
+    {
+      "rank": 30,
+      "doc_id": "0d13d0a8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.751953125,
+      "risk": 0.135,
+      "final_score": 0.724953125
+    }
+  ]
+}
+Applying risk penalty:  70%|#######   | 7/10 [06:56<02:58, 59.36s/it]
+=== Risk Detector JSON Parse Failed ===
+Raw LLM output:
+，查明原因，只要查明原因，只要查明原因，
+Extracted JSON candidate:
+，查明原因，只要查明原因，只要查明原因，
+
+=== Step 8: 114B-WIR-18 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-18",
+  "sub_query_count": 1,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "daa793d5",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97998046875,
+      "risk": 0.0,
+      "final_score": 0.97998046875
+    },
+    {
+      "rank": 2,
+      "doc_id": "759c10c5",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97802734375,
+      "risk": 0.0,
+      "final_score": 0.97802734375
+    },
+    {
+      "rank": 3,
+      "doc_id": "da9b78fa",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9697265625,
+      "risk": 0.0,
+      "final_score": 0.9697265625
+    },
+    {
+      "rank": 4,
+      "doc_id": "57c575f2",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.99072265625,
+      "risk": 0.135,
+      "final_score": 0.96372265625
+    },
+    {
+      "rank": 5,
+      "doc_id": "36191405",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.96630859375,
+      "risk": 0.03,
+      "final_score": 0.96030859375
+    },
+    {
+      "rank": 6,
+      "doc_id": "876b4a42",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9599609375,
+      "risk": 0.0,
+      "final_score": 0.9599609375
+    },
+    {
+      "rank": 7,
+      "doc_id": "54cec024",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.95947265625,
+      "risk": 0.0,
+      "final_score": 0.95947265625
+    },
+    {
+      "rank": 8,
+      "doc_id": "ff131ee8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9560546875,
+      "risk": 0.0,
+      "final_score": 0.9560546875
+    },
+    {
+      "rank": 9,
+      "doc_id": "1768a12f",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9814453125,
+      "risk": 0.135,
+      "final_score": 0.9544453125
+    },
+    {
+      "rank": 10,
+      "doc_id": "806b3586",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9541015625,
+      "risk": 0.0,
+      "final_score": 0.9541015625
+    },
+    {
+      "rank": 11,
+      "doc_id": "54161026",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97900390625,
+      "risk": 0.135,
+      "final_score": 0.95200390625
+    },
+    {
+      "rank": 12,
+      "doc_id": "9858667e",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.94921875,
+      "risk": 0.0,
+      "final_score": 0.94921875
+    },
+    {
+      "rank": 13,
+      "doc_id": "c3ee8377",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.97607421875,
+      "risk": 0.135,
+      "final_score": 0.94907421875
+    },
+    {
+      "rank": 14,
+      "doc_id": "c3e51c98",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.94189453125,
+      "risk": 0.03,
+      "final_score": 0.93589453125
+    },
+    {
+      "rank": 15,
+      "doc_id": "5fb24676",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.94189453125,
+      "risk": 0.03,
+      "final_score": 0.93589453125
+    },
+    {
+      "rank": 16,
+      "doc_id": "b8eaec44",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9619140625,
+      "risk": 0.135,
+      "final_score": 0.9349140625
+    },
+    {
+      "rank": 17,
+      "doc_id": "3ea50dbd",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.953125,
+      "risk": 0.135,
+      "final_score": 0.926125
+    },
+    {
+      "rank": 18,
+      "doc_id": "e8d40e75",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9248046875,
+      "risk": 0.0,
+      "final_score": 0.9248046875
+    },
+    {
+      "rank": 19,
+      "doc_id": "8b831fbf",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.923828125,
+      "risk": 0.0,
+      "final_score": 0.923828125
+    },
+    {
+      "rank": 20,
+      "doc_id": "6fdaed83",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9423828125,
+      "risk": 0.135,
+      "final_score": 0.9153828125
+    },
+    {
+      "rank": 21,
+      "doc_id": "ad3b49e6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9140625,
+      "risk": 0.0,
+      "final_score": 0.9140625
+    },
+    {
+      "rank": 22,
+      "doc_id": "e041165d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.91064453125,
+      "risk": 0.0,
+      "final_score": 0.91064453125
+    },
+    {
+      "rank": 23,
+      "doc_id": "d90ffff3",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9013671875,
+      "risk": 0.0,
+      "final_score": 0.9013671875
+    },
+    {
+      "rank": 24,
+      "doc_id": "372c229f",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.89990234375,
+      "risk": 0.0,
+      "final_score": 0.89990234375
+    },
+    {
+      "rank": 25,
+      "doc_id": "94216686",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.89892578125,
+      "risk": 0.0,
+      "final_score": 0.89892578125
+    },
+    {
+      "rank": 26,
+      "doc_id": "5c21d9b2",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.92041015625,
+      "risk": 0.135,
+      "final_score": 0.89341015625
+    },
+    {
+      "rank": 27,
+      "doc_id": "bb721380",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.88720703125,
+      "risk": 0.0,
+      "final_score": 0.88720703125
+    },
+    {
+      "rank": 28,
+      "doc_id": "699ce7bd",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.88720703125,
+      "risk": 0.0,
+      "final_score": 0.88720703125
+    },
+    {
+      "rank": 29,
+      "doc_id": "8a5fbea8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9072265625,
+      "risk": 0.12,
+      "final_score": 0.8832265625
+    },
+    {
+      "rank": 30,
+      "doc_id": "b9d52484",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.86328125,
+      "risk": 0.0,
+      "final_score": 0.86328125
+    }
+  ]
+}
+Applying risk penalty:  80%|########  | 8/10 [07:55<01:58, 59.23s/it]
+=== Step 8: 114B-WIR-19 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-19",
+  "sub_query_count": 2,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "bc0a527a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.94873046875,
+      "risk": 0.0,
+      "final_score": 0.94873046875
+    },
+    {
+      "rank": 2,
+      "doc_id": "9c1e4d17",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.93896484375,
+      "risk": 0.0,
+      "final_score": 0.93896484375
+    },
+    {
+      "rank": 3,
+      "doc_id": "8b21e413",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9560546875,
+      "risk": 0.135,
+      "final_score": 0.9290546875
+    },
+    {
+      "rank": 4,
+      "doc_id": "828d05c6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.90673828125,
+      "risk": 0.0,
+      "final_score": 0.90673828125
+    },
+    {
+      "rank": 5,
+      "doc_id": "d1912011",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.92431640625,
+      "risk": 0.135,
+      "final_score": 0.89731640625
+    },
+    {
+      "rank": 6,
+      "doc_id": "d2a6e8f5",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.90185546875,
+      "risk": 0.03,
+      "final_score": 0.89585546875
+    },
+    {
+      "rank": 7,
+      "doc_id": "622c32cb",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.88818359375,
+      "risk": 0.0,
+      "final_score": 0.88818359375
+    },
+    {
+      "rank": 8,
+      "doc_id": "9b012df6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.81982421875,
+      "risk": 0.0,
+      "final_score": 0.81982421875
+    },
+    {
+      "rank": 9,
+      "doc_id": "b2708493",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.87060546875,
+      "risk": 0.3,
+      "final_score": 0.81060546875
+    },
+    {
+      "rank": 10,
+      "doc_id": "748b70ef",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.958984375,
+      "risk": 0.84,
+      "final_score": 0.790984375
+    },
+    {
+      "rank": 11,
+      "doc_id": "2cb6cd89",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.80078125,
+      "risk": 0.135,
+      "final_score": 0.77378125
+    },
+    {
+      "rank": 12,
+      "doc_id": "31ae4fcd",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.8310546875,
+      "risk": 0.3,
+      "final_score": 0.7710546875
+    },
+    {
+      "rank": 13,
+      "doc_id": "04ba6215",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.8857421875,
+      "risk": 0.7949999999999999,
+      "final_score": 0.7267421875
+    },
+    {
+      "rank": 14,
+      "doc_id": "9789d019",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.89013671875,
+      "risk": 0.875,
+      "final_score": 0.71513671875
+    },
+    {
+      "rank": 15,
+      "doc_id": "07488400",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.86865234375,
+      "risk": 0.8250000000000001,
+      "final_score": 0.70365234375
+    },
+    {
+      "rank": 16,
+      "doc_id": "59339073",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.83984375,
+      "risk": 0.8250000000000001,
+      "final_score": 0.67484375
+    },
+    {
+      "rank": 17,
+      "doc_id": "f4452231",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.69921875,
+      "risk": 0.135,
+      "final_score": 0.67221875
+    },
+    {
+      "rank": 18,
+      "doc_id": "6e59942a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.662109375,
+      "risk": 0.0,
+      "final_score": 0.662109375
+    },
+    {
+      "rank": 19,
+      "doc_id": "3532cd00",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.66552734375,
+      "risk": 0.03,
+      "final_score": 0.65952734375
+    },
+    {
+      "rank": 20,
+      "doc_id": "9fde068a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.6689453125,
+      "risk": 0.135,
+      "final_score": 0.6419453125
+    },
+    {
+      "rank": 21,
+      "doc_id": "816b85a9",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.80078125,
+      "risk": 0.7949999999999999,
+      "final_score": 0.64178125
+    },
+    {
+      "rank": 22,
+      "doc_id": "136a7b8d",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.6259765625,
+      "risk": 0.0,
+      "final_score": 0.6259765625
+    },
+    {
+      "rank": 23,
+      "doc_id": "e3a3a1dd",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.79296875,
+      "risk": 0.84,
+      "final_score": 0.62496875
+    },
+    {
+      "rank": 24,
+      "doc_id": "db308455",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.79052734375,
+      "risk": 0.8725,
+      "final_score": 0.61602734375
+    },
+    {
+      "rank": 25,
+      "doc_id": "7c3d6569",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.640625,
+      "risk": 0.135,
+      "final_score": 0.613625
+    },
+    {
+      "rank": 26,
+      "doc_id": "462ffe8b",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.607421875,
+      "risk": 0.0,
+      "final_score": 0.607421875
+    },
+    {
+      "rank": 27,
+      "doc_id": "30802495",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.78271484375,
+      "risk": 0.905,
+      "final_score": 0.60171484375
+    },
+    {
+      "rank": 28,
+      "doc_id": "7b1a07d4",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.658203125,
+      "risk": 0.3,
+      "final_score": 0.598203125
+    },
+    {
+      "rank": 29,
+      "doc_id": "f4b16c27",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.57373046875,
+      "risk": 0.0,
+      "final_score": 0.57373046875
+    },
+    {
+      "rank": 30,
+      "doc_id": "f4671f61",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.5927734375,
+      "risk": 0.135,
+      "final_score": 0.5657734375
+    }
+  ]
+}
+Applying risk penalty:  90%|######### | 9/10 [08:54<00:59, 59.16s/it]
+=== Step 8: 114B-WIR-20 Risk-adjusted top-30 ===
+{
+  "query_id": "114B-WIR-20",
+  "sub_query_count": 1,
+  "final_top_k": 30,
+  "result_details": [
+    {
+      "rank": 1,
+      "doc_id": "3394a909",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.998046875,
+      "risk": 0.135,
+      "final_score": 0.971046875
+    },
+    {
+      "rank": 2,
+      "doc_id": "38a8c433",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.96728515625,
+      "risk": 0.0,
+      "final_score": 0.96728515625
+    },
+    {
+      "rank": 3,
+      "doc_id": "3decf943",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.958984375,
+      "risk": 0.0,
+      "final_score": 0.958984375
+    },
+    {
+      "rank": 4,
+      "doc_id": "49ef3126",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.96435546875,
+      "risk": 0.03,
+      "final_score": 0.95835546875
+    },
+    {
+      "rank": 5,
+      "doc_id": "a586328c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.95751953125,
+      "risk": 0.135,
+      "final_score": 0.93051953125
+    },
+    {
+      "rank": 6,
+      "doc_id": "8e7caea3",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.93310546875,
+      "risk": 0.03,
+      "final_score": 0.92710546875
+    },
+    {
+      "rank": 7,
+      "doc_id": "4b6dfd32",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.8896484375,
+      "risk": 0.0,
+      "final_score": 0.8896484375
+    },
+    {
+      "rank": 8,
+      "doc_id": "6c12e8c2",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.91357421875,
+      "risk": 0.135,
+      "final_score": 0.88657421875
+    },
+    {
+      "rank": 9,
+      "doc_id": "9456bc9f",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9091796875,
+      "risk": 0.135,
+      "final_score": 0.8821796875
+    },
+    {
+      "rank": 10,
+      "doc_id": "0786303a",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.86865234375,
+      "risk": 0.0,
+      "final_score": 0.86865234375
+    },
+    {
+      "rank": 11,
+      "doc_id": "80d22d56",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.85791015625,
+      "risk": 0.03,
+      "final_score": 0.85191015625
+    },
+    {
+      "rank": 12,
+      "doc_id": "c6f485a8",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.8310546875,
+      "risk": 0.135,
+      "final_score": 0.8040546875
+    },
+    {
+      "rank": 13,
+      "doc_id": "a2739873",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.86328125,
+      "risk": 0.3,
+      "final_score": 0.80328125
+    },
+    {
+      "rank": 14,
+      "doc_id": "2d80a20c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.8154296875,
+      "risk": 0.135,
+      "final_score": 0.7884296875
+    },
+    {
+      "rank": 15,
+      "doc_id": "aaeef670",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.763671875,
+      "risk": 0.0,
+      "final_score": 0.763671875
+    },
+    {
+      "rank": 16,
+      "doc_id": "75db27e7",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.9072265625,
+      "risk": 0.78,
+      "final_score": 0.7512265625
+    },
+    {
+      "rank": 17,
+      "doc_id": "68da6336",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.7490234375,
+      "risk": 0.0,
+      "final_score": 0.7490234375
+    },
+    {
+      "rank": 18,
+      "doc_id": "22944a69",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.7607421875,
+      "risk": 0.135,
+      "final_score": 0.7337421875
+    },
+    {
+      "rank": 19,
+      "doc_id": "11d45fad",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.7578125,
+      "risk": 0.135,
+      "final_score": 0.7308125
+    },
+    {
+      "rank": 20,
+      "doc_id": "f998f0e9",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.72802734375,
+      "risk": 0.015,
+      "final_score": 0.72502734375
+    },
+    {
+      "rank": 21,
+      "doc_id": "cf853ec6",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.69287109375,
+      "risk": 0.0,
+      "final_score": 0.69287109375
+    },
+    {
+      "rank": 22,
+      "doc_id": "61d088b4",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.68603515625,
+      "risk": 0.03,
+      "final_score": 0.68003515625
+    },
+    {
+      "rank": 23,
+      "doc_id": "a4ccb410",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.69921875,
+      "risk": 0.135,
+      "final_score": 0.67221875
+    },
+    {
+      "rank": 24,
+      "doc_id": "3ef0a582",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.7958984375,
+      "risk": 0.78,
+      "final_score": 0.6398984375
+    },
+    {
+      "rank": 25,
+      "doc_id": "1aa88dfb",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.61865234375,
+      "risk": 0.0,
+      "final_score": 0.61865234375
+    },
+    {
+      "rank": 26,
+      "doc_id": "6583b9ea",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.615234375,
+      "risk": 0.0,
+      "final_score": 0.615234375
+    },
+    {
+      "rank": 27,
+      "doc_id": "69a5b467",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.6259765625,
+      "risk": 0.135,
+      "final_score": 0.5989765625
+    },
+    {
+      "rank": 28,
+      "doc_id": "e0c06568",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.59619140625,
+      "risk": 0.135,
+      "final_score": 0.56919140625
+    },
+    {
+      "rank": 29,
+      "doc_id": "137d2aea",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.57763671875,
+      "risk": 0.12,
+      "final_score": 0.55363671875
+    },
+    {
+      "rank": 30,
+      "doc_id": "ac6b9b9c",
+      "risk_parse_ok": true,
+      "rerank_score_norm": 0.54296875,
+      "risk": 0.0,
+      "final_score": 0.54296875
+    }
+  ]
+}
+Applying risk penalty: 100%|##########| 10/10 [09:53<00:00, 59.14s/it]Applying risk penalty: 100%|##########| 10/10 [09:53<00:00, 59.38s/it]
+Risk detector 模型已釋放。
+Saved results to /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/hybrid_union_query2_LLMrisk_results.json
+Hybrid retrieval 流程完成，總耗時 693.15 秒。

@@ -1,1 +1,1 @@
-"""Hybrid BM25 + Dense union retrieval with reranking."""
+"""Hybrid BM25 + Dense fusion retrieval with reranking."""

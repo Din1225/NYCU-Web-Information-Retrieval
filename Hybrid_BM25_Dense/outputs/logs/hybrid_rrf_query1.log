@@ -1,0 +1,1442 @@
+Log file: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/logs/hybrid_rrf_query1.log
+=== Hybrid BM25 + Dense Fusion Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase1_query.json
+output_path: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/hybrid_rrf_query1_results.json
+dense_model_name_or_path: Qwen/Qwen3-Embedding-4B
+reranker_model_name_or_path: Qwen/Qwen3-Reranker-4B
+cache_dir: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache
+model_cache_dir: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/models
+log_file: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/logs/hybrid_rrf_query1.log
+bm25_top_k: 100
+dense_top_k: 100
+final_top_k: 30
+fusion_method: rrf
+rrf_k: 60
+bm25_k1: 1.5
+bm25_b: 0.75
+use_4bit: True
+compute_dtype: float16
+use_cache: True
+================================================
+開始執行 Hybrid retrieval：BM25 top-k + Dense top-k -> rrf -> rerank。
+Loaded 171562 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 10 queries from /workplace/dxlin/Homework/IR/query/phase1_query.json
+
+=== Step 1: 讀取文件與查詢 ===
+{
+  "num_documents": 171562,
+  "num_queries": 10,
+  "document_sample_ids": [
+    "2457ed7b",
+    "479f020f",
+    "1200540a"
+  ],
+  "query_sample_ids": [
+    "114B-WIR-01",
+    "114B-WIR-02",
+    "114B-WIR-03"
+  ]
+}
+Loaded cached BM25 index from /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/bm25/bm25_index_759fe77bc2a67aa0.pkl
+
+=== Step 2: 建立或讀取 BM25 index ===
+{
+  "cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/bm25",
+  "bm25_k1": 1.5,
+  "bm25_b": 0.75
+}
+Loaded cached dense embeddings from /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/dense/qwen3_embedding_f125e0cdc1220360.npy
+
+=== Step 3: 建立或讀取 Dense embeddings ===
+{
+  "embedding_dim": 2560,
+  "num_document_embeddings": 171562,
+  "cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/dense",
+  "model_cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/models/dense"
+}
+Hybrid candidate retrieval:   0%|          | 0/10 [00:00<?, ?it/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s][A[AFetching 14 files: 100%|##########| 14/14 [00:00<00:00, 8913.21it/s]
+
+Download complete: : 0.00B [00:00, ?B/s]              [ADownload complete: : 0.00B [00:00, ?B/s]
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:05<39:26,  5.96s/it][A
+Loading weights:   1%|          | 3/398 [00:06<11:19,  1.72s/it][A
+Loading weights:   1%|1         | 4/398 [00:06<08:14,  1.25s/it][A
+Loading weights:   1%|1         | 5/398 [00:07<06:19,  1.04it/s][A
+Loading weights:   3%|3         | 12/398 [00:07<01:31,  4.21it/s][A
+Loading weights:   4%|3         | 15/398 [00:07<01:08,  5.59it/s][A
+Loading weights:   5%|5         | 20/398 [00:07<00:42,  9.00it/s][A
+Loading weights:   7%|6         | 26/398 [00:07<00:27, 13.36it/s][A
+Loading weights:   8%|8         | 33/398 [00:07<00:18, 19.74it/s][A
+Loading weights:  10%|9         | 38/398 [00:08<00:16, 21.75it/s][A
+Loading weights:  12%|#1        | 47/398 [00:08<00:11, 31.18it/s][A
+Loading weights:  13%|#3        | 52/398 [00:08<00:10, 34.43it/s][A
+Loading weights:  15%|#4        | 58/398 [00:08<00:12, 27.24it/s][A
+Loading weights:  16%|#5        | 62/398 [00:09<00:20, 16.04it/s][A
+Loading weights:  16%|#6        | 65/398 [00:09<00:19, 16.75it/s][A
+Loading weights:  17%|#7        | 68/398 [00:09<00:18, 17.94it/s][A
+Loading weights:  18%|#7        | 71/398 [00:10<00:34,  9.49it/s][A
+Loading weights:  19%|#8        | 75/398 [00:10<00:26, 12.02it/s][A
+Loading weights:  20%|#9        | 78/398 [00:10<00:23, 13.62it/s][A
+Loading weights:  20%|##        | 81/398 [00:11<00:31, 10.08it/s][A
+Loading weights:  21%|##        | 83/398 [00:11<00:33,  9.29it/s][A
+Loading weights:  22%|##1       | 86/398 [00:11<00:28, 11.08it/s][A
+Loading weights:  22%|##2       | 88/398 [00:11<00:25, 12.03it/s][A
+Loading weights:  23%|##2       | 91/398 [00:11<00:26, 11.45it/s][A
+Loading weights:  23%|##3       | 93/398 [00:12<00:38,  7.99it/s][A
+Loading weights:  24%|##4       | 97/398 [00:12<00:26, 11.22it/s][A
+Loading weights:  25%|##4       | 99/398 [00:12<00:24, 12.28it/s][A
+Loading weights:  26%|##5       | 102/398 [00:12<00:27, 10.92it/s][A
+Loading weights:  26%|##6       | 104/398 [00:13<00:40,  7.32it/s][A
+Loading weights:  27%|##7       | 108/398 [00:13<00:29,  9.97it/s][A
+Loading weights:  28%|##7       | 111/398 [00:13<00:23, 12.18it/s][A
+Loading weights:  28%|##8       | 113/398 [00:14<00:26, 10.91it/s][A
+Loading weights:  29%|##8       | 115/398 [00:14<00:38,  7.29it/s][A
+Loading weights:  30%|##9       | 119/398 [00:14<00:26, 10.40it/s][A
+Loading weights:  30%|###       | 121/398 [00:14<00:24, 11.30it/s][A
+Loading weights:  31%|###1      | 124/398 [00:15<00:25, 10.86it/s][A
+Loading weights:  32%|###1      | 126/398 [00:15<00:36,  7.43it/s][A
+Loading weights:  33%|###2      | 130/398 [00:15<00:25, 10.46it/s][A
+Loading weights:  33%|###3      | 133/398 [00:16<00:21, 12.55it/s][A
+Loading weights:  34%|###3      | 135/398 [00:16<00:24, 10.61it/s][A
+Loading weights:  34%|###4      | 137/398 [00:16<00:37,  7.03it/s][A
+Loading weights:  35%|###5      | 141/398 [00:17<00:25, 10.16it/s][A
+Loading weights:  36%|###5      | 143/398 [00:17<00:22, 11.10it/s][A
+Loading weights:  37%|###6      | 146/398 [00:17<00:24, 10.44it/s][A
+Loading weights:  37%|###7      | 148/398 [00:18<00:37,  6.68it/s][A
+Loading weights:  38%|###8      | 152/398 [00:18<00:26,  9.37it/s][A
+Loading weights:  39%|###8      | 154/398 [00:18<00:24, 10.15it/s][A
+Loading weights:  39%|###9      | 157/398 [00:18<00:25,  9.61it/s][A
+Loading weights:  40%|###9      | 159/398 [00:19<00:37,  6.39it/s][A
+Loading weights:  41%|####      | 163/398 [00:19<00:26,  8.91it/s][A
+Loading weights:  41%|####1     | 165/398 [00:19<00:23,  9.71it/s][A
+Loading weights:  42%|####2     | 168/398 [00:20<00:25,  8.95it/s][A
+Loading weights:  43%|####2     | 170/398 [00:20<00:38,  6.00it/s][A
+Loading weights:  44%|####3     | 174/398 [00:21<00:26,  8.47it/s][A
+Loading weights:  44%|####4     | 176/398 [00:21<00:23,  9.32it/s][A
+Loading weights:  45%|####4     | 179/398 [00:21<00:24,  8.96it/s][A
+Loading weights:  45%|####5     | 181/398 [00:22<00:36,  5.99it/s][A
+Loading weights:  46%|####6     | 185/398 [00:22<00:24,  8.54it/s][A
+Loading weights:  47%|####6     | 187/398 [00:22<00:22,  9.54it/s][A
+Loading weights:  48%|####7     | 190/398 [00:22<00:22,  9.43it/s][A
+Loading weights:  48%|####8     | 192/398 [00:23<00:31,  6.62it/s][A
+Loading weights:  49%|####9     | 196/398 [00:23<00:21,  9.43it/s][A
+Loading weights:  50%|####9     | 198/398 [00:23<00:19, 10.49it/s][A
+Loading weights:  51%|#####     | 201/398 [00:24<00:19, 10.32it/s][A
+Loading weights:  51%|#####1    | 203/398 [00:24<00:28,  6.82it/s][A
+Loading weights:  52%|#####2    | 207/398 [00:24<00:20,  9.42it/s][A
+Loading weights:  53%|#####2    | 209/398 [00:24<00:18, 10.10it/s][A
+Loading weights:  53%|#####3    | 212/398 [00:25<00:20,  9.24it/s][A
+Loading weights:  54%|#####3    | 214/398 [00:25<00:27,  6.78it/s][A
+Loading weights:  55%|#####4    | 218/398 [00:26<00:18,  9.54it/s][A
+Loading weights:  56%|#####5    | 222/398 [00:26<00:13, 13.22it/s][A
+Loading weights:  57%|#####6    | 225/398 [00:27<00:23,  7.50it/s][A
+Loading weights:  58%|#####7    | 229/398 [00:27<00:17,  9.82it/s][A
+Loading weights:  58%|#####8    | 232/398 [00:27<00:13, 11.89it/s][A
+Loading weights:  59%|#####9    | 235/398 [00:27<00:16,  9.75it/s][A
+Loading weights:  60%|#####9    | 237/398 [00:27<00:16,  9.56it/s][A
+Loading weights:  60%|######    | 240/398 [00:28<00:13, 11.47it/s][A
+Loading weights:  61%|######1   | 243/398 [00:28<00:11, 13.63it/s][A
+Loading weights:  62%|######1   | 245/398 [00:28<00:13, 11.75it/s][A
+Loading weights:  62%|######2   | 247/398 [00:28<00:18,  8.20it/s][A
+Loading weights:  63%|######3   | 251/398 [00:29<00:12, 11.70it/s][A
+Loading weights:  64%|######3   | 253/398 [00:29<00:11, 12.80it/s][A
+Loading weights:  64%|######4   | 256/398 [00:29<00:10, 13.99it/s][A
+Loading weights:  67%|######7   | 267/398 [00:29<00:04, 30.26it/s][A
+Loading weights:  70%|#######   | 279/398 [00:29<00:02, 47.07it/s][A
+Loading weights:  73%|#######3  | 291/398 [00:29<00:01, 61.66it/s][A
+Loading weights:  77%|#######7  | 308/398 [00:29<00:01, 85.37it/s][A
+Loading weights:  81%|########  | 322/398 [00:29<00:00, 96.62it/s][A
+Loading weights:  84%|########3 | 334/398 [00:30<00:00, 100.64it/s][A
+Loading weights:  87%|########6 | 346/398 [00:30<00:00, 103.84it/s][A
+Loading weights:  91%|######### | 361/398 [00:30<00:00, 116.17it/s][A
+Loading weights:  94%|#########4| 376/398 [00:30<00:00, 125.55it/s][A
+Loading weights:  98%|#########7| 390/398 [00:30<00:00, 112.38it/s][ALoading weights: 100%|##########| 398/398 [00:30<00:00, 13.03it/s] 
+
+=== Step 4: 114B-WIR-01 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-01",
+  "query": "長期或反覆出現頭痛或頭暈症狀，但檢查結果正常，可能原因是什麼？是否需要進一步腦部檢查或就醫？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 180,
+  "union_size": 180,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "1935dac3",
+      "doc_index": 96593,
+      "bm25_score": 70.8497314453125,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "44cb930a",
+      "doc_index": 47629,
+      "bm25_score": 68.9996566772461,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "70e6385e",
+      "doc_index": 78732,
+      "bm25_score": 68.11529541015625,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "3440e3dc",
+      "doc_index": 66526,
+      "dense_score": 0.731706440448761,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "0a9ff961",
+      "doc_index": 125069,
+      "dense_score": 0.7287594676017761,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "c73d5f30",
+      "doc_index": 52372,
+      "dense_score": 0.7241824865341187,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "3440e3dc",
+      "doc_index": 66526,
+      "rrf_score": 0.028588564574170333,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "c73d5f30",
+      "doc_index": 52372,
+      "rrf_score": 0.026289682539682536,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "a4fc779c",
+      "doc_index": 83855,
+      "rrf_score": 0.02591362126245847,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  10%|#         | 1/10 [00:43<06:29, 43.23s/it]
+=== Step 4: 114B-WIR-02 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-02",
+  "query": "近期出現心悸、胸悶或心律不整症狀，但心電圖或心臟檢查多為正常或僅輕微異常，請問可能原因為何？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 178,
+  "union_size": 178,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "6a267cee",
+      "doc_index": 110029,
+      "bm25_score": 111.64929962158203,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "6dfc3cbe",
+      "doc_index": 95648,
+      "bm25_score": 104.9201889038086,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "88ee9807",
+      "doc_index": 49008,
+      "bm25_score": 100.96852111816406,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "e9cc79ea",
+      "doc_index": 83347,
+      "dense_score": 0.7238299250602722,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "112c47ab",
+      "doc_index": 99408,
+      "dense_score": 0.7164822816848755,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "4d87fd41",
+      "doc_index": 161969,
+      "dense_score": 0.7117669582366943,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "b86caa7c",
+      "doc_index": 130898,
+      "rrf_score": 0.030309988518943745,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "6dfc3cbe",
+      "doc_index": 95648,
+      "rrf_score": 0.02964254577157803,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "e9cc79ea",
+      "doc_index": 83347,
+      "rrf_score": 0.02889344262295082,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  20%|##        | 2/10 [00:43<02:23, 17.92s/it]
+=== Step 4: 114B-WIR-03 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-03",
+  "query": "尿道炎或泌尿道感染治療後仍出現尿道刺痛、分泌物或頻尿等症狀，但檢查結果正常，是否代表尚未痊癒或有其他泌尿系統疾病？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 181,
+  "union_size": 181,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "8bbe4716",
+      "doc_index": 140416,
+      "bm25_score": 111.54022216796875,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "98bedf5f",
+      "doc_index": 34603,
+      "bm25_score": 93.3216552734375,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "1a822c39",
+      "doc_index": 134721,
+      "bm25_score": 87.0968017578125,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "bbf5a819",
+      "doc_index": 91965,
+      "dense_score": 0.7891860008239746,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "4bbeddaa",
+      "doc_index": 116035,
+      "dense_score": 0.767050564289093,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "bf1bae71",
+      "doc_index": 25207,
+      "dense_score": 0.7580289840698242,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "bbf5a819",
+      "doc_index": 91965,
+      "rrf_score": 0.03028233151183971,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "6ecd0127",
+      "doc_index": 34494,
+      "rrf_score": 0.029437229437229435,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "4bbeddaa",
+      "doc_index": 116035,
+      "rrf_score": 0.02928692699490662,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  30%|###       | 3/10 [00:43<01:08,  9.83s/it]
+=== Step 4: 114B-WIR-04 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-04",
+  "query": "肛門廔管或肛門周圍手術後傷口出現分泌物、疼痛、肉芽或腫塊等情況，是否屬於正常恢復還是代表復發或其他問題？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 165,
+  "union_size": 165,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "a5e296df",
+      "doc_index": 34079,
+      "bm25_score": 93.44577026367188,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "dd9e698f",
+      "doc_index": 112488,
+      "bm25_score": 91.4509506225586,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "b33d8353",
+      "doc_index": 82431,
+      "bm25_score": 90.79341888427734,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "43837cd7",
+      "doc_index": 55870,
+      "dense_score": 0.8289990425109863,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "2b96757d",
+      "doc_index": 14454,
+      "dense_score": 0.8269537687301636,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "4c8a1cbc",
+      "doc_index": 170558,
+      "dense_score": 0.8242161273956299,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "43837cd7",
+      "doc_index": 55870,
+      "rrf_score": 0.027757078986587184,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "4c8a1cbc",
+      "doc_index": 170558,
+      "rrf_score": 0.027108970929195647,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "69d6c5ca",
+      "doc_index": 170544,
+      "rrf_score": 0.02667140825035562,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  40%|####      | 4/10 [00:43<00:36,  6.02s/it]
+=== Step 4: 114B-WIR-05 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-05",
+  "query": "手部或手指出現疼痛、麻木、腫脹或活動受限等症狀，應該看哪一科進一步檢查？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 192,
+  "union_size": 192,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "df93e7d5",
+      "doc_index": 73931,
+      "bm25_score": 65.2182846069336,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "5ebec1cd",
+      "doc_index": 103351,
+      "bm25_score": 63.77288055419922,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "cde3cc37",
+      "doc_index": 73924,
+      "bm25_score": 62.39655685424805,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "0c28b097",
+      "doc_index": 44219,
+      "dense_score": 0.8082236647605896,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "e1dd15c3",
+      "doc_index": 16183,
+      "dense_score": 0.7897154092788696,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "6e3e2ba3",
+      "doc_index": 18256,
+      "dense_score": 0.7696912288665771,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "0c28b097",
+      "doc_index": 44219,
+      "rrf_score": 0.02921395544346364,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "9bb3cebd",
+      "doc_index": 32026,
+      "rrf_score": 0.02506265664160401,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "3884ca8b",
+      "doc_index": 108165,
+      "rrf_score": 0.023284147827264113,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  50%|#####     | 5/10 [00:43<00:19,  3.91s/it]
+=== Step 4: 114B-WIR-06 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-06",
+  "query": "長期咳嗽或喉嚨卡痰、異物感等症狀反覆出現，但檢查結果正常，可能是什麼原因，是否需要進一步就醫？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 177,
+  "union_size": 177,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "72520a1c",
+      "doc_index": 1262,
+      "bm25_score": 96.29320526123047,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "fe35bafd",
+      "doc_index": 1498,
+      "bm25_score": 93.2593002319336,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "34fd9f53",
+      "doc_index": 102460,
+      "bm25_score": 91.18692016601562,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "3d8d2ce7",
+      "doc_index": 85886,
+      "dense_score": 0.7484059929847717,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "6bb2f82b",
+      "doc_index": 6467,
+      "dense_score": 0.7460106611251831,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "725e52f7",
+      "doc_index": 127248,
+      "dense_score": 0.7376888990402222,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "34fd9f53",
+      "doc_index": 102460,
+      "rrf_score": 0.03125763125763126,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "fb7ef006",
+      "doc_index": 113493,
+      "rrf_score": 0.02919863597612958,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "4575e15f",
+      "doc_index": 152969,
+      "rrf_score": 0.02817460317460317,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  60%|######    | 6/10 [00:44<00:10,  2.65s/it]
+=== Step 4: 114B-WIR-07 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-07",
+  "query": "憂鬱症的症狀與藥物治療若效果不佳或出現副作用，應該如何判斷病情、調整藥物或尋求其他治療方式？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 186,
+  "union_size": 186,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "d79f7121",
+      "doc_index": 159175,
+      "bm25_score": 93.34033966064453,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "ca02b25c",
+      "doc_index": 102441,
+      "bm25_score": 90.89778137207031,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "f45ce53d",
+      "doc_index": 95518,
+      "bm25_score": 90.83776092529297,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "5e027d59",
+      "doc_index": 140082,
+      "dense_score": 0.7386320233345032,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "ec3e0829",
+      "doc_index": 96416,
+      "dense_score": 0.717327356338501,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "885cf252",
+      "doc_index": 75552,
+      "dense_score": 0.7102958559989929,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "92506dcf",
+      "doc_index": 82188,
+      "rrf_score": 0.029236022193768675,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "bc0317e4",
+      "doc_index": 34845,
+      "rrf_score": 0.025794938351719664,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "37cdede5",
+      "doc_index": 96415,
+      "rrf_score": 0.024474557522123894,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  70%|#######   | 7/10 [00:44<00:05,  1.85s/it]
+=== Step 4: 114B-WIR-08 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-08",
+  "query": "腳踝扭傷後若長期出現疼痛、腫脹、彈響聲或活動受限，這是否屬於正常恢復過程，還是需要進一步治療或手術？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 169,
+  "union_size": 169,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "89f8c621",
+      "doc_index": 53789,
+      "bm25_score": 95.7337417602539,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "c6280aa6",
+      "doc_index": 84047,
+      "bm25_score": 95.55213165283203,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "f409bb88",
+      "doc_index": 12127,
+      "bm25_score": 86.55204772949219,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "c6280aa6",
+      "doc_index": 84047,
+      "dense_score": 0.7273813486099243,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "22ff8036",
+      "doc_index": 46396,
+      "dense_score": 0.7194266319274902,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "7a196740",
+      "doc_index": 160605,
+      "dense_score": 0.7173302173614502,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "c6280aa6",
+      "doc_index": 84047,
+      "rrf_score": 0.03252247488101534,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "5ad19e1c",
+      "doc_index": 120306,
+      "rrf_score": 0.030090497737556562,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "b9035eeb",
+      "doc_index": 134322,
+      "rrf_score": 0.02877846790890269,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  80%|########  | 8/10 [00:44<00:02,  1.32s/it]
+=== Step 4: 114B-WIR-09 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-09",
+  "query": "頸部淋巴結腫大或咽喉異物感長期存在時，是否可能與頭頸部腫瘤或癌症有關，並且是否需要進一步檢查切片確認？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 170,
+  "union_size": 170,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "2e85503e",
+      "doc_index": 56792,
+      "bm25_score": 109.59281921386719,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "0b0f68b7",
+      "doc_index": 30091,
+      "bm25_score": 106.47501373291016,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "0046a7da",
+      "doc_index": 58677,
+      "bm25_score": 106.32830047607422,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "92fd1fad",
+      "doc_index": 163486,
+      "dense_score": 0.7239627838134766,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "2aeb3695",
+      "doc_index": 83466,
+      "dense_score": 0.7105649709701538,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "0046a7da",
+      "doc_index": 58677,
+      "dense_score": 0.707994818687439,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "0046a7da",
+      "doc_index": 58677,
+      "rrf_score": 0.031746031746031744,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "2aeb3695",
+      "doc_index": 83466,
+      "rrf_score": 0.03021353930031804,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "038e9ae7",
+      "doc_index": 49938,
+      "rrf_score": 0.025563671006668783,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  90%|######### | 9/10 [00:44<00:00,  1.03it/s]
+=== Step 4: 114B-WIR-10 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-10",
+  "query": "當體重持續上升或減肥困難時，是否可能與疾病、藥物或內分泌失調有關？",
+  "fusion_method": "rrf",
+  "rrf_k": 60,
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "fusion_size": 184,
+  "union_size": 184,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "08ff4479",
+      "doc_index": 107762,
+      "bm25_score": 61.07550048828125,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "5f4ef0f8",
+      "doc_index": 20103,
+      "bm25_score": 58.100547790527344,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "8fecdbfa",
+      "doc_index": 123113,
+      "bm25_score": 57.623619079589844,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "737815e2",
+      "doc_index": 145624,
+      "dense_score": 0.7464691400527954,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "3fbb9caf",
+      "doc_index": 36656,
+      "dense_score": 0.7381463050842285,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "bc23c930",
+      "doc_index": 36626,
+      "dense_score": 0.7196518778800964,
+      "candidate_sources": null
+    }
+  ],
+  "fusion_preview": [
+    {
+      "rank": 1,
+      "doc_id": "3fbb9caf",
+      "doc_index": 36656,
+      "rrf_score": 0.031754032258064516,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "8fecdbfa",
+      "doc_index": 123113,
+      "rrf_score": 0.03125763125763126,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "737815e2",
+      "doc_index": 145624,
+      "rrf_score": 0.030886196246139225,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval: 100%|##########| 10/10 [00:44<00:00,  1.38it/s]Hybrid candidate retrieval: 100%|##########| 10/10 [00:44<00:00,  4.50s/it]
+Dense retriever 模型已釋放。
+
+=== Step 5: 載入 Reranker ===
+{
+  "reranker_model_name_or_path": "Qwen/Qwen3-Reranker-4B",
+  "model_cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/models/reranker",
+  "reranker_batch_size": 16
+}
+Reranking fused candidates:   0%|          | 0/10 [00:00<?, ?it/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 17 files:   0%|          | 0/17 [00:00<?, ?it/s][A[AFetching 17 files: 100%|##########| 17/17 [00:00<00:00, 10931.04it/s]
+
+Download complete: : 0.00B [00:00, ?B/s]              [ADownload complete: : 0.00B [00:00, ?B/s]
+/workplace/zyxu/miniconda3/envs/ir2/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2341: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<01:27,  4.53it/s][A
+Loading weights:   4%|4         | 16/398 [00:00<00:06, 61.32it/s][A
+Loading weights:  10%|#         | 41/398 [00:00<00:02, 128.77it/s][A
+Loading weights:  17%|#6        | 66/398 [00:00<00:01, 168.64it/s][A
+Loading weights:  23%|##3       | 92/398 [00:00<00:01, 192.50it/s][A
+Loading weights:  30%|##9       | 119/398 [00:00<00:01, 214.19it/s][A
+Loading weights:  37%|###6      | 146/398 [00:00<00:01, 228.14it/s][A
+Loading weights:  43%|####2     | 170/398 [00:00<00:01, 219.67it/s][A
+Loading weights:  50%|####9     | 198/398 [00:01<00:00, 236.58it/s][A
+Loading weights:  56%|#####6    | 223/398 [00:01<00:00, 240.37it/s][A
+Loading weights:  62%|######2   | 248/398 [00:01<00:00, 232.80it/s][A
+Loading weights:  69%|######9   | 276/398 [00:01<00:00, 245.22it/s][A
+Loading weights:  76%|#######5  | 301/398 [00:01<00:00, 227.38it/s][A
+Loading weights:  82%|########1 | 325/398 [00:01<00:00, 222.77it/s][A
+Loading weights:  89%|########8 | 353/398 [00:01<00:00, 238.21it/s][A
+Loading weights:  95%|#########4| 378/398 [00:01<00:00, 239.57it/s][ALoading weights: 100%|##########| 398/398 [00:01<00:00, 210.52it/s]
+
+=== Step 6: 114B-WIR-01 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-01",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "de706aba",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "e05cb98a",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "ec118121",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  10%|#         | 1/10 [00:11<01:39, 11.05s/it]
+=== Step 6: 114B-WIR-02 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-02",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "b5150d39",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "b490ad74",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "b86caa7c",
+      "rerank_score": 0.9970703125,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  20%|##        | 2/10 [00:18<01:09,  8.74s/it]
+=== Step 6: 114B-WIR-03 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-03",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "4bbeddaa",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "bf1bae71",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "0bedd40a",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  30%|###       | 3/10 [00:25<00:56,  8.03s/it]
+=== Step 6: 114B-WIR-04 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-04",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "f57abe51",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "860dae1a",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "4c8a1cbc",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  40%|####      | 4/10 [00:31<00:44,  7.45s/it]
+=== Step 6: 114B-WIR-05 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-05",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "66257062",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "93c0085e",
+      "rerank_score": 0.998046875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "89bd2077",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  50%|#####     | 5/10 [00:39<00:37,  7.52s/it]
+=== Step 6: 114B-WIR-06 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-06",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "35dcfa48",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "6bb2f82b",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "34fd9f53",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  60%|######    | 6/10 [00:46<00:29,  7.39s/it]
+=== Step 6: 114B-WIR-07 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-07",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "92506dcf",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "f63e5414",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "58960452",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "bm25"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  70%|#######   | 7/10 [00:54<00:22,  7.44s/it]
+=== Step 6: 114B-WIR-08 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-08",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "c6280aa6",
+      "rerank_score": 1.0,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "dd52d3bd",
+      "rerank_score": 0.99462890625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "cbb8bc7c",
+      "rerank_score": 0.994140625,
+      "candidate_sources": [
+        "bm25"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  80%|########  | 8/10 [01:00<00:14,  7.22s/it]
+=== Step 6: 114B-WIR-09 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-09",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "c4cc593b",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "6a96b437",
+      "rerank_score": 0.9970703125,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "038e9ae7",
+      "rerank_score": 0.99609375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates:  90%|######### | 9/10 [01:07<00:07,  7.12s/it]
+=== Step 6: 114B-WIR-10 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-10",
+  "final_top_k": 30,
+  "fusion_method": "rrf",
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "6dc11e90",
+      "rerank_score": 0.99560546875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "d96d8ab1",
+      "rerank_score": 0.99462890625,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "737815e2",
+      "rerank_score": 0.99365234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking fused candidates: 100%|##########| 10/10 [01:15<00:00,  7.22s/it]Reranking fused candidates: 100%|##########| 10/10 [01:15<00:00,  7.53s/it]
+Reranker 模型已釋放。
+Saved results to /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/hybrid_rrf_query1_results.json
+Hybrid retrieval 流程完成，總耗時 145.53 秒。

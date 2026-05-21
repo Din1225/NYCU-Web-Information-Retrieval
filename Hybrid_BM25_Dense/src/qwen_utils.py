@@ -45,11 +45,67 @@ def resolve_pretrained_source(model_name_or_path: str | Path, cache_dir: str | P
     if resolved_cache_dir is None:
         return model_reference
 
+    local_snapshot = _resolve_local_cached_model(model_reference, Path(resolved_cache_dir))
+    if local_snapshot is not None:
+        return str(local_snapshot)
+
     snapshot_path = snapshot_download(
         repo_id=model_reference,
         cache_dir=resolved_cache_dir,
     )
     return str(Path(snapshot_path).resolve())
+
+
+def _resolve_local_cached_model(model_reference: str, cache_dir: Path) -> Path | None:
+    """嘗試直接從本地 Hugging Face cache root 找到模型 snapshot。"""
+    candidate_paths = [
+        cache_dir / "models" / model_reference.replace("/", "--"),
+        cache_dir / model_reference.replace("/", "--"),
+        cache_dir / f"models--{model_reference.replace('/', '--')}",
+        cache_dir / "hub" / f"models--{model_reference.replace('/', '--')}",
+    ]
+    for candidate in candidate_paths:
+        if _is_pretrained_model_dir(candidate):
+            return candidate.resolve()
+
+    hub_roots = [
+        cache_dir / f"models--{model_reference.replace('/', '--')}",
+        cache_dir / "hub" / f"models--{model_reference.replace('/', '--')}",
+    ]
+    for hub_root in hub_roots:
+        snapshot_path = _resolve_hf_snapshot_dir(hub_root)
+        if snapshot_path is not None:
+            return snapshot_path.resolve()
+
+    return None
+
+
+def _resolve_hf_snapshot_dir(hub_root: Path) -> Path | None:
+    if not hub_root.exists():
+        return None
+
+    refs_main = hub_root / "refs" / "main"
+    if refs_main.exists():
+        snapshot_name = refs_main.read_text(encoding="utf-8").strip()
+        if snapshot_name:
+            snapshot_dir = hub_root / "snapshots" / snapshot_name
+            if _is_pretrained_model_dir(snapshot_dir):
+                return snapshot_dir
+
+    snapshots_dir = hub_root / "snapshots"
+    if not snapshots_dir.exists():
+        return None
+
+    snapshot_candidates = sorted(path for path in snapshots_dir.iterdir() if path.is_dir())
+    for snapshot_dir in reversed(snapshot_candidates):
+        if _is_pretrained_model_dir(snapshot_dir):
+            return snapshot_dir
+    return None
+
+
+def _is_pretrained_model_dir(path: Path) -> bool:
+    required_files = ("config.json", "tokenizer.json")
+    return path.is_dir() and all((path / filename).exists() for filename in required_files)
 
 
 def torch_dtype_from_name(dtype_name: str) -> torch.dtype:

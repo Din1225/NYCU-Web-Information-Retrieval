@@ -6,9 +6,11 @@ from __future__ import annotations
 python hybrid_BM25_Dense_Rerank/scripts/run_hybrid_union_rerank.py \
   --data data/IR_data.json \
   --query query/phase1_query.json \
+  --subquery_path query/phase1_subqueries.json \
   --output outputs/hybrid_union_debug_results.json \
   --limit_docs 1000 \
   --limit_queries 1 \
+  --RRF \
   --bm25_top_k 100 \
   --dense_top_k 100 \
   --final_top_k 30 \
@@ -28,6 +30,7 @@ from pathlib import Path
 
 METHOD_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = METHOD_ROOT.parent
+SHARED_MODEL_CACHE_ROOT = Path("/workplace/Share/LLM_model")
 sys.path.insert(0, str(METHOD_ROOT))
 
 
@@ -53,11 +56,16 @@ class TeeOutput:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run hybrid BM25 + dense union retrieval with reranking.",
+        description="Run hybrid BM25 + dense fusion retrieval with reranking.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("--data", default="data/IR_data.json", help="文件資料池 corpus 的 JSON 路徑。")
     parser.add_argument("--query", default="query/phase2_query.json", help="query JSON 檔案路徑。")
+    parser.add_argument(
+        "--subquery_path",
+        default=None,
+        help="query 對應的 sub-query JSON 路徑；指定後會啟用 risk penalty 流程。",
+    )
     parser.add_argument("--output", default="outputs/hybrid_union_results.json", help="最終輸出結果 JSON 路徑。")
     parser.add_argument(
         "--dense_model",
@@ -67,7 +75,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--reranker_model",
         default="Qwen/Qwen3-Reranker-4B",
-        help="Cross-encoder reranker 模型，用來對 union candidates 重新排序。",
+        help="Cross-encoder reranker 模型，用來對融合後的 candidates 重新排序。",
     )
     parser.add_argument(
         "--cache_dir",
@@ -95,7 +103,26 @@ def parse_args() -> argparse.Namespace:
         "--final_top_k",
         type=int,
         default=30,
-        help="union candidates 經過 rerank 後最後輸出幾筆結果。",
+        help="融合候選集合經過 rerank 後最後輸出幾筆結果。",
+    )
+    parser.add_argument(
+        "--risk_top_k",
+        type=int,
+        default=50,
+        help="先用 reranker 保留前幾篇文件，再交給 risk detector 做 penalty。",
+    )
+    parser.add_argument(
+        "--RRF",
+        "--rrf",
+        dest="use_rrf",
+        action="store_true",
+        help="啟用 Reciprocal Rank Fusion，改用 RRF 取代預設的 union seed 排序。",
+    )
+    parser.add_argument(
+        "--rrf_k",
+        type=int,
+        default=60,
+        help="RRF 的常數 k；只有在啟用 --RRF 時會使用。",
     )
     parser.add_argument(
         "--bm25_k1",
@@ -172,6 +199,40 @@ def parse_args() -> argparse.Namespace:
         help="注入到 Qwen query-side embedding 與 reranker prompt 的 instruction。",
     )
     parser.add_argument(
+        "--risk_model",
+        default="Qwen/Qwen3.5-4B",
+        help="Risk detector 使用的 Qwen causal LM。",
+    )
+    parser.add_argument(
+        "--risk_model_cache_dir",
+        default=str(SHARED_MODEL_CACHE_ROOT),
+        help="Risk detector 模型快取根目錄；預設使用共享快取 /workplace/Share/LLM_model。",
+    )
+    parser.add_argument(
+        "--risk_lambda",
+        type=float,
+        default=0.1,
+        help="最終分數中的 risk penalty 權重 lambda。",
+    )
+    parser.add_argument(
+        "--risk_batch_size",
+        type=int,
+        default=4,
+        help="Risk detector 批次推論時使用的 batch size。",
+    )
+    parser.add_argument(
+        "--risk_max_length",
+        type=int,
+        default=1024,
+        help="Risk detector prompt 的最大 token 長度。",
+    )
+    parser.add_argument(
+        "--risk_max_new_tokens",
+        type=int,
+        default=256,
+        help="Risk detector 生成 JSON 時允許的最大新 token 數。",
+    )
+    parser.add_argument(
         "--log_file",
         default=None,
         help="可選的 log 檔案路徑；會同步保存 stdout 與 stderr。",
@@ -246,18 +307,25 @@ def disable_log_file(log_file, original_stdout, original_stderr) -> None:
 
 
 def print_run_config(config, log_path: Path) -> None:
-    print("=== Hybrid BM25 + Dense Union Run Config ===")
+    print("=== Hybrid BM25 + Dense Fusion Run Config ===")
     print(f"data_path: {config.data_path}")
     print(f"query_path: {config.query_path}")
+    print(f"subquery_path: {config.subquery_path}")
     print(f"output_path: {config.output_path}")
     print(f"dense_model_name_or_path: {config.dense_model_name_or_path}")
     print(f"reranker_model_name_or_path: {config.reranker_model_name_or_path}")
+    print(f"risk_model_name_or_path: {config.risk_model_name_or_path}")
     print(f"cache_dir: {config.cache_dir}")
     print(f"model_cache_dir: {config.model_cache_dir}")
+    print(f"risk_model_cache_dir: {config.risk_model_cache_dir}")
     print(f"log_file: {log_path}")
     print(f"bm25_top_k: {config.bm25_top_k}")
     print(f"dense_top_k: {config.dense_top_k}")
+    print(f"risk_top_k: {config.risk_top_k}")
     print(f"final_top_k: {config.final_top_k}")
+    print(f"fusion_method: {config.fusion_method}")
+    print(f"rrf_k: {config.rrf_k}")
+    print(f"risk_lambda: {config.risk_lambda}")
     print(f"bm25_k1: {config.bm25_k1}")
     print(f"bm25_b: {config.bm25_b}")
     print(f"use_4bit: {config.use_4bit}")
@@ -319,6 +387,7 @@ def main() -> None:
     config = HybridUnionRerankConfig(
         data_path=resolve_existing_path(args.data),
         query_path=resolve_existing_path(args.query),
+        subquery_path=resolve_existing_path(args.subquery_path) if args.subquery_path else None,
         output_path=resolve_output_path(args.output),
         dense_model_name_or_path=resolve_model_reference(args.dense_model),
         reranker_model_name_or_path=resolve_model_reference(args.reranker_model),
@@ -331,10 +400,14 @@ def main() -> None:
         bm25_top_k=args.bm25_top_k,
         dense_top_k=args.dense_top_k,
         final_top_k=args.final_top_k,
+        risk_top_k=args.risk_top_k,
         dense_batch_size=args.dense_batch_size,
         reranker_batch_size=args.reranker_batch_size,
+        risk_batch_size=args.risk_batch_size,
         dense_max_length=args.dense_max_length,
         reranker_max_length=args.reranker_max_length,
+        risk_max_length=args.risk_max_length,
+        risk_max_new_tokens=args.risk_max_new_tokens,
         bm25_k1=args.bm25_k1,
         bm25_b=args.bm25_b,
         use_4bit=not args.disable_4bit,
@@ -343,6 +416,11 @@ def main() -> None:
         limit_docs=args.limit_docs,
         limit_queries=args.limit_queries,
         retrieval_instruction=args.retrieval_instruction,
+        fusion_method="rrf" if args.use_rrf else "union",
+        rrf_k=args.rrf_k,
+        risk_model_name_or_path=resolve_model_reference(args.risk_model) if args.subquery_path else None,
+        risk_model_cache_dir=resolve_existing_path(args.risk_model_cache_dir) if args.risk_model_cache_dir else None,
+        risk_lambda=args.risk_lambda,
     )
 
     log_file, original_stdout, original_stderr = enable_log_file(log_path)
@@ -350,7 +428,11 @@ def main() -> None:
         started_at = time.perf_counter()
         print(f"Log file: {log_path}")
         print_run_config(config, log_path)
-        print("開始執行 Hybrid retrieval：BM25 top-k + Dense top-k -> union -> rerank。")
+        print(
+            "開始執行 Hybrid retrieval："
+            f"BM25 top-k + Dense top-k -> {config.fusion_method} -> rerank top-{config.risk_top_k}"
+            + (" -> risk penalty -> final top-k。" if config.subquery_path else " -> final top-k。")
+        )
         run_hybrid_union_rerank_retrieval(config)
         elapsed = time.perf_counter() - started_at
         print(f"Hybrid retrieval 流程完成，總耗時 {elapsed:.2f} 秒。")
