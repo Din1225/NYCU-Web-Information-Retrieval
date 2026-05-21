@@ -1,0 +1,95 @@
+Log file: /workplace/dxlin/Homework/IR/exp/outputs/logs/dense_rerank_20260521_111644.log
+=== Dense Retrieve + Rerank Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase1_query.json
+output_path: /workplace/dxlin/Homework/IR/exp/outputs/bge_qwen_phase1_results.json
+dense_model_name_or_path: BAAI/bge-m3
+reranker_model_name_or_path: Qwen/Qwen3-Reranker-4B
+dense_backend: auto
+reranker_backend: auto
+cache_dir: /workplace/dxlin/Homework/IR/exp/outputs/cache
+log_file: /workplace/dxlin/Homework/IR/exp/outputs/logs/dense_rerank_20260521_111644.log
+annotation_path: /workplace/dxlin/Homework/IR/114B-WIR-Phase1-Annotation.json
+evaluation_output_path: /workplace/dxlin/Homework/IR/exp/outputs/bge_qwen_phase1_evaluation.json
+dense_top_k: 100
+rerank_top_k: 30
+dense_batch_size: 32
+reranker_batch_size: 2
+dense_max_length: 512
+reranker_max_length: 1024
+use_4bit: True
+compute_dtype: float16
+bge_use_fp16: True
+use_cache: True
+limit_docs: None
+limit_queries: None
+document_text_mode: question
+retrieval_instruction: 給定一個問題，請檢索出語意最相關、問題表述最相近的問題。
+==========================================
+Loaded 171562 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 10 queries from /workplace/dxlin/Homework/IR/query/phase1_query.json
+Loaded cached dense embeddings from /workplace/dxlin/Homework/IR/exp/outputs/cache/dense/bge_dense_761e534e6bf4e05b.npy
+Dense retriever 初始化已完成。
+Dense retrieval:   0%|          | 0/10 [00:00<?, ?it/s]
+Loading weights:   0%|          | 0/391 [00:00<?, ?it/s][ALoading weights: 100%|##########| 391/391 [00:00<00:00, 7893.44it/s]
+FlagEmbedding 載入失敗，改用 transformers+safetensors 作為 BGE dense fallback。 原始錯誤: cannot import name 'is_torch_fx_available' from 'transformers.utils.import_utils' (/workplace/zyxu/miniconda3/envs/ir2/lib/python3.10/site-packages/transformers/utils/import_utils.py)
+114B-WIR-01 dense retrieval 已完成，共 100 筆結果。
+Dense retrieval:  10%|#         | 1/10 [00:14<02:09, 14.35s/it]114B-WIR-02 dense retrieval 已完成，共 100 筆結果。
+114B-WIR-03 dense retrieval 已完成，共 100 筆結果。
+114B-WIR-04 dense retrieval 已完成，共 100 筆結果。
+Dense retrieval:  40%|####      | 4/10 [00:14<00:16,  2.75s/it]114B-WIR-05 dense retrieval 已完成，共 100 筆結果。
+114B-WIR-06 dense retrieval 已完成，共 100 筆結果。
+114B-WIR-07 dense retrieval 已完成，共 100 筆結果。
+Dense retrieval:  70%|#######   | 7/10 [00:14<00:03,  1.31s/it]114B-WIR-08 dense retrieval 已完成，共 100 筆結果。
+114B-WIR-09 dense retrieval 已完成，共 100 筆結果。
+Dense retrieval:  90%|######### | 9/10 [00:14<00:00,  1.13it/s]114B-WIR-10 dense retrieval 已完成，共 100 筆結果。
+Dense retrieval: 100%|##########| 10/10 [00:14<00:00,  1.49s/it]
+Dense retriever 模型已釋放。
+Reranker 初始化已完成。
+Dense rerank:   0%|          | 0/10 [00:00<?, ?it/s]/workplace/zyxu/miniconda3/envs/ir2/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2341: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:00<01:11,  5.55it/s][A
+Loading weights:   4%|3         | 14/398 [00:00<00:06, 57.58it/s][A
+Loading weights:   7%|6         | 27/398 [00:00<00:04, 81.28it/s][A
+Loading weights:  10%|#         | 41/398 [00:00<00:07, 44.79it/s][A
+Loading weights:  14%|#3        | 55/398 [00:00<00:05, 61.54it/s][A
+Loading weights:  17%|#7        | 69/398 [00:01<00:04, 75.94it/s][A
+Loading weights:  21%|##        | 82/398 [00:01<00:03, 86.44it/s][A
+Loading weights:  25%|##5       | 100/398 [00:01<00:02, 108.38it/s][A
+Loading weights:  29%|##8       | 114/398 [00:01<00:02, 114.27it/s][A
+Loading weights:  32%|###2      | 128/398 [00:01<00:02, 115.29it/s][A
+Loading weights:  37%|###6      | 146/398 [00:01<00:01, 129.14it/s][A
+Loading weights:  40%|####      | 160/398 [00:01<00:01, 130.34it/s][A
+Loading weights:  44%|####4     | 177/398 [00:01<00:01, 140.40it/s][A
+Loading weights:  48%|####8     | 192/398 [00:01<00:01, 135.92it/s][A
+Loading weights:  53%|#####2    | 210/398 [00:02<00:01, 147.91it/s][A
+Loading weights:  57%|#####6    | 226/398 [00:02<00:01, 144.82it/s][A
+Loading weights:  62%|######1   | 245/398 [00:02<00:01, 152.19it/s][A
+Loading weights:  66%|######5   | 261/398 [00:02<00:00, 150.78it/s][A
+Loading weights:  70%|######9   | 278/398 [00:02<00:00, 152.20it/s][A
+Loading weights:  74%|#######3  | 294/398 [00:02<00:00, 150.77it/s][A
+Loading weights:  78%|#######8  | 311/398 [00:02<00:00, 153.05it/s][A
+Loading weights:  82%|########2 | 327/398 [00:02<00:00, 151.32it/s][A
+Loading weights:  86%|########6 | 344/398 [00:02<00:00, 152.63it/s][A
+Loading weights:  90%|######### | 360/398 [00:03<00:00, 151.92it/s][A
+Loading weights:  95%|#########4| 377/398 [00:03<00:00, 153.05it/s][A
+Loading weights:  99%|#########8| 393/398 [00:03<00:00, 151.35it/s][ALoading weights: 100%|##########| 398/398 [00:03<00:00, 121.63it/s]
+114B-WIR-01 rerank 已完成，共 30 筆結果。
+Dense rerank:  10%|#         | 1/10 [00:18<02:43, 18.21s/it]114B-WIR-02 rerank 已完成，共 30 筆結果。
+Dense rerank:  20%|##        | 2/10 [00:27<01:43, 12.90s/it]114B-WIR-03 rerank 已完成，共 30 筆結果。
+Dense rerank:  30%|###       | 3/10 [00:36<01:16, 10.95s/it]114B-WIR-04 rerank 已完成，共 30 筆結果。
+Dense rerank:  40%|####      | 4/10 [00:44<01:00, 10.08s/it]114B-WIR-05 rerank 已完成，共 30 筆結果。
+Dense rerank:  50%|#####     | 5/10 [00:52<00:46,  9.28s/it]114B-WIR-06 rerank 已完成，共 30 筆結果。
+Dense rerank:  60%|######    | 6/10 [01:00<00:35,  8.96s/it]114B-WIR-07 rerank 已完成，共 30 筆結果。
+Dense rerank:  70%|#######   | 7/10 [01:10<00:27,  9.27s/it]114B-WIR-08 rerank 已完成，共 30 筆結果。
+Dense rerank:  80%|########  | 8/10 [01:19<00:17,  8.91s/it]114B-WIR-09 rerank 已完成，共 30 筆結果。
+Dense rerank:  90%|######### | 9/10 [01:28<00:09,  9.22s/it]114B-WIR-10 rerank 已完成，共 30 筆結果。
+Dense rerank: 100%|##########| 10/10 [01:37<00:00,  8.88s/it]Dense rerank: 100%|##########| 10/10 [01:37<00:00,  9.70s/it]
+Reranker 模型已釋放。
+Saved results to /workplace/dxlin/Homework/IR/exp/outputs/bge_qwen_phase1_results.json
+Saved evaluation to /workplace/dxlin/Homework/IR/exp/outputs/bge_qwen_phase1_evaluation.json
+dense_results aggregate: {'MRR': 0.6833333333333333, 'MAP@10': 0.36339682539682533, 'NDCG@10': 0.5899183930148444, 'MAP@30': 0.3230783690338657, 'NDCG@30': 0.712804815316529}
+rerank_results aggregate: {'MRR': 0.6283333333333333, 'MAP@10': 0.44379365079365085, 'NDCG@10': 0.676887322878279, 'MAP@30': 0.25123045945693684, 'NDCG@30': 0.8338444540617447}
+流程完成，總耗時 116.32 秒。

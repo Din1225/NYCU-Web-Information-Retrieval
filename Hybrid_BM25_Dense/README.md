@@ -77,15 +77,15 @@ python Hybrid_BM25_Dense/scripts/run_hybrid_union_rerank.py \
 ```bash
 python Hybrid_BM25_Dense/scripts/run_hybrid_union_rerank.py \
   --data data/IR_data.json \
-  --query query/phase2_query.json \
-  --output outputs/hybrid_union_results.json \
+  --query query/phase1_query.json \
+  --output outputs/hybrid_union_query1_results.json \
   --bm25_top_k 100 \
   --dense_top_k 100 \
   --final_top_k 30 \
   --dense_model Qwen/Qwen3-Embedding-4B \
   --reranker_model Qwen/Qwen3-Reranker-4B \
-  --log_file outputs/logs/hybrid_union.log \
-  --cuda_visible_devices 1
+  --log_file outputs/logs/hybrid_union_query1.log \
+  --cuda_visible_devices 0
 ```
 
 ## 重要參數

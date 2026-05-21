@@ -1,0 +1,1638 @@
+Log file: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/logs/hybrid_union_query1.log
+=== Hybrid BM25 + Dense Union Run Config ===
+data_path: /workplace/dxlin/Homework/IR/data/IR_data.json
+query_path: /workplace/dxlin/Homework/IR/query/phase1_query.json
+output_path: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/hybrid_union_query1_results.json
+dense_model_name_or_path: Qwen/Qwen3-Embedding-4B
+reranker_model_name_or_path: Qwen/Qwen3-Reranker-4B
+cache_dir: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache
+model_cache_dir: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/models
+log_file: /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/logs/hybrid_union_query1.log
+bm25_top_k: 100
+dense_top_k: 100
+final_top_k: 30
+bm25_k1: 1.5
+bm25_b: 0.75
+use_4bit: True
+compute_dtype: float16
+use_cache: True
+================================================
+開始執行 Hybrid retrieval：BM25 top-k + Dense top-k -> union -> rerank。
+Loaded 171562 documents from /workplace/dxlin/Homework/IR/data/IR_data.json
+Loaded 10 queries from /workplace/dxlin/Homework/IR/query/phase1_query.json
+
+=== Step 1: 讀取文件與查詢 ===
+{
+  "num_documents": 171562,
+  "num_queries": 10,
+  "document_sample_ids": [
+    "2457ed7b",
+    "479f020f",
+    "1200540a"
+  ],
+  "query_sample_ids": [
+    "114B-WIR-01",
+    "114B-WIR-02",
+    "114B-WIR-03"
+  ]
+}
+Loaded cached BM25 index from /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/bm25/bm25_index_759fe77bc2a67aa0.pkl
+
+=== Step 2: 建立或讀取 BM25 index ===
+{
+  "cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/bm25",
+  "bm25_k1": 1.5,
+  "bm25_b": 0.75
+}
+Loaded cached dense embeddings from /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/dense/qwen3_embedding_f125e0cdc1220360.npy
+
+=== Step 3: 建立或讀取 Dense embeddings ===
+{
+  "embedding_dim": 2560,
+  "num_document_embeddings": 171562,
+  "cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/dense",
+  "model_cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/models/dense"
+}
+Hybrid candidate retrieval:   0%|          | 0/10 [00:00<?, ?it/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s][A[AFetching 14 files: 100%|##########| 14/14 [00:00<00:00, 8148.80it/s]
+
+Download complete: : 0.00B [00:00, ?B/s]              [ADownload complete: : 0.00B [00:00, ?B/s]
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:06<45:02,  6.81s/it][A
+Loading weights:   1%|          | 3/398 [00:07<12:56,  1.97s/it][A
+Loading weights:   1%|1         | 4/398 [00:07<09:27,  1.44s/it][A
+Loading weights:   1%|1         | 5/398 [00:08<07:16,  1.11s/it][A
+Loading weights:   2%|2         | 9/398 [00:08<02:44,  2.37it/s][A
+Loading weights:   3%|2         | 11/398 [00:08<02:03,  3.15it/s][A
+Loading weights:   4%|3         | 14/398 [00:09<01:38,  3.88it/s][A
+Loading weights:   4%|3         | 15/398 [00:09<01:50,  3.47it/s][A
+Loading weights:   4%|4         | 16/398 [00:10<02:01,  3.15it/s][A
+Loading weights:   5%|5         | 20/398 [00:10<01:09,  5.43it/s][A
+Loading weights:   6%|5         | 22/398 [00:10<01:00,  6.25it/s][A
+Loading weights:   6%|6         | 25/398 [00:11<01:03,  5.89it/s][A
+Loading weights:   7%|6         | 26/398 [00:11<01:18,  4.73it/s][A
+Loading weights:   7%|6         | 27/398 [00:11<01:34,  3.94it/s][A
+Loading weights:   8%|7         | 31/398 [00:12<00:57,  6.36it/s][A
+Loading weights:   8%|8         | 33/398 [00:12<00:51,  7.08it/s][A
+Loading weights:   9%|9         | 36/398 [00:12<00:54,  6.62it/s][A
+Loading weights:   9%|9         | 37/398 [00:13<01:10,  5.14it/s][A
+Loading weights:  10%|9         | 38/398 [00:13<01:25,  4.20it/s][A
+Loading weights:  11%|#         | 42/398 [00:14<00:53,  6.66it/s][A
+Loading weights:  11%|#1        | 44/398 [00:14<00:48,  7.36it/s][A
+Loading weights:  12%|#1        | 47/398 [00:14<00:51,  6.82it/s][A
+Loading weights:  12%|#2        | 48/398 [00:15<01:06,  5.27it/s][A
+Loading weights:  12%|#2        | 49/398 [00:15<01:22,  4.23it/s][A
+Loading weights:  13%|#3        | 53/398 [00:15<00:51,  6.71it/s][A
+Loading weights:  14%|#3        | 55/398 [00:16<00:46,  7.40it/s][A
+Loading weights:  15%|#4        | 58/398 [00:16<00:49,  6.81it/s][A
+Loading weights:  15%|#4        | 59/398 [00:17<01:04,  5.25it/s][A
+Loading weights:  15%|#5        | 60/398 [00:17<01:19,  4.26it/s][A
+Loading weights:  16%|#6        | 64/398 [00:17<00:49,  6.76it/s][A
+Loading weights:  17%|#6        | 66/398 [00:17<00:44,  7.47it/s][A
+Loading weights:  17%|#7        | 69/398 [00:18<00:48,  6.82it/s][A
+Loading weights:  18%|#7        | 70/398 [00:18<01:02,  5.23it/s][A
+Loading weights:  18%|#7        | 71/398 [00:19<01:17,  4.25it/s][A
+Loading weights:  19%|#8        | 75/398 [00:19<00:48,  6.69it/s][A
+Loading weights:  19%|#9        | 77/398 [00:19<00:43,  7.38it/s][A
+Loading weights:  20%|##        | 80/398 [00:20<00:46,  6.81it/s][A
+Loading weights:  20%|##        | 81/398 [00:20<01:00,  5.22it/s][A
+Loading weights:  21%|##        | 82/398 [00:21<01:14,  4.23it/s][A
+Loading weights:  22%|##1       | 86/398 [00:21<00:46,  6.64it/s][A
+Loading weights:  22%|##2       | 88/398 [00:21<00:42,  7.33it/s][A
+Loading weights:  23%|##2       | 91/398 [00:22<01:00,  5.10it/s][A
+Loading weights:  23%|##3       | 92/398 [00:22<01:11,  4.28it/s][A
+Loading weights:  23%|##3       | 93/398 [00:23<01:22,  3.68it/s][A
+Loading weights:  24%|##4       | 97/398 [00:23<00:50,  5.99it/s][A
+Loading weights:  25%|##4       | 99/398 [00:23<00:44,  6.73it/s][A
+Loading weights:  26%|##5       | 102/398 [00:24<00:45,  6.45it/s][A
+Loading weights:  26%|##5       | 103/398 [00:24<01:00,  4.87it/s][A
+Loading weights:  26%|##6       | 104/398 [00:25<01:12,  4.03it/s][A
+Loading weights:  27%|##7       | 108/398 [00:26<01:02,  4.63it/s][A
+Loading weights:  28%|##7       | 110/398 [00:26<00:53,  5.42it/s][A
+Loading weights:  28%|##8       | 113/398 [00:26<00:50,  5.59it/s][A
+Loading weights:  29%|##8       | 114/398 [00:27<01:02,  4.57it/s][A
+Loading weights:  29%|##8       | 115/398 [00:27<01:13,  3.86it/s][A
+Loading weights:  30%|##9       | 119/398 [00:27<00:44,  6.20it/s][A
+Loading weights:  30%|###       | 121/398 [00:28<00:39,  6.94it/s][A
+Loading weights:  31%|###1      | 124/398 [00:28<00:41,  6.53it/s][A
+Loading weights:  31%|###1      | 125/398 [00:29<00:53,  5.08it/s][A
+Loading weights:  32%|###1      | 126/398 [00:29<01:07,  4.03it/s][A
+Loading weights:  33%|###2      | 130/398 [00:29<00:41,  6.46it/s][A
+Loading weights:  33%|###3      | 132/398 [00:29<00:37,  7.17it/s][A
+Loading weights:  34%|###3      | 135/398 [00:30<00:39,  6.71it/s][A
+Loading weights:  34%|###4      | 136/398 [00:30<00:50,  5.19it/s][A
+Loading weights:  34%|###4      | 137/398 [00:31<01:01,  4.22it/s][A
+Loading weights:  35%|###5      | 141/398 [00:31<00:38,  6.70it/s][A
+Loading weights:  36%|###5      | 143/398 [00:31<00:34,  7.41it/s][A
+Loading weights:  37%|###6      | 146/398 [00:32<00:36,  6.82it/s][A
+Loading weights:  37%|###6      | 147/398 [00:32<00:48,  5.21it/s][A
+Loading weights:  37%|###7      | 148/398 [00:33<00:59,  4.23it/s][A
+Loading weights:  38%|###8      | 152/398 [00:33<00:36,  6.74it/s][A
+Loading weights:  39%|###8      | 154/398 [00:33<00:32,  7.45it/s][A
+Loading weights:  39%|###9      | 157/398 [00:34<00:34,  6.89it/s][A
+Loading weights:  40%|###9      | 158/398 [00:34<00:45,  5.26it/s][A
+Loading weights:  40%|###9      | 159/398 [00:35<00:56,  4.26it/s][A
+Loading weights:  41%|####      | 163/398 [00:35<00:34,  6.77it/s][A
+Loading weights:  41%|####1     | 165/398 [00:35<00:31,  7.48it/s][A
+Loading weights:  42%|####1     | 166/398 [00:35<00:35,  6.56it/s][A
+Loading weights:  42%|####2     | 168/398 [00:36<00:40,  5.74it/s][A
+Loading weights:  42%|####2     | 169/398 [00:36<00:51,  4.47it/s][A
+Loading weights:  43%|####2     | 170/398 [00:37<01:01,  3.71it/s][A
+Loading weights:  44%|####3     | 174/398 [00:37<00:35,  6.36it/s][A
+Loading weights:  44%|####4     | 176/398 [00:37<00:31,  7.14it/s][A
+Loading weights:  45%|####4     | 179/398 [00:37<00:33,  6.63it/s][A
+Loading weights:  45%|####5     | 180/398 [00:38<00:42,  5.12it/s][A
+Loading weights:  45%|####5     | 181/398 [00:38<00:52,  4.17it/s][A
+Loading weights:  46%|####6     | 185/398 [00:39<00:31,  6.72it/s][A
+Loading weights:  47%|####6     | 187/398 [00:39<00:28,  7.33it/s][A
+Loading weights:  48%|####7     | 190/398 [00:39<00:30,  6.84it/s][A
+Loading weights:  48%|####7     | 191/398 [00:40<00:39,  5.28it/s][A
+Loading weights:  48%|####8     | 192/398 [00:40<00:48,  4.27it/s][A
+Loading weights:  49%|####9     | 196/398 [00:40<00:29,  6.80it/s][A
+Loading weights:  50%|####9     | 198/398 [00:41<00:26,  7.51it/s][A
+Loading weights:  51%|#####     | 201/398 [00:41<00:28,  6.89it/s][A
+Loading weights:  51%|#####     | 202/398 [00:42<00:37,  5.28it/s][A
+Loading weights:  51%|#####1    | 203/398 [00:42<00:45,  4.26it/s][A
+Loading weights:  52%|#####2    | 207/398 [00:42<00:28,  6.73it/s][A
+Loading weights:  53%|#####2    | 209/398 [00:42<00:25,  7.43it/s][A
+Loading weights:  53%|#####3    | 212/398 [00:43<00:27,  6.82it/s][A
+Loading weights:  54%|#####3    | 213/398 [00:43<00:35,  5.23it/s][A
+Loading weights:  54%|#####3    | 214/398 [00:44<00:43,  4.23it/s][A
+Loading weights:  55%|#####4    | 218/398 [00:44<00:26,  6.67it/s][A
+Loading weights:  55%|#####5    | 220/398 [00:44<00:24,  7.36it/s][A
+Loading weights:  56%|#####6    | 223/398 [00:45<00:26,  6.64it/s][A
+Loading weights:  56%|#####6    | 224/398 [00:45<00:34,  5.07it/s][A
+Loading weights:  57%|#####6    | 225/398 [00:46<00:41,  4.13it/s][A
+Loading weights:  58%|#####7    | 229/398 [00:46<00:25,  6.57it/s][A
+Loading weights:  58%|#####8    | 231/398 [00:46<00:23,  7.17it/s][A
+Loading weights:  59%|#####8    | 234/398 [00:47<00:24,  6.71it/s][A
+Loading weights:  59%|#####9    | 235/398 [00:47<00:31,  5.20it/s][A
+Loading weights:  59%|#####9    | 236/398 [00:48<00:38,  4.21it/s][A
+Loading weights:  60%|######    | 240/398 [00:48<00:23,  6.64it/s][A
+Loading weights:  61%|######    | 242/398 [00:48<00:21,  7.33it/s][A
+Loading weights:  62%|######1   | 245/398 [00:49<00:22,  6.76it/s][A
+Loading weights:  62%|######1   | 246/398 [00:49<00:29,  5.19it/s][A
+Loading weights:  62%|######2   | 247/398 [00:49<00:35,  4.20it/s][A
+Loading weights:  63%|######3   | 251/398 [00:50<00:22,  6.64it/s][A
+Loading weights:  64%|######3   | 253/398 [00:50<00:19,  7.33it/s][A
+Loading weights:  64%|######4   | 256/398 [00:51<00:24,  5.70it/s][A
+Loading weights:  65%|######4   | 257/398 [00:51<00:30,  4.63it/s][A
+Loading weights:  65%|######4   | 258/398 [00:52<00:35,  3.90it/s][A
+Loading weights:  66%|######5   | 262/398 [00:52<00:21,  6.29it/s][A
+Loading weights:  66%|######6   | 264/398 [00:52<00:19,  7.05it/s][A
+Loading weights:  67%|######7   | 267/398 [00:52<00:19,  6.62it/s][A
+Loading weights:  67%|######7   | 268/398 [00:53<00:25,  5.14it/s][A
+Loading weights:  68%|######7   | 269/398 [00:53<00:30,  4.19it/s][A
+Loading weights:  69%|######8   | 273/398 [00:54<00:18,  6.65it/s][A
+Loading weights:  69%|######9   | 275/398 [00:54<00:16,  7.36it/s][A
+Loading weights:  70%|######9   | 278/398 [00:54<00:17,  6.79it/s][A
+Loading weights:  70%|#######   | 279/398 [00:55<00:22,  5.24it/s][A
+Loading weights:  70%|#######   | 280/398 [00:55<00:27,  4.24it/s][A
+Loading weights:  71%|#######1  | 284/398 [00:55<00:16,  6.75it/s][A
+Loading weights:  72%|#######1  | 286/398 [00:56<00:15,  7.44it/s][A
+Loading weights:  73%|#######2  | 289/398 [00:56<00:16,  6.50it/s][A
+Loading weights:  73%|#######2  | 290/398 [00:57<00:21,  5.06it/s][A
+Loading weights:  73%|#######3  | 291/398 [00:57<00:25,  4.15it/s][A
+Loading weights:  74%|#######4  | 295/398 [00:57<00:15,  6.56it/s][A
+Loading weights:  75%|#######4  | 297/398 [00:58<00:13,  7.27it/s][A
+Loading weights:  75%|#######5  | 300/398 [00:58<00:14,  6.71it/s][A
+Loading weights:  76%|#######5  | 301/398 [00:58<00:18,  5.20it/s][A
+Loading weights:  76%|#######5  | 302/398 [00:59<00:22,  4.23it/s][A
+Loading weights:  77%|#######6  | 306/398 [00:59<00:13,  6.69it/s][A
+Loading weights:  77%|#######7  | 308/398 [00:59<00:12,  7.38it/s][A
+Loading weights:  78%|#######8  | 311/398 [01:00<00:12,  6.77it/s][A
+Loading weights:  78%|#######8  | 312/398 [01:00<00:16,  5.22it/s][A
+Loading weights:  79%|#######8  | 313/398 [01:01<00:20,  4.23it/s][A
+Loading weights:  80%|#######9  | 317/398 [01:01<00:16,  4.79it/s][A
+Loading weights:  80%|########  | 319/398 [01:02<00:14,  5.58it/s][A
+Loading weights:  81%|########  | 322/398 [01:02<00:13,  5.73it/s][A
+Loading weights:  81%|########1 | 323/398 [01:03<00:16,  4.68it/s][A
+Loading weights:  81%|########1 | 324/398 [01:03<00:18,  3.93it/s][A
+Loading weights:  82%|########2 | 328/398 [01:03<00:11,  6.31it/s][A
+Loading weights:  83%|########2 | 330/398 [01:04<00:09,  7.03it/s][A
+Loading weights:  84%|########3 | 333/398 [01:04<00:09,  6.56it/s][A
+Loading weights:  84%|########3 | 334/398 [01:04<00:12,  5.12it/s][A
+Loading weights:  84%|########4 | 335/398 [01:05<00:15,  4.17it/s][A
+Loading weights:  85%|########5 | 339/398 [01:05<00:08,  6.61it/s][A
+Loading weights:  86%|########5 | 341/398 [01:05<00:07,  7.32it/s][A
+Loading weights:  86%|########6 | 344/398 [01:06<00:07,  6.81it/s][A
+Loading weights:  87%|########6 | 345/398 [01:06<00:10,  5.24it/s][A
+Loading weights:  87%|########6 | 346/398 [01:07<00:12,  4.22it/s][A
+Loading weights:  88%|########7 | 350/398 [01:07<00:07,  6.66it/s][A
+Loading weights:  88%|########8 | 352/398 [01:07<00:06,  7.36it/s][A
+Loading weights:  89%|########9 | 355/398 [01:08<00:06,  6.76it/s][A
+Loading weights:  89%|########9 | 356/398 [01:08<00:08,  5.20it/s][A
+Loading weights:  90%|########9 | 357/398 [01:09<00:09,  4.23it/s][A
+Loading weights:  91%|######### | 361/398 [01:09<00:05,  6.69it/s][A
+Loading weights:  91%|#########1| 363/398 [01:09<00:04,  7.40it/s][A
+Loading weights:  92%|#########1| 366/398 [01:10<00:04,  6.81it/s][A
+Loading weights:  92%|#########2| 367/398 [01:10<00:05,  5.23it/s][A
+Loading weights:  92%|#########2| 368/398 [01:10<00:07,  4.25it/s][A
+Loading weights:  93%|#########3| 372/398 [01:11<00:03,  6.74it/s][A
+Loading weights:  94%|#########3| 374/398 [01:11<00:03,  7.43it/s][A
+Loading weights:  95%|#########4| 377/398 [01:11<00:03,  6.82it/s][A
+Loading weights:  95%|#########4| 378/398 [01:12<00:05,  3.97it/s][A
+Loading weights:  95%|#########5| 379/398 [01:13<00:05,  3.49it/s][A
+Loading weights:  96%|#########6| 383/398 [01:13<00:02,  5.73it/s][A
+Loading weights:  97%|#########6| 385/398 [01:13<00:02,  6.49it/s][A
+Loading weights:  97%|#########7| 388/398 [01:14<00:01,  6.26it/s][A
+Loading weights:  98%|#########7| 389/398 [01:14<00:01,  4.94it/s][A
+Loading weights:  98%|#########7| 390/398 [01:15<00:01,  4.07it/s][A
+Loading weights:  99%|#########8| 394/398 [01:15<00:00,  6.35it/s][A
+Loading weights:  99%|#########9| 396/398 [01:15<00:00,  7.06it/s][ALoading weights: 100%|##########| 398/398 [01:15<00:00,  5.27it/s]
+
+=== Step 4: 114B-WIR-01 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-01",
+  "query": "長期或反覆出現頭痛或頭暈症狀，但檢查結果正常，可能原因是什麼？是否需要進一步腦部檢查或就醫？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 180,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "1935dac3",
+      "doc_index": 96593,
+      "bm25_score": 70.8497314453125,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "44cb930a",
+      "doc_index": 47629,
+      "bm25_score": 68.9996566772461,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "70e6385e",
+      "doc_index": 78732,
+      "bm25_score": 68.11529541015625,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "3440e3dc",
+      "doc_index": 66526,
+      "dense_score": 0.731706440448761,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "0a9ff961",
+      "doc_index": 125069,
+      "dense_score": 0.7287594676017761,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "c73d5f30",
+      "doc_index": 52372,
+      "dense_score": 0.7241824865341187,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "3440e3dc",
+      "doc_index": 66526,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "1935dac3",
+      "doc_index": 96593,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "0a9ff961",
+      "doc_index": 125069,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  10%|#         | 1/10 [01:26<12:57, 86.42s/it]
+=== Step 4: 114B-WIR-02 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-02",
+  "query": "近期出現心悸、胸悶或心律不整症狀，但心電圖或心臟檢查多為正常或僅輕微異常，請問可能原因為何？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 178,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "6a267cee",
+      "doc_index": 110029,
+      "bm25_score": 111.64929962158203,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "6dfc3cbe",
+      "doc_index": 95648,
+      "bm25_score": 104.9201889038086,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "88ee9807",
+      "doc_index": 49008,
+      "bm25_score": 100.96852111816406,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "e9cc79ea",
+      "doc_index": 83347,
+      "dense_score": 0.7238299250602722,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "112c47ab",
+      "doc_index": 99408,
+      "dense_score": 0.7164822816848755,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "4d87fd41",
+      "doc_index": 161969,
+      "dense_score": 0.7117669582366943,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "e9cc79ea",
+      "doc_index": 83347,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "6a267cee",
+      "doc_index": 110029,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "112c47ab",
+      "doc_index": 99408,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  20%|##        | 2/10 [01:26<04:45, 35.69s/it]
+=== Step 4: 114B-WIR-03 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-03",
+  "query": "尿道炎或泌尿道感染治療後仍出現尿道刺痛、分泌物或頻尿等症狀，但檢查結果正常，是否代表尚未痊癒或有其他泌尿系統疾病？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 181,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "8bbe4716",
+      "doc_index": 140416,
+      "bm25_score": 111.54022216796875,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "98bedf5f",
+      "doc_index": 34603,
+      "bm25_score": 93.3216552734375,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "1a822c39",
+      "doc_index": 134721,
+      "bm25_score": 87.0968017578125,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "bbf5a819",
+      "doc_index": 91965,
+      "dense_score": 0.7891860008239746,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "4bbeddaa",
+      "doc_index": 116035,
+      "dense_score": 0.767050564289093,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "bf1bae71",
+      "doc_index": 25207,
+      "dense_score": 0.7580289840698242,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "bbf5a819",
+      "doc_index": 91965,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "8bbe4716",
+      "doc_index": 140416,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "4bbeddaa",
+      "doc_index": 116035,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  30%|###       | 3/10 [01:26<02:16, 19.47s/it]
+=== Step 4: 114B-WIR-04 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-04",
+  "query": "肛門廔管或肛門周圍手術後傷口出現分泌物、疼痛、肉芽或腫塊等情況，是否屬於正常恢復還是代表復發或其他問題？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 165,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "a5e296df",
+      "doc_index": 34079,
+      "bm25_score": 93.44577026367188,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "dd9e698f",
+      "doc_index": 112488,
+      "bm25_score": 91.4509506225586,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "b33d8353",
+      "doc_index": 82431,
+      "bm25_score": 90.79341888427734,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "43837cd7",
+      "doc_index": 55870,
+      "dense_score": 0.8289990425109863,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "2b96757d",
+      "doc_index": 14454,
+      "dense_score": 0.8269537687301636,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "4c8a1cbc",
+      "doc_index": 170558,
+      "dense_score": 0.8242161273956299,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "43837cd7",
+      "doc_index": 55870,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "a5e296df",
+      "doc_index": 34079,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "2b96757d",
+      "doc_index": 14454,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  40%|####      | 4/10 [01:26<01:11, 11.87s/it]
+=== Step 4: 114B-WIR-05 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-05",
+  "query": "手部或手指出現疼痛、麻木、腫脹或活動受限等症狀，應該看哪一科進一步檢查？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 192,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "df93e7d5",
+      "doc_index": 73931,
+      "bm25_score": 65.2182846069336,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "5ebec1cd",
+      "doc_index": 103351,
+      "bm25_score": 63.77288055419922,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "cde3cc37",
+      "doc_index": 73924,
+      "bm25_score": 62.39655685424805,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "0c28b097",
+      "doc_index": 44219,
+      "dense_score": 0.8082236647605896,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "e1dd15c3",
+      "doc_index": 16183,
+      "dense_score": 0.7897154092788696,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "6e3e2ba3",
+      "doc_index": 18256,
+      "dense_score": 0.7696912288665771,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "0c28b097",
+      "doc_index": 44219,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "df93e7d5",
+      "doc_index": 73931,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "e1dd15c3",
+      "doc_index": 16183,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  50%|#####     | 5/10 [01:27<00:38,  7.65s/it]
+=== Step 4: 114B-WIR-06 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-06",
+  "query": "長期咳嗽或喉嚨卡痰、異物感等症狀反覆出現，但檢查結果正常，可能是什麼原因，是否需要進一步就醫？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 177,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "72520a1c",
+      "doc_index": 1262,
+      "bm25_score": 96.29320526123047,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "fe35bafd",
+      "doc_index": 1498,
+      "bm25_score": 93.2593002319336,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "34fd9f53",
+      "doc_index": 102460,
+      "bm25_score": 91.18692016601562,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "3d8d2ce7",
+      "doc_index": 85886,
+      "dense_score": 0.7484059929847717,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "6bb2f82b",
+      "doc_index": 6467,
+      "dense_score": 0.7460106611251831,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "725e52f7",
+      "doc_index": 127248,
+      "dense_score": 0.7376888990402222,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "3d8d2ce7",
+      "doc_index": 85886,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "72520a1c",
+      "doc_index": 1262,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "6bb2f82b",
+      "doc_index": 6467,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  60%|######    | 6/10 [01:27<00:20,  5.13s/it]
+=== Step 4: 114B-WIR-07 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-07",
+  "query": "憂鬱症的症狀與藥物治療若效果不佳或出現副作用，應該如何判斷病情、調整藥物或尋求其他治療方式？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 186,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "d79f7121",
+      "doc_index": 159175,
+      "bm25_score": 93.34033966064453,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "ca02b25c",
+      "doc_index": 102441,
+      "bm25_score": 90.89778137207031,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "f45ce53d",
+      "doc_index": 95518,
+      "bm25_score": 90.83776092529297,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "5e027d59",
+      "doc_index": 140082,
+      "dense_score": 0.7386320233345032,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "ec3e0829",
+      "doc_index": 96416,
+      "dense_score": 0.717327356338501,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "885cf252",
+      "doc_index": 75552,
+      "dense_score": 0.7102958559989929,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "5e027d59",
+      "doc_index": 140082,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "d79f7121",
+      "doc_index": 159175,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "ec3e0829",
+      "doc_index": 96416,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  70%|#######   | 7/10 [01:27<00:10,  3.52s/it]
+=== Step 4: 114B-WIR-08 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-08",
+  "query": "腳踝扭傷後若長期出現疼痛、腫脹、彈響聲或活動受限，這是否屬於正常恢復過程，還是需要進一步治療或手術？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 169,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "89f8c621",
+      "doc_index": 53789,
+      "bm25_score": 95.7337417602539,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "c6280aa6",
+      "doc_index": 84047,
+      "bm25_score": 95.55213165283203,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "f409bb88",
+      "doc_index": 12127,
+      "bm25_score": 86.55204772949219,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "c6280aa6",
+      "doc_index": 84047,
+      "dense_score": 0.7273813486099243,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "22ff8036",
+      "doc_index": 46396,
+      "dense_score": 0.7194266319274902,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "7a196740",
+      "doc_index": 160605,
+      "dense_score": 0.7173302173614502,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "c6280aa6",
+      "doc_index": 84047,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "89f8c621",
+      "doc_index": 53789,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "22ff8036",
+      "doc_index": 46396,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  80%|########  | 8/10 [01:27<00:04,  2.47s/it]
+=== Step 4: 114B-WIR-09 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-09",
+  "query": "頸部淋巴結腫大或咽喉異物感長期存在時，是否可能與頭頸部腫瘤或癌症有關，並且是否需要進一步檢查切片確認？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 170,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "2e85503e",
+      "doc_index": 56792,
+      "bm25_score": 109.59281921386719,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "0b0f68b7",
+      "doc_index": 30091,
+      "bm25_score": 106.47501373291016,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "0046a7da",
+      "doc_index": 58677,
+      "bm25_score": 106.32830047607422,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "92fd1fad",
+      "doc_index": 163486,
+      "dense_score": 0.7239627838134766,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "2aeb3695",
+      "doc_index": 83466,
+      "dense_score": 0.7105649709701538,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "0046a7da",
+      "doc_index": 58677,
+      "dense_score": 0.707994818687439,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "92fd1fad",
+      "doc_index": 163486,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "2e85503e",
+      "doc_index": 56792,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "2aeb3695",
+      "doc_index": 83466,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval:  90%|######### | 9/10 [01:28<00:01,  1.76s/it]
+=== Step 4: 114B-WIR-10 Hybrid 候選集合 ===
+{
+  "query_id": "114B-WIR-10",
+  "query": "當體重持續上升或減肥困難時，是否可能與疾病、藥物或內分泌失調有關？",
+  "bm25_top_k": 100,
+  "dense_top_k": 100,
+  "union_size": 184,
+  "bm25_preview": [
+    {
+      "rank": 1,
+      "doc_id": "08ff4479",
+      "doc_index": 107762,
+      "bm25_score": 61.07550048828125,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "5f4ef0f8",
+      "doc_index": 20103,
+      "bm25_score": 58.100547790527344,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "8fecdbfa",
+      "doc_index": 123113,
+      "bm25_score": 57.623619079589844,
+      "candidate_sources": null
+    }
+  ],
+  "dense_preview": [
+    {
+      "rank": 1,
+      "doc_id": "737815e2",
+      "doc_index": 145624,
+      "dense_score": 0.7464691400527954,
+      "candidate_sources": null
+    },
+    {
+      "rank": 2,
+      "doc_id": "3fbb9caf",
+      "doc_index": 36656,
+      "dense_score": 0.7381463050842285,
+      "candidate_sources": null
+    },
+    {
+      "rank": 3,
+      "doc_id": "bc23c930",
+      "doc_index": 36626,
+      "dense_score": 0.7196518778800964,
+      "candidate_sources": null
+    }
+  ],
+  "union_preview": [
+    {
+      "rank": 1,
+      "doc_id": "737815e2",
+      "doc_index": 145624,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "08ff4479",
+      "doc_index": 107762,
+      "union_seed_rank": 1,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "3fbb9caf",
+      "doc_index": 36656,
+      "union_seed_rank": 2,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Hybrid candidate retrieval: 100%|##########| 10/10 [01:28<00:00,  1.28s/it]Hybrid candidate retrieval: 100%|##########| 10/10 [01:28<00:00,  8.82s/it]
+Dense retriever 模型已釋放。
+
+=== Step 5: 載入 Reranker ===
+{
+  "reranker_model_name_or_path": "Qwen/Qwen3-Reranker-4B",
+  "model_cache_dir": "/workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/cache/models/reranker",
+  "reranker_batch_size": 16
+}
+Reranking union candidates:   0%|          | 0/10 [00:00<?, ?it/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s][A
+
+Fetching 17 files:   0%|          | 0/17 [00:00<?, ?it/s][A[AFetching 17 files: 100%|##########| 17/17 [00:00<00:00, 11692.88it/s]
+
+Download complete: : 0.00B [00:00, ?B/s]              [ADownload complete: : 0.00B [00:00, ?B/s]
+/workplace/zyxu/miniconda3/envs/ir2/lib/python3.10/site-packages/transformers/tokenization_utils_base.py:2341: UserWarning: `max_length` is ignored when `padding`=`True` and there is no truncation strategy. To pad to max length, use `padding='max_length'`.
+  warnings.warn(
+
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s][A
+Loading weights:   0%|          | 1/398 [00:06<45:24,  6.86s/it][A
+Loading weights:   1%|          | 3/398 [00:07<12:49,  1.95s/it][A
+Loading weights:   1%|1         | 4/398 [00:07<09:22,  1.43s/it][A
+Loading weights:   1%|1         | 5/398 [00:08<07:12,  1.10s/it][A
+Loading weights:   2%|2         | 9/398 [00:08<02:43,  2.38it/s][A
+Loading weights:   3%|2         | 11/398 [00:08<02:02,  3.16it/s][A
+Loading weights:   4%|3         | 14/398 [00:09<01:37,  3.93it/s][A
+Loading weights:   4%|3         | 15/398 [00:09<01:48,  3.52it/s][A
+Loading weights:   4%|4         | 16/398 [00:10<01:59,  3.19it/s][A
+Loading weights:   5%|5         | 20/398 [00:10<01:09,  5.46it/s][A
+Loading weights:   6%|5         | 22/398 [00:10<01:00,  6.25it/s][A
+Loading weights:   6%|6         | 25/398 [00:10<01:02,  5.98it/s][A
+Loading weights:   7%|6         | 26/398 [00:11<01:17,  4.78it/s][A
+Loading weights:   7%|6         | 27/398 [00:11<01:32,  3.99it/s][A
+Loading weights:   8%|7         | 31/398 [00:12<00:57,  6.41it/s][A
+Loading weights:   8%|8         | 33/398 [00:12<00:51,  7.13it/s][A
+Loading weights:   9%|9         | 36/398 [00:12<00:53,  6.71it/s][A
+Loading weights:   9%|9         | 37/398 [00:13<01:20,  4.48it/s][A
+Loading weights:  10%|9         | 38/398 [00:13<01:33,  3.84it/s][A
+Loading weights:  11%|#         | 42/398 [00:14<00:57,  6.20it/s][A
+Loading weights:  11%|#1        | 44/398 [00:14<00:50,  6.95it/s][A
+Loading weights:  12%|#1        | 47/398 [00:14<00:52,  6.62it/s][A
+Loading weights:  12%|#2        | 48/398 [00:15<01:07,  5.17it/s][A
+Loading weights:  12%|#2        | 49/398 [00:15<01:22,  4.23it/s][A
+Loading weights:  13%|#3        | 53/398 [00:15<00:51,  6.70it/s][A
+Loading weights:  14%|#3        | 55/398 [00:16<00:46,  7.40it/s][A
+Loading weights:  15%|#4        | 58/398 [00:16<00:49,  6.81it/s][A
+Loading weights:  15%|#4        | 59/398 [00:17<01:04,  5.28it/s][A
+Loading weights:  15%|#5        | 60/398 [00:17<01:18,  4.29it/s][A
+Loading weights:  16%|#6        | 64/398 [00:17<00:49,  6.77it/s][A
+Loading weights:  17%|#6        | 66/398 [00:17<00:44,  7.46it/s][A
+Loading weights:  17%|#7        | 69/398 [00:18<00:47,  6.89it/s][A
+Loading weights:  18%|#7        | 70/398 [00:18<01:02,  5.27it/s][A
+Loading weights:  18%|#7        | 71/398 [00:19<01:16,  4.30it/s][A
+Loading weights:  19%|#8        | 75/398 [00:19<00:47,  6.79it/s][A
+Loading weights:  19%|#9        | 77/398 [00:19<00:42,  7.48it/s][A
+Loading weights:  20%|##        | 80/398 [00:20<00:46,  6.89it/s][A
+Loading weights:  20%|##        | 81/398 [00:20<00:59,  5.32it/s][A
+Loading weights:  21%|##        | 82/398 [00:21<01:13,  4.32it/s][A
+Loading weights:  22%|##1       | 86/398 [00:21<00:45,  6.83it/s][A
+Loading weights:  22%|##2       | 88/398 [00:21<00:41,  7.51it/s][A
+Loading weights:  23%|##2       | 91/398 [00:22<00:44,  6.90it/s][A
+Loading weights:  23%|##3       | 92/398 [00:22<00:57,  5.32it/s][A
+Loading weights:  23%|##3       | 93/398 [00:22<01:10,  4.33it/s][A
+Loading weights:  24%|##4       | 97/398 [00:23<00:43,  6.86it/s][A
+Loading weights:  25%|##4       | 99/398 [00:23<00:39,  7.55it/s][A
+Loading weights:  26%|##5       | 102/398 [00:23<00:42,  6.96it/s][A
+Loading weights:  26%|##5       | 103/398 [00:24<00:55,  5.35it/s][A
+Loading weights:  26%|##6       | 104/398 [00:24<01:08,  4.32it/s][A
+Loading weights:  27%|##7       | 108/398 [00:25<00:42,  6.82it/s][A
+Loading weights:  28%|##7       | 110/398 [00:25<00:38,  7.50it/s][A
+Loading weights:  28%|##8       | 113/398 [00:25<00:41,  6.92it/s][A
+Loading weights:  29%|##8       | 114/398 [00:26<01:07,  4.22it/s][A
+Loading weights:  29%|##8       | 115/398 [00:26<01:17,  3.67it/s][A
+Loading weights:  30%|##9       | 119/398 [00:27<00:46,  5.99it/s][A
+Loading weights:  30%|###       | 121/398 [00:27<00:41,  6.75it/s][A
+Loading weights:  31%|###1      | 124/398 [00:27<00:42,  6.51it/s][A
+Loading weights:  31%|###1      | 125/398 [00:28<00:53,  5.12it/s][A
+Loading weights:  32%|###1      | 126/398 [00:28<01:04,  4.21it/s][A
+Loading weights:  33%|###2      | 130/398 [00:28<00:40,  6.65it/s][A
+Loading weights:  33%|###3      | 132/398 [00:29<00:36,  7.36it/s][A
+Loading weights:  34%|###3      | 135/398 [00:29<00:38,  6.86it/s][A
+Loading weights:  34%|###4      | 136/398 [00:30<00:49,  5.29it/s][A
+Loading weights:  34%|###4      | 137/398 [00:30<01:00,  4.30it/s][A
+Loading weights:  35%|###5      | 141/398 [00:30<00:37,  6.78it/s][A
+Loading weights:  36%|###5      | 143/398 [00:30<00:34,  7.48it/s][A
+Loading weights:  37%|###6      | 146/398 [00:31<00:36,  6.92it/s][A
+Loading weights:  37%|###6      | 147/398 [00:31<00:47,  5.34it/s][A
+Loading weights:  37%|###7      | 148/398 [00:32<00:57,  4.33it/s][A
+Loading weights:  38%|###8      | 152/398 [00:32<00:36,  6.81it/s][A
+Loading weights:  39%|###8      | 154/398 [00:32<00:32,  7.50it/s][A
+Loading weights:  39%|###9      | 157/398 [00:33<00:34,  6.90it/s][A
+Loading weights:  40%|###9      | 158/398 [00:33<00:45,  5.32it/s][A
+Loading weights:  40%|###9      | 159/398 [00:34<00:55,  4.32it/s][A
+Loading weights:  41%|####      | 163/398 [00:34<00:34,  6.83it/s][A
+Loading weights:  41%|####1     | 165/398 [00:34<00:30,  7.56it/s][A
+Loading weights:  42%|####2     | 168/398 [00:35<00:32,  6.98it/s][A
+Loading weights:  42%|####2     | 169/398 [00:35<00:42,  5.37it/s][A
+Loading weights:  43%|####2     | 170/398 [00:35<00:52,  4.35it/s][A
+Loading weights:  44%|####3     | 174/398 [00:36<00:32,  6.86it/s][A
+Loading weights:  44%|####4     | 176/398 [00:36<00:29,  7.56it/s][A
+Loading weights:  45%|####4     | 179/398 [00:36<00:32,  6.79it/s][A
+Loading weights:  45%|####5     | 180/398 [00:37<00:41,  5.26it/s][A
+Loading weights:  45%|####5     | 181/398 [00:37<00:50,  4.30it/s][A
+Loading weights:  46%|####6     | 185/398 [00:38<00:31,  6.79it/s][A
+Loading weights:  47%|####6     | 187/398 [00:38<00:28,  7.52it/s][A
+Loading weights:  48%|####7     | 190/398 [00:38<00:29,  6.99it/s][A
+Loading weights:  48%|####7     | 191/398 [00:39<00:38,  5.35it/s][A
+Loading weights:  48%|####8     | 192/398 [00:39<00:47,  4.33it/s][A
+Loading weights:  49%|####9     | 196/398 [00:39<00:29,  6.82it/s][A
+Loading weights:  50%|####9     | 198/398 [00:39<00:26,  7.50it/s][A
+Loading weights:  51%|#####     | 201/398 [00:40<00:28,  6.93it/s][A
+Loading weights:  51%|#####     | 202/398 [00:40<00:36,  5.33it/s][A
+Loading weights:  51%|#####1    | 203/398 [00:41<00:45,  4.30it/s][A
+Loading weights:  52%|#####2    | 207/398 [00:41<00:28,  6.78it/s][A
+Loading weights:  53%|#####2    | 209/398 [00:42<00:36,  5.15it/s][A
+Loading weights:  53%|#####3    | 212/398 [00:42<00:34,  5.45it/s][A
+Loading weights:  54%|#####3    | 213/398 [00:43<00:40,  4.52it/s][A
+Loading weights:  54%|#####3    | 214/398 [00:43<00:47,  3.85it/s][A
+Loading weights:  55%|#####4    | 218/398 [00:43<00:29,  6.19it/s][A
+Loading weights:  55%|#####5    | 220/398 [00:44<00:25,  6.93it/s][A
+Loading weights:  56%|#####6    | 223/398 [00:44<00:26,  6.59it/s][A
+Loading weights:  56%|#####6    | 224/398 [00:45<00:36,  4.82it/s][A
+Loading weights:  57%|#####6    | 225/398 [00:45<00:42,  4.02it/s][A
+Loading weights:  58%|#####7    | 229/398 [00:45<00:26,  6.40it/s][A
+Loading weights:  58%|#####8    | 231/398 [00:46<00:23,  7.10it/s][A
+Loading weights:  59%|#####8    | 234/398 [00:46<00:24,  6.65it/s][A
+Loading weights:  59%|#####9    | 235/398 [00:46<00:31,  5.18it/s][A
+Loading weights:  59%|#####9    | 236/398 [00:47<00:38,  4.24it/s][A
+Loading weights:  60%|######    | 240/398 [00:47<00:23,  6.68it/s][A
+Loading weights:  61%|######    | 242/398 [00:47<00:21,  7.36it/s][A
+Loading weights:  62%|######1   | 245/398 [00:48<00:22,  6.81it/s][A
+Loading weights:  62%|######1   | 246/398 [00:48<00:28,  5.26it/s][A
+Loading weights:  62%|######2   | 247/398 [00:49<00:35,  4.28it/s][A
+Loading weights:  63%|######2   | 250/398 [00:49<00:23,  6.28it/s][A
+Loading weights:  63%|######3   | 251/398 [00:49<00:24,  6.11it/s][A
+Loading weights:  64%|######3   | 253/398 [00:49<00:20,  7.07it/s][A
+Loading weights:  64%|######4   | 256/398 [00:50<00:21,  6.60it/s][A
+Loading weights:  65%|######4   | 257/398 [00:50<00:28,  5.02it/s][A
+Loading weights:  65%|######4   | 258/398 [00:51<00:34,  4.08it/s][A
+Loading weights:  66%|######5   | 262/398 [00:51<00:20,  6.72it/s][A
+Loading weights:  66%|######6   | 264/398 [00:51<00:17,  7.46it/s][A
+Loading weights:  67%|######7   | 267/398 [00:52<00:18,  6.91it/s][A
+Loading weights:  67%|######7   | 268/398 [00:52<00:24,  5.30it/s][A
+Loading weights:  68%|######7   | 269/398 [00:52<00:30,  4.30it/s][A
+Loading weights:  69%|######8   | 273/398 [00:53<00:18,  6.82it/s][A
+Loading weights:  69%|######9   | 275/398 [00:53<00:16,  7.50it/s][A
+Loading weights:  70%|######9   | 278/398 [00:53<00:17,  6.91it/s][A
+Loading weights:  70%|#######   | 279/398 [00:54<00:22,  5.31it/s][A
+Loading weights:  70%|#######   | 280/398 [00:54<00:27,  4.31it/s][A
+Loading weights:  71%|#######1  | 284/398 [00:55<00:16,  6.78it/s][A
+Loading weights:  72%|#######1  | 286/398 [00:55<00:14,  7.47it/s][A
+Loading weights:  73%|#######2  | 289/398 [00:55<00:15,  6.89it/s][A
+Loading weights:  73%|#######2  | 290/398 [00:56<00:20,  5.30it/s][A
+Loading weights:  73%|#######3  | 291/398 [00:57<00:32,  3.28it/s][A
+Loading weights:  74%|#######4  | 295/398 [00:57<00:18,  5.46it/s][A
+Loading weights:  75%|#######4  | 297/398 [00:57<00:16,  6.25it/s][A
+Loading weights:  75%|#######5  | 300/398 [00:57<00:15,  6.15it/s][A
+Loading weights:  76%|#######5  | 301/398 [00:58<00:19,  4.93it/s][A
+Loading weights:  76%|#######5  | 302/398 [00:58<00:23,  4.10it/s][A
+Loading weights:  77%|#######6  | 306/398 [00:59<00:14,  6.56it/s][A
+Loading weights:  77%|#######7  | 308/398 [00:59<00:12,  7.27it/s][A
+Loading weights:  78%|#######8  | 311/398 [00:59<00:12,  6.79it/s][A
+Loading weights:  78%|#######8  | 312/398 [01:00<00:16,  5.26it/s][A
+Loading weights:  79%|#######8  | 313/398 [01:00<00:19,  4.29it/s][A
+Loading weights:  80%|#######9  | 317/398 [01:00<00:11,  6.77it/s][A
+Loading weights:  80%|########  | 319/398 [01:01<00:10,  7.45it/s][A
+Loading weights:  81%|########  | 322/398 [01:01<00:11,  6.86it/s][A
+Loading weights:  81%|########1 | 323/398 [01:01<00:14,  5.31it/s][A
+Loading weights:  81%|########1 | 324/398 [01:02<00:17,  4.33it/s][A
+Loading weights:  82%|########2 | 328/398 [01:02<00:10,  6.82it/s][A
+Loading weights:  83%|########2 | 330/398 [01:02<00:09,  7.51it/s][A
+Loading weights:  84%|########3 | 333/398 [01:03<00:09,  6.91it/s][A
+Loading weights:  84%|########3 | 334/398 [01:03<00:12,  5.27it/s][A
+Loading weights:  84%|########4 | 335/398 [01:04<00:14,  4.30it/s][A
+Loading weights:  85%|########5 | 339/398 [01:04<00:08,  6.79it/s][A
+Loading weights:  86%|########5 | 341/398 [01:04<00:07,  7.50it/s][A
+Loading weights:  86%|########6 | 344/398 [01:05<00:07,  6.95it/s][A
+Loading weights:  87%|########6 | 345/398 [01:05<00:09,  5.34it/s][A
+Loading weights:  87%|########6 | 346/398 [01:06<00:12,  4.32it/s][A
+Loading weights:  88%|########7 | 350/398 [01:06<00:07,  6.81it/s][A
+Loading weights:  88%|########8 | 352/398 [01:06<00:06,  7.48it/s][A
+Loading weights:  89%|########9 | 355/398 [01:06<00:06,  6.89it/s][A
+Loading weights:  89%|########9 | 356/398 [01:07<00:07,  5.30it/s][A
+Loading weights:  90%|########9 | 357/398 [01:07<00:09,  4.31it/s][A
+Loading weights:  91%|######### | 361/398 [01:08<00:05,  6.82it/s][A
+Loading weights:  91%|#########1| 363/398 [01:08<00:04,  7.51it/s][A
+Loading weights:  92%|#########1| 366/398 [01:08<00:04,  6.94it/s][A
+Loading weights:  92%|#########2| 367/398 [01:09<00:05,  5.32it/s][A
+Loading weights:  92%|#########2| 368/398 [01:09<00:06,  4.30it/s][A
+Loading weights:  93%|#########3| 372/398 [01:09<00:03,  6.78it/s][A
+Loading weights:  94%|#########3| 374/398 [01:10<00:03,  7.47it/s][A
+Loading weights:  95%|#########4| 377/398 [01:10<00:03,  6.90it/s][A
+Loading weights:  95%|#########4| 378/398 [01:11<00:04,  4.98it/s][A
+Loading weights:  95%|#########5| 379/398 [01:11<00:04,  4.11it/s][A
+Loading weights:  96%|#########6| 383/398 [01:11<00:02,  6.55it/s][A
+Loading weights:  97%|#########6| 385/398 [01:12<00:01,  7.25it/s][A
+Loading weights:  97%|#########7| 388/398 [01:12<00:01,  6.74it/s][A
+Loading weights:  98%|#########7| 389/398 [01:12<00:01,  5.22it/s][A
+Loading weights:  98%|#########7| 390/398 [01:13<00:01,  4.26it/s][A
+Loading weights:  99%|#########8| 394/398 [01:13<00:00,  6.74it/s][A
+Loading weights:  99%|#########9| 396/398 [01:13<00:00,  7.43it/s][ALoading weights: 100%|##########| 398/398 [01:13<00:00,  5.39it/s]
+
+=== Step 6: 114B-WIR-01 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-01",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "de706aba",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "e05cb98a",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "ec118121",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking union candidates:  10%|#         | 1/10 [01:33<14:01, 93.52s/it]
+=== Step 6: 114B-WIR-02 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-02",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "b5150d39",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "b490ad74",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "b86caa7c",
+      "rerank_score": 0.9970703125,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking union candidates:  20%|##        | 2/10 [01:50<06:26, 48.28s/it]
+=== Step 6: 114B-WIR-03 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-03",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "4bbeddaa",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "bf1bae71",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "0bedd40a",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking union candidates:  30%|###       | 3/10 [02:06<03:55, 33.69s/it]
+=== Step 6: 114B-WIR-04 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-04",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "f57abe51",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "860dae1a",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "4c8a1cbc",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking union candidates:  40%|####      | 4/10 [02:21<02:38, 26.42s/it]
+=== Step 6: 114B-WIR-05 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-05",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "66257062",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "93c0085e",
+      "rerank_score": 0.998046875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "89bd2077",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking union candidates:  50%|#####     | 5/10 [02:39<01:56, 23.31s/it]
+=== Step 6: 114B-WIR-06 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-06",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "6bb2f82b",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "35dcfa48",
+      "rerank_score": 0.99951171875,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "34fd9f53",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking union candidates:  60%|######    | 6/10 [02:56<01:24, 21.08s/it]
+=== Step 6: 114B-WIR-07 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-07",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "92506dcf",
+      "rerank_score": 0.9990234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "f63e5414",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "58960452",
+      "rerank_score": 0.99853515625,
+      "candidate_sources": [
+        "bm25"
+      ]
+    }
+  ]
+}
+Reranking union candidates:  70%|#######   | 7/10 [03:13<00:59, 19.84s/it]
+=== Step 6: 114B-WIR-08 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-08",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "c6280aa6",
+      "rerank_score": 1.0,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "dd52d3bd",
+      "rerank_score": 0.99462890625,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "cbb8bc7c",
+      "rerank_score": 0.994140625,
+      "candidate_sources": [
+        "bm25"
+      ]
+    }
+  ]
+}
+Reranking union candidates:  80%|########  | 8/10 [03:28<00:36, 18.37s/it]
+=== Step 6: 114B-WIR-09 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-09",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "c4cc593b",
+      "rerank_score": 0.99755859375,
+      "candidate_sources": [
+        "bm25"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "6a96b437",
+      "rerank_score": 0.9970703125,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "038e9ae7",
+      "rerank_score": 0.99609375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking union candidates:  90%|######### | 9/10 [03:44<00:17, 17.50s/it]
+=== Step 6: 114B-WIR-10 Rerank top-30 ===
+{
+  "query_id": "114B-WIR-10",
+  "final_top_k": 30,
+  "result_preview": [
+    {
+      "rank": 1,
+      "doc_id": "6dc11e90",
+      "rerank_score": 0.99560546875,
+      "candidate_sources": [
+        "dense"
+      ]
+    },
+    {
+      "rank": 2,
+      "doc_id": "d96d8ab1",
+      "rerank_score": 0.99462890625,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    },
+    {
+      "rank": 3,
+      "doc_id": "737815e2",
+      "rerank_score": 0.99365234375,
+      "candidate_sources": [
+        "bm25",
+        "dense"
+      ]
+    }
+  ]
+}
+Reranking union candidates: 100%|##########| 10/10 [04:01<00:00, 17.31s/it]Reranking union candidates: 100%|##########| 10/10 [04:01<00:00, 24.13s/it]
+Reranker 模型已釋放。
+Saved results to /workplace/dxlin/Homework/IR/Hybrid_BM25_Dense/outputs/hybrid_union_query1_results.json
+Hybrid retrieval 流程完成，總耗時 365.92 秒。
